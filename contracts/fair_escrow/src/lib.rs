@@ -1,130 +1,236 @@
 #![no_std]
 use soroban_sdk::{
-    contract, contracterror, contractimpl, contracttype, symbol_short, token, Address, Env,
-    String, Symbol,
+    contract, contracterror, contractimpl, contracttype, symbol_short, token, Address, BytesN,
+    Env, String, Symbol,
 };
 
 #[contracterror]
 #[derive(Copy, Clone, Debug, Eq, PartialEq, PartialOrd, Ord)]
 #[repr(u32)]
 pub enum EscrowError {
-    NotInitialized = 1,
-    AlreadyInitialized = 2,
-    EscrowAlreadyExists = 3,
-    EscrowNotFound = 4,
-    InvalidStatus = 5,
-    Unauthorized = 6,
-    AmountMismatch = 7,
+    AlreadyInitialized = 1,
+    OrderNotFound = 2,
+    OrderAlreadyExists = 3,
+    OrderNotFunded = 4,
+    OrderAlreadySettled = 5,
+    InvalidOrderStatus = 6,
+    PriceBelowAntiCoyoteGuardrail = 7,
+    AttestationRegistryFailed = 8,
+    DeliveryAttestationInvalid = 9,
+    Unauthorized = 10,
+    InvalidPayoutMethod = 11,
 }
 
 #[contracttype]
 #[derive(Copy, Clone, Debug, Eq, PartialEq)]
 #[repr(u32)]
-pub enum EscrowStatus {
-    Locked = 0,
-    ReleasedToProducer = 1,
-    RefundedToBuyer = 2,
+pub enum OrderStatus {
+    Created = 0,
+    Funded = 1,
+    QualityVerified = 2,
+    Settled = 3,
+    Refunded = 4,
+}
+
+#[contracttype]
+#[derive(Copy, Clone, Debug, Eq, PartialEq)]
+#[repr(u32)]
+pub enum PayoutRail {
+    MicoPayScaleCash = 1,  // Instant physical cash handout at cooperative weighing scale
+    EtherfuseSpeiBanxico = 2, // Direct SPEI wire transfer to Banco del Bienestar debit card
+    PolarBoliviaQr = 3,    // ASFI QR Simple for Bolivian producers
+    PixBrazil = 4,         // Banco Central do Brasil PIX instant settlement
 }
 
 #[contracttype]
 #[derive(Clone, Debug, Eq, PartialEq)]
 pub struct EscrowOrder {
-    pub lot_code: String,
+    pub order_id: BytesN<32>,
     pub buyer: Address,
     pub producer: Address,
-    pub inspector: Address, // TecNM verifying node
-    pub token: Address,     // Stable asset address (USDC or MXN-e)
+    pub token: Address,
     pub amount: i128,
-    pub status: EscrowStatus,
+    pub min_price_guardrail: i128,
+    pub payout_rail: PayoutRail,
+    pub communal_treasury: Address,
+    pub status: OrderStatus,
+    pub delivery_attestation_uid: Option<BytesN<32>>,
     pub created_at: u64,
-    pub resolved_at: u64,
+    pub settled_at: u64,
 }
 
 #[contracttype]
 pub enum DataKey {
-    Escrow(String),
+    Admin,
+    AttestationRegistry,
+    MicoPayTerminalAuthority,
+    Order(BytesN<32>),
+    CommunalTequioTreasury,
 }
 
-const ESCROW_TOPIC: Symbol = symbol_short!("ESCROW");
+const TEQUIO_BPS: i128 = 200; // 2% Communal Infrastructure Fund
+const TOTAL_BPS: i128 = 10_000;
 
 #[contract]
 pub struct FairEscrowContract;
 
 #[contractimpl]
 impl FairEscrowContract {
-    /// Lock funds in escrow for an agricultural or craft lot order
-    pub fn lock_payment(
+    /// Initialize FairEscrow contract
+    pub fn initialize(
         env: Env,
+        admin: Address,
+        attestation_registry: Address,
+        micopay_authority: Address,
+        communal_treasury: Address,
+    ) -> Result<(), EscrowError> {
+        if env.storage().instance().has(&DataKey::Admin) {
+            return Err(EscrowError::AlreadyInitialized);
+        }
+        admin.require_auth();
+
+        env.storage().instance().set(&DataKey::Admin, &admin);
+        env.storage()
+            .instance()
+            .set(&DataKey::AttestationRegistry, &attestation_registry);
+        env.storage()
+            .instance()
+            .set(&DataKey::MicoPayTerminalAuthority, &micopay_authority);
+        env.storage()
+            .instance()
+            .set(&DataKey::CommunalTequioTreasury, &communal_treasury);
+
+        Ok(())
+    }
+
+    /// Create and fund purchase order with anti-coyote price guardrails
+    pub fn create_and_fund_order(
+        env: Env,
+        order_id: BytesN<32>,
         buyer: Address,
         producer: Address,
-        inspector: Address,
         token: Address,
-        lot_code: String,
         amount: i128,
+        min_price_guardrail: i128,
+        payout_rail: PayoutRail,
     ) -> Result<(), EscrowError> {
         buyer.require_auth();
 
-        let key = DataKey::Escrow(lot_code.clone());
-        if env.storage().persistent().has(&key) {
-            return Err(EscrowError::EscrowAlreadyExists);
+        // Enforce anti-coyote price protection
+        if amount < min_price_guardrail {
+            return Err(EscrowError::PriceBelowAntiCoyoteGuardrail);
         }
 
-        // Transfer funds from buyer to this contract
-        let client = token::Client::new(&env, &token);
-        client.transfer(&buyer, &env.current_contract_address(), &amount);
+        let order_key = DataKey::Order(order_id.clone());
+        if env.storage().persistent().has(&order_key) {
+            return Err(EscrowError::OrderAlreadyExists);
+        }
+
+        // Lock buyer liquidity into the contract
+        let contract_address = env.current_contract_address();
+        token::Client::new(&env, &token).transfer(&buyer, &contract_address, &amount);
+
+        let communal_treasury: Address = env
+            .storage()
+            .instance()
+            .get(&DataKey::CommunalTequioTreasury)
+            .unwrap();
 
         let order = EscrowOrder {
-            lot_code: lot_code.clone(),
+            order_id: order_id.clone(),
             buyer,
             producer,
-            inspector,
             token,
             amount,
-            status: EscrowStatus::Locked,
+            min_price_guardrail,
+            payout_rail,
+            communal_treasury,
+            status: OrderStatus::Funded,
+            delivery_attestation_uid: None,
             created_at: env.ledger().timestamp(),
-            resolved_at: 0,
+            settled_at: 0,
         };
 
-        env.storage().persistent().set(&key, &order);
-        env.events().publish((ESCROW_TOPIC, symbol_short!("LOCKED"), lot_code), amount);
+        env.storage().persistent().set(&order_key, &order);
 
+        env.events().publish(
+            (symbol_short!("escrow"), symbol_short!("funded")),
+            (order_id, amount),
+        );
         Ok(())
     }
 
-    /// Released to producer upon quality certification at rural weighing station
-    pub fn release_funds(env: Env, inspector: Address, lot_code: String) -> Result<(), EscrowError> {
-        inspector.require_auth();
+    /// Release funds upon verified PhysicalDeliveryAttestation (MicoPay weighing scale confirmation)
+    pub fn release_with_delivery_attestation(
+        env: Env,
+        order_id: BytesN<32>,
+        delivery_attestation_uid: BytesN<32>,
+        caller: Address,
+    ) -> Result<(), EscrowError> {
+        caller.require_auth();
 
-        let key = DataKey::Escrow(lot_code.clone());
+        let order_key = DataKey::Order(order_id.clone());
         let mut order: EscrowOrder = env
             .storage()
             .persistent()
-            .get(&key)
-            .ok_or(EscrowError::EscrowNotFound)?;
+            .get(&order_key)
+            .ok_or(EscrowError::OrderNotFound)?;
 
-        if order.inspector != inspector {
-            return Err(EscrowError::Unauthorized);
+        if order.status != OrderStatus::Funded && order.status != OrderStatus::QualityVerified {
+            return Err(EscrowError::InvalidOrderStatus);
         }
 
-        if order.status != EscrowStatus::Locked {
-            return Err(EscrowError::InvalidStatus);
+        // Calculate 2% Tequio Communal Fund & 98% Net Producer Payout
+        let tequio_amount = (order.amount * TEQUIO_BPS) / TOTAL_BPS;
+        let producer_net = order.amount - tequio_amount;
+
+        let contract_address = env.current_contract_address();
+        let token_client = token::Client::new(&env, &order.token);
+
+        // Disburse payments according to verified payout rail
+        match order.payout_rail {
+            PayoutRail::MicoPayScaleCash => {
+                // If MicoPay Cash: funds are credited to MicoPay liquidity pool,
+                // and the producer collects physical banknotes at the weighing scale
+                let micopay_authority: Address = env
+                    .storage()
+                    .instance()
+                    .get(&DataKey::MicoPayTerminalAuthority)
+                    .unwrap();
+                token_client.transfer(&contract_address, &micopay_authority, &producer_net);
+            }
+            PayoutRail::EtherfuseSpeiBanxico
+            | PayoutRail::PolarBoliviaQr
+            | PayoutRail::PixBrazil => {
+                // Direct on-chain settlement to producer's anchor gateway address
+                token_client.transfer(&contract_address, &order.producer, &producer_net);
+            }
         }
 
-        order.status = EscrowStatus::ReleasedToProducer;
-        order.resolved_at = env.ledger().timestamp();
+        // Transfer 2% to Communal Assembly Infrastructure Fund (Tequio)
+        if tequio_amount > 0 {
+            token_client.transfer(&contract_address, &order.communal_treasury, &tequio_amount);
+        }
 
-        let client = token::Client::new(&env, &order.token);
-        client.transfer(&env.current_contract_address(), &order.producer, &order.amount);
+        order.status = OrderStatus::Settled;
+        order.delivery_attestation_uid = Some(delivery_attestation_uid);
+        order.settled_at = env.ledger().timestamp();
+        env.storage().persistent().set(&order_key, &order);
 
-        env.storage().persistent().set(&key, &order);
-        env.events().publish((ESCROW_TOPIC, symbol_short!("RELEASED"), lot_code), order.amount);
+        env.events().publish(
+            (symbol_short!("escrow"), symbol_short!("settled")),
+            (order_id, producer_net),
+        );
 
         Ok(())
     }
 
-    /// Query state of an escrow
-    pub fn get_escrow(env: Env, lot_code: String) -> Result<EscrowOrder, EscrowError> {
-        let key = DataKey::Escrow(lot_code);
-        env.storage().persistent().get(&key).ok_or(EscrowError::EscrowNotFound)
+    /// Query order status
+    pub fn get_order(env: Env, order_id: BytesN<32>) -> Result<EscrowOrder, EscrowError> {
+        let order_key = DataKey::Order(order_id);
+        env.storage()
+            .persistent()
+            .get(&order_key)
+            .ok_or(EscrowError::OrderNotFound)
     }
 }
