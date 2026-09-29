@@ -11,8 +11,10 @@ export const ProtocolInfrastructureModal: React.FC<ProtocolInfrastructureModalPr
   isOpen,
   onClose,
 }) => {
-  const [activeTab, setActiveTab] = useState<'oracles' | 'sdk' | 'metrics'>('oracles');
+  const [activeTab, setActiveTab] = useState<'oracles' | 'attestations' | 'sdk' | 'metrics'>('oracles');
   const [selectedOracle, setSelectedOracle] = useState<'voice' | 'quality' | 'eudr' | 'settlement'>('voice');
+  const [selectedSchemaUid, setSelectedSchemaUid] = useState<string>('0x01_SCAA');
+  const [attestationVerifyStatus, setAttestationVerifyStatus] = useState<any>(null);
 
   // Interactive Voice Oracle State
   const [voiceInput, setVoiceInput] = useState('Kuni yu kiti 120 kilos café en la loma de San Pedro');
@@ -89,41 +91,157 @@ export const ProtocolInfrastructureModal: React.FC<ProtocolInfrastructureModalPr
         </div>
 
         {/* Tab Navigation */}
-        <div className="flex border-b border-[#c1c8c2]/30 bg-white px-6">
+        <div className="flex border-b border-[#c1c8c2]/30 bg-white px-4 sm:px-6 overflow-x-auto no-scrollbar">
           <button
             onClick={() => setActiveTab('oracles')}
-            className={`py-3 px-4 text-xs sm:text-sm font-bold border-b-2 transition-colors flex items-center gap-2 ${
+            className={`py-3 px-3 sm:px-4 text-xs sm:text-sm font-bold border-b-2 transition-colors flex items-center gap-1.5 whitespace-nowrap ${
               activeTab === 'oracles'
                 ? 'border-[#1b3b2b] text-[#1b3b2b]'
                 : 'border-transparent text-[#414942] hover:text-[#1c1c18]'
             }`}
           >
-            <span>🤖</span> 4 Oráculos de IA Autónomos
+            <span>🤖</span> 4 Oráculos de IA
+          </button>
+          <button
+            onClick={() => setActiveTab('attestations')}
+            className={`py-3 px-3 sm:px-4 text-xs sm:text-sm font-bold border-b-2 transition-colors flex items-center gap-1.5 whitespace-nowrap ${
+              activeTab === 'attestations'
+                ? 'border-[#1b3b2b] text-[#1b3b2b]'
+                : 'border-transparent text-[#414942] hover:text-[#1c1c18]'
+            }`}
+          >
+            <span>📜</span> Atestaciones RWA (EAS)
           </button>
           <button
             onClick={() => setActiveTab('sdk')}
-            className={`py-3 px-4 text-xs sm:text-sm font-bold border-b-2 transition-colors flex items-center gap-2 ${
+            className={`py-3 px-3 sm:px-4 text-xs sm:text-sm font-bold border-b-2 transition-colors flex items-center gap-1.5 whitespace-nowrap ${
               activeTab === 'sdk'
                 ? 'border-[#1b3b2b] text-[#1b3b2b]'
                 : 'border-transparent text-[#414942] hover:text-[#1c1c18]'
             }`}
           >
-            <span>📦</span> Developer SDK & APIs
+            <span>📦</span> Developer SDK
           </button>
           <button
             onClick={() => setActiveTab('metrics')}
-            className={`py-3 px-4 text-xs sm:text-sm font-bold border-b-2 transition-colors flex items-center gap-2 ${
+            className={`py-3 px-3 sm:px-4 text-xs sm:text-sm font-bold border-b-2 transition-colors flex items-center gap-1.5 whitespace-nowrap ${
               activeTab === 'metrics'
                 ? 'border-[#1b3b2b] text-[#1b3b2b]'
                 : 'border-transparent text-[#414942] hover:text-[#1c1c18]'
             }`}
           >
-            <span>📊</span> Métricas de Red & Smart Contracts
+            <span>📊</span> Métricas & Soroban
           </button>
         </div>
 
         {/* Modal Body */}
         <div className="flex-1 overflow-y-auto p-6 space-y-6">
+          {/* TAB 0: ATTESTATIONS ENGINE (EAS ON SOROBAN) */}
+          {activeTab === 'attestations' && (
+            <div className="space-y-5 animate-fadeIn">
+              <div className="bg-purple-50 border border-purple-200 rounded-2xl p-4">
+                <div className="flex items-center gap-2 mb-1">
+                  <span className="text-base">📜</span>
+                  <span className="font-extrabold text-xs text-purple-950 uppercase tracking-wider">
+                    El Estándar de Atestaciones RWA de Stellar Soroban (Equivalente EAS)
+                  </span>
+                </div>
+                <p className="text-xs text-purple-900 leading-relaxed font-medium">
+                  Raíz estandariza la certificación de hechos físicos del mundo real (calidad de café, anti-deforestación satelital, origen indígena y pesaje en báscula) mediante esquemas on-chain inmutables firmados con llaves Ed25519 en Soroban.
+                </p>
+              </div>
+
+              {/* 4 Canonical Schemas */}
+              <div className="space-y-3">
+                <h4 className="text-xs font-black uppercase text-gray-500 tracking-wider">
+                  Esquemas Canónicos Registrados en `AttestationRegistry.rs`
+                </h4>
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
+                  {sdk.attestations.getSchemas().map((schema) => (
+                    <div
+                      key={schema.uid}
+                      onClick={() => {
+                        setSelectedSchemaUid(schema.uid);
+                        setAttestationVerifyStatus(sdk.attestations.verifyAttestation(`att-${schema.uid}`));
+                      }}
+                      className={`p-4 rounded-2xl border transition-all cursor-pointer ${
+                        selectedSchemaUid === schema.uid
+                          ? 'border-emerald-600 bg-emerald-50/60 shadow-xs'
+                          : 'border-gray-200 bg-white hover:border-emerald-400'
+                      }`}
+                    >
+                      <div className="flex items-center justify-between mb-1.5">
+                        <span className="font-mono text-[10px] font-black px-2 py-0.5 rounded bg-gray-100 text-gray-800 border border-gray-300">
+                          {schema.uid}
+                        </span>
+                        <span className={`text-[10px] font-bold px-2 py-0.5 rounded-full ${
+                          schema.revocable ? 'bg-amber-100 text-amber-800' : 'bg-emerald-100 text-emerald-800'
+                        }`}>
+                          {schema.revocable ? 'Revocable' : 'Permanente'}
+                        </span>
+                      </div>
+                      <div className="font-bold text-xs text-[#032517] mb-1">{schema.name}</div>
+                      <p className="text-[11px] text-gray-600 leading-relaxed mb-2">{schema.description}</p>
+                      <div className="text-[10px] text-gray-500 flex items-center gap-1 font-semibold">
+                        <span>Emisor:</span>
+                        <span className="text-emerald-800 font-bold">{schema.issuer}</span>
+                      </div>
+                    </div>
+                  ))}
+                </div>
+              </div>
+
+              {/* Live Verification Playground */}
+              <div className="bg-gray-900 text-white p-5 rounded-2xl space-y-3 border border-gray-800">
+                <div className="flex items-center justify-between">
+                  <div className="flex items-center gap-2">
+                    <span className="w-2.5 h-2.5 rounded-full bg-emerald-400 animate-pulse"></span>
+                    <span className="text-xs font-mono font-bold text-emerald-300">
+                      Verificador On-Chain Soroban
+                    </span>
+                  </div>
+                  <button
+                    onClick={() => {
+                      const res = sdk.attestations.verifyAttestation(`att-${selectedSchemaUid}-${Date.now()}`);
+                      setAttestationVerifyStatus(res);
+                    }}
+                    className="px-3 py-1.5 rounded-xl bg-emerald-500 hover:bg-emerald-400 text-neutral-950 font-black text-xs transition-transform active:scale-95 cursor-pointer"
+                  >
+                    ⚡ Simular Verificación en Ledger
+                  </button>
+                </div>
+
+                {attestationVerifyStatus ? (
+                  <div className="bg-black/50 p-3 rounded-xl font-mono text-[11px] text-emerald-300 space-y-1.5 border border-emerald-500/20">
+                    <div className="flex justify-between">
+                      <span className="text-gray-400">Estado de Atestación:</span>
+                      <span className="font-bold text-emerald-400">✓ VÁLIDA & ACTIVA (ON-CHAIN)</span>
+                    </div>
+                    <div className="flex justify-between">
+                      <span className="text-gray-400">Esquema Evaluado:</span>
+                      <span>{selectedSchemaUid}</span>
+                    </div>
+                    <div className="flex justify-between">
+                      <span className="text-gray-400">Firma Criptográfica:</span>
+                      <span className="text-xs text-amber-200 truncate max-w-[200px]">{attestationVerifyStatus.signature}</span>
+                    </div>
+                    <div className="flex justify-between">
+                      <span className="text-gray-400">Ledger Sequence Stellar:</span>
+                      <span>#{attestationVerifyStatus.ledgerSequence}</span>
+                    </div>
+                    <div className="flex justify-between">
+                      <span className="text-gray-400">Condición Escrow (MicoPay/SPEI):</span>
+                      <span className="text-emerald-400 font-bold">Compuerta Abierta $\rightarrow$ Fondos Liberados</span>
+                    </div>
+                  </div>
+                ) : (
+                  <p className="text-xs text-gray-400 italic">
+                    Selecciona un esquema arriba o haz clic en "Simular Verificación" para consultar el estado del contrato en Soroban.
+                  </p>
+                )}
+              </div>
+            </div>
+          )}
           {/* TAB 1: AI ORACLES */}
           {activeTab === 'oracles' && (
             <div className="space-y-5">

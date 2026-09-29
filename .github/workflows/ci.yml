@@ -8,7 +8,7 @@ on:
 
 jobs:
   validate-and-test:
-    name: Lint, Test & Build Validation
+    name: TypeScript, Tests & Production Build
     runs-on: ubuntu-latest
     timeout-minutes: 10
 
@@ -32,3 +32,22 @@ jobs:
 
       - name: Build Production Bundle (Vite)
         run: npm run build
+
+  validate-soroban-contracts:
+    name: Soroban Smart Contracts (Rust) Check
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+
+    steps:
+      - name: Check out repository
+        uses: actions/checkout@v4
+
+      - name: Setup Rust Toolchain
+        uses: dtolnay/rust-toolchain@stable
+        with:
+          targets: wasm32-unknown-unknown
+
+      - name: Verify Contracts Syntax & Workspace
+        run: |
+          cd contracts
+          cargo check
