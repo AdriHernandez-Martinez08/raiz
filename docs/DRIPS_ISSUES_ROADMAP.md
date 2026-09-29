@@ -1,167 +1,116 @@
-# 💧 Raíz Mixteca: Modular Drips & Stellar Grant Issues Roadmap
+# 💧 Raíz Protocol: Decentralized Attestation & AI Oracle Roadmap
 
-This document outlines the decoupled, modular engineering tasks for developers, open-source contributors, and TecNM engineering students funded through the **Stellar Community Fund & Drips Network**.
+This document outlines the modular engineering tasks for developers, open-source contributors, and TecNM engineering students funded through the **Stellar Community Fund & Drips Network**.
 
-Each issue is self-contained with well-defined inputs, test-driven acceptance criteria (DoD), and isolated module boundaries to enable concurrent development without blocking other contributors.
+Raíz is architected as an **RWA Attestation & AI Oracle Protocol on Stellar & Soroban**, decoupling rural edge capture, autonomous verification, smart contract escrow, and multi-anchor financial settlement.
 
 ---
 
 ```
-┌────────────────────────────────────────────────────────────────────────┐
-│                        MODULE ISSUE DEPENDENCY GRAPH                   │
-├─────────────────────────┬──────────────────────────┬───────────────────┤
-│ PHASE 1: DOMAIN CORE    │ PHASE 2: FIELD RESILIENCE│ PHASE 3: WEB3     │
-│ (Platform-Agnostic)     │ (Hardware / Rural UX)    │ (Stellar/Soroban) │
-├─────────────────────────┼──────────────────────────┼───────────────────┤
-│ [ISSUE #101]            │ [ISSUE #201]             │ [ISSUE #301]      │
-│ Community Digest SHA-256│ IndexedDB Outbox Queue   │ Soroban RPC & XDR │
-│                         │                          │ Lot Binding       │
-│ [ISSUE #102]            │ [ISSUE #202]             │ [ISSUE #302]      │
-│ FairTrade Policy Engine │ Opus 24kbps Audio        │ Fee-Bump Gasless  │
-│ & Anti-Coyote Guardrails│ Compression for Voices   │ Sponsorship Relay │
-└─────────────────────────┴──────────────────────────┴───────────────────┘
+┌────────────────────────────────────────────────────────────────────────────────────────┐
+│                        RAÍZ ATTESTATION PROTOCOL DEPENDENCY GRAPH                      │
+├─────────────────────────┬──────────────────────────┬───────────────────────────────────┤
+│ LAYER 1: DID & IAM      │ LAYER 2: AI ORACLES      │ LAYER 4: SOROBAN ATTESTATIONS     │
+├─────────────────────────┼──────────────────────────┼───────────────────────────────────┤
+│ [US-101] #18            │ [US-201] #21             │ [US-401] #26                      │
+│ Passwordless OTP DID    │ Offline ACID Buffer      │ FairEscrow Attestation Gate       │
+│                         │                          │                                   │
+│ [US-102] #19            │ [US-202] #22             │ [US-402] #27                      │
+│ Physical QR Identity    │ Acoustic Voice Oracle    │ Perpetual Royalties & Tequio      │
+│                         │                          │                                   │
+│ [US-103] #20            │ [US-203] #23             │ [US-403] #28                      │
+│ Gasless Account Relayer │ RWA Vector QR Hang-Tag   │ Verifiable Registry Showcase      │
+└─────────────────────────┴──────────────────────────┴───────────────────────────────────┘
 ```
 
 ---
 
-## 🟢 PHASE 1: DECOUPLED DOMAIN CORE (`src/core/`)
+## 🟢 SPRINT 1: RURAL IDENTITY & INVISIBLE WEB3 WALLET (OCT 5 – OCT 18, 2026)
 
-### 📌 ISSUE #101: `[Core/Crypto]` Canonical Community Digest SHA-256 Hashing Engine
-* **Target File:** `src/core/crypto/CryptoEngine.ts`
-* **Labels:** `drips-eligible`, `good-first-issue`, `crypto`, `unit-tests`, `phase-1`
-* **Estimated Effort:** 150 USDC / Drips Tier 1 (1–2 days)
-* **Difficulty:** Beginner - Intermediate
+### 📌 Issue #18: `[US-101]` Decentralized Identity (DID): Passwordless Producer Authentication & Session Attestation via WhatsApp/SMS OTP
+* **Target Component:** `src/core/auth/RaizAuthEngine.ts` & `src/components/RaizAuthModal.tsx`
+* **Labels:** `drips-eligible`, `identity`, `authentication`, `phase-1`
+* **Estimated Effort:** 200 USDC / Drips Tier 1 (1–2 days)
+* **Goal:** Enables rural farmers to access the protocol via standard Mexican mobile numbers (+52) with zero seed phrases or passwords, generating a verifiable session attestation.
 
-#### Problem Statement:
-To create an immutable provenance passport for an indigenous micro-lot (coffee, honey, or loom textiles), we must compute a deterministic cryptographic digest combining:
-1. Producer identification and parcel location.
-2. The authentic oral audio testimonial in an indigenous variant (Tu'un Savi, Zapotec, or Spanish).
-3. The photograph of the harvested batch or textile sample.
-4. Unix timestamp and geographical coordinates (5-decimal precision).
+### 📌 Issue #19: `[US-102]` Physical Attestation Credential: NFC & QR Community Identity Cards for Elderly Producers
+* **Target Component:** `src/core/auth/RaizAuthEngine.ts` (Method: `qr_card`)
+* **Labels:** `drips-eligible`, `hardware`, `identity`, `elder-mode`, `phase-1`
+* **Estimated Effort:** 250 USDC / Drips Tier 1 (2–3 days)
+* **Goal:** Provides physical cryptographic laminated identity cards for illiterate and elder producers (60+ years old) in the Mixteca Highlands.
 
-#### Technical Specifications:
-1. Refactor `CryptoEngine.computeSha256()` to accept `string`, `Uint8Array`, and `ArrayBuffer`.
-2. Implement `canonicalizeLotPayload(input: LotDigestInput): string` ensuring dictionary keys are sorted alphabetically before serialization to prevent cross-platform hash discrepancies.
-3. Support hybrid execution: Native `window.crypto.subtle` in browsers with automatic fallback to Node's `node:crypto` when run server-side or in CI unit tests.
-4. Write test suite in `src/core/crypto/__tests__/CryptoEngine.test.ts` with at least 6 deterministic test vectors.
-
-#### Definition of Done (Acceptance Criteria):
-- [ ] `npm run test` passes 100% without UI or React dependencies.
-- [ ] Calling the digest with identical values in differing key order yields the exact same SHA-256 hash.
-- [ ] Zero heavy external dependencies (leverages native Web Crypto API).
+### 📌 Issue #20: `[US-103]` Account Abstraction & Fee-Bump Relay: Autonomous Keypair Management & Gas Sponsorship on Stellar
+* **Target Component:** `src/core/crypto/CryptoEngine.ts` & Fee-Bump Relay
+* **Labels:** `drips-eligible`, `stellar`, `account-abstraction`, `soroban`, `phase-1`
+* **Estimated Effort:** 350 USDC / Drips Tier 2 (3–4 days)
+* **Goal:** Automatically derives Stellar Ed25519 keypairs and sponsors 100% of network fees using Stellar CAP-0015 Fee-Bump transactions.
 
 ---
 
-### 📌 ISSUE #102: `[Core/Policy]` FairTrade Rule Engine & Anti-Coyote Price Guardrails
-* **Target File:** `src/core/policy/FairTradeEngine.ts`
-* **Labels:** `drips-eligible`, `core-logic`, `math`, `governance`, `phase-1`
-* **Estimated Effort:** 200 USDC / Drips Tier 1 (2–3 days)
-* **Difficulty:** Intermediate
+## 🟡 SPRINT 2: OFFLINE ATTESTATIONS & INDIGENOUS VOICE AI (OCT 19 – NOV 01, 2026)
 
-#### Problem Statement:
-Predatory intermediaries ("coyotes") exploit remote communities by purchasing harvest below rural maintenance costs. The platform must programmatically enforce regional cost floors, flag predatory offers, and calculate automated perpetual secondary royalties (8% to farming families, 2% to community tequio infrastructure).
-
-#### Technical Specifications:
-1. Implement `FairTradeEngine.validateLotPricing(params: PriceCheckParams): EvaluationResult`.
-2. Model regional baseline cost matrices:
-   - High-altitude Washed Arabica coffee (>1,200m): Minimum $90 MXN/kg parchment.
-   - Wild Acahual honey: Minimum $120 MXN/liter.
-   - Backstrap loom textiles: Minimum $250 MXN per base piece.
-3. Implement `calculateSplitDistributions(totalSaleAmountMxn: number, options: SplitOptions)` returning exact integer stroops/cents to eliminate floating-point rounding errors.
-4. Add comprehensive test coverage in `src/core/policy/__tests__/FairTradeEngine.test.ts`.
-
-#### Definition of Done (Acceptance Criteria):
-- [ ] Pure deterministic functions with no side-effects.
-- [ ] Test coverage ≥ 95% covering edge cases (zero values, extreme bounds, unlisted crops).
-
----
-
-## 🟡 PHASE 2: FIELD RESILIENCE & RURAL HARDWARE
-
-### 📌 ISSUE #201: `[Offline/Sync]` ACID Outbox Transactional Queue in IndexedDB
-* **Target Files:** `src/core/sync/SyncEngine.ts` & `src/utils/offlineStorage.ts`
-* **Labels:** `drips-eligible`, `offline-first`, `indexeddb`, `pwa`, `phase-2`
+### 📌 Issue #21: `[US-201]` Offline-First Attestation Buffer: ACID IndexedDB Persistence & Cryptographic Batch Sync for Mountain Fields
+* **Target Component:** `src/utils/offlineStorage.ts` & `src/core/sync/SyncEngine.ts`
+* **Labels:** `drips-eligible`, `offline-first`, `indexeddb`, `sync`, `phase-2`
 * **Estimated Effort:** 350 USDC / Drips Tier 2 (3–5 days)
-* **Difficulty:** Intermediate - Advanced
+* **Goal:** Guarantees zero data loss in disconnected mountain microclimates through an ACID transactional outbox in IndexedDB with auto-sync on network reconnect.
 
-#### Problem Statement:
-Indigenous producers operate in mountain micro-climates completely disconnected from 3G/4G cellular reception. The application must store multi-batch harvests locally without memory exhaustion and auto-sync immediately upon detecting connectivity in town.
+### 📌 Issue #22: `[US-202]` AI Voice Oracle: Acoustic Indigenous Speech-to-Attestation in Tu'un Savi (Mixtec) & Rural Spanish
+* **Target Component:** `src/core/ai/RaizAIOracles.ts` (`AIVoiceOracle`)
+* **Labels:** `drips-eligible`, `ai-oracle`, `tuun-savi`, `multimodal-ai`, `phase-2`
+* **Estimated Effort:** 400 USDC / Drips Tier 3 (4–5 days)
+* **Goal:** Uses acoustic machine learning and 24kbps Opus compression to parse oral harvest registrations in Mixtec (*Tu'un Savi*) and Spanish into on-chain cryptographic manifests.
 
-#### Technical Specifications:
-1. Upgrade `offlineStorage.ts` to a typed IndexedDB schema with transaction stores:
-   - `outbox_lots`: Pending metadata and status (`PENDING`, `UPLOADING`, `SEALED`, `FAILED`).
-   - `media_blobs`: Separate store for binary image and audio blobs (avoiding raw base64 memory leaks).
-2. Implement exponential backoff retry policy (1s, 2s, 4s, 8s...) with auto-recovery on `window.addEventListener('online')`.
-3. Provide reactive status subscriptions (`SyncEngine.subscribe()`) updating UI badges with count of queued offline harvests.
-
-#### Definition of Done (Acceptance Criteria):
-- [ ] Offline batch save completes in < 200ms on mobile storage.
-- [ ] Browser refresh / offline reload (`F5`) retains 100% of un-synced data.
-- [ ] Graceful fallback and user alerts on `QuotaExceededError`.
+### 📌 Issue #23: `[US-203]` Cryptographic Physical-to-Digital Twin: ISO/IEC 18004 Vector Hang-Tag QR Anchor for Agricultural Lots
+* **Target Component:** `src/components/ArtisanQrTagModal.tsx` & `src/utils/qrCodeGenerator.ts`
+* **Labels:** `drips-eligible`, `qr-tag`, `rwa`, `traceability`, `phase-2`
+* **Estimated Effort:** 250 USDC / Drips Tier 1 (2–3 days)
+* **Goal:** Generates pure SVG high-contrast vector hang-tags for physical coffee sacks and artisan garments, linking physical commodities to the Stellar ledger.
 
 ---
 
-### 📌 ISSUE #202: `[Voice/Audio]` 24kbps Opus Audio Recording & Compression for Indigenous Variants
-* **Target Files:** `src/utils/audioRecorder.ts` & `src/components/RegisterCoffeeLotScreen.tsx`
-* **Labels:** `drips-eligible`, `voice-first`, `multimedia`, `accessibility`, `phase-2`
-* **Estimated Effort:** 250 USDC / Drips Tier 2 (2–4 days)
-* **Difficulty:** Intermediate
+## 🟣 SPRINT 3: DUAL PAYMENT ORCHESTRATION IN MEXICO (NOV 02 – NOV 15, 2026)
 
-#### Problem Statement:
-Uncompressed WAV files generate 5 MB to 10 MB per minute, making sync impossible over 2G/EDGE networks in rural municipalities. Audio testimonials must be compressed while preserving voice authenticity and phoneme nuances across indigenous variants.
+### 📌 Issue #24: `[US-301]` Multi-Anchor Settlement Rail: Direct SPEI Fiat Payout via Etherfuse & MXNe Banxico Integration
+* **Target Component:** `src/core/payments/PaymentOrchestrator.ts` & `src/components/MyPaymentsModal.tsx`
+* **Labels:** `drips-eligible`, `payments`, `spei`, `etherfuse`, `mexico`, `phase-3`
+* **Estimated Effort:** 450 USDC / Drips Tier 3 (4–6 days)
+* **Goal:** Converts international buyer USDC into Mexican Pesos (MXN) via Etherfuse and issues direct Banxico SPEI wire transfers to Banco del Bienestar debit cards.
 
-#### Technical Specifications:
-1. Configure `MediaRecorder` in `audioRecorder.ts` to prioritize `audio/webm;codecs=opus` or `audio/ogg;codecs=opus` targeted at 24 kbps.
-2. Enforce 90-second hardware auto-stop timer with auditory/visual cues.
-3. Extract real-time voice decibel meter to a reusable React hook `useAudioLevelMeter(stream)`.
-
-#### Definition of Done (Acceptance Criteria):
-- [ ] 30-second audio recording file size is strictly ≤ 150 KB with clear vocal comprehension.
-- [ ] Dual-engine compatibility verified for Android Chrome and iOS Safari.
+### 📌 Issue #25: `[US-302]` Decentralized Cash-Out Rail: MicoPay Weighing Scale Liquidity Gateway for Unbanked Producers
+* **Target Component:** `src/core/payments/PaymentOrchestrator.ts` & Weighing Scale Terminal
+* **Labels:** `drips-eligible`, `payments`, `cash-out`, `micopay`, `rural`, `phase-3`
+* **Estimated Effort:** 400 USDC / Drips Tier 3 (3–5 days)
+* **Goal:** Enables unbanked producers to receive instant cash vouchers at the physical cooperative scale upon verified crop weigh-in.
 
 ---
 
-## 🔵 PHASE 3: STELLAR WEB3 & SOROBAN INTEGRATION
+## 🔵 SPRINT 4: SOROBAN SMART CONTRACTS & ATTESTATION ENGINE (NOV 16 – NOV 22, 2026)
 
-### 📌 ISSUE #301: `[Web3/Soroban]` Native XDR Serialization & RPC Binding for `LotPassport` Contract
-* **Target File:** `src/core/blockchain/SorobanAdapter.ts`
-* **Labels:** `drips-eligible`, `soroban`, `stellar`, `smart-contracts`, `phase-3`
-* **Estimated Effort:** 400 USDC / Drips Tier 3 (4–6 days)
-* **Difficulty:** Advanced
+### 📌 Issue #26: `[US-401]` Soroban Smart Contract: FairEscrow with On-Chain Attestation Verification (Quality & EUDR Gates)
+* **Target Component:** `contracts/fair_escrow/src/lib.rs`
+* **Labels:** `drips-eligible`, `soroban`, `smart-contracts`, `escrow`, `attestations`, `phase-4`
+* **Estimated Effort:** 500 USDC / Drips Tier 4 (5–7 days)
+* **Goal:** Implements a trustless Soroban escrow contract that verifies SCAA Quality (>85 pts) and EUDR Zero-Deforestation attestations before releasing purchase funds.
 
-#### Problem Statement:
-`SorobanAdapter` currently generates simulated ledger hashes. It must integrate the official `@stellar/stellar-sdk` to execute real contract invocations against Soroban Testnet and Futurenet.
+### 📌 Issue #27: `[US-402]` Soroban Smart Contract: Perpetual Royalties & Tequio Fund (Automated 10% Secondary Resale Distribution)
+* **Target Component:** `contracts/perpetual_royalties/src/lib.rs`
+* **Labels:** `drips-eligible`, `soroban`, `royalties`, `textiles`, `governance`, `phase-4`
+* **Estimated Effort:** 450 USDC / Drips Tier 3 (4–5 days)
+* **Goal:** Enforces a perpetual 10% resale royalty to female artisans on secondary market trades and routes 2% to municipal infrastructure funds (*Tequio Comunal*).
 
-#### Technical Specifications:
-1. Configure `@stellar/stellar-sdk` isolated inside `src/core/blockchain/`.
-2. Implement `buildRegisterLotTransaction()` mapping domain parameters to contract types:
-   - `lot_code`: `Symbol`
-   - `digest`: `BytesN<32>`
-   - `producer_id`: `Address`
-   - `altitude`: `u32`
-3. Execute pre-flight simulation (`server.simulateTransaction`) to estimate CPU instructions and ledger read/write footprints.
-4. Parse Soroban result envelopes to return validated ledger sequence, txHash, and explorer URLs (Stellar Expert).
-
-#### Definition of Done (Acceptance Criteria):
-- [ ] Standalone test runner script (`scripts/test-soroban-register.ts`) successfully submits a live transaction to Soroban Testnet.
-- [ ] UI remains fully responsive even when Stellar RPC endpoints experience latency.
+### 📌 Issue #28: `[US-403]` Protocol Registry & Consumer SDK: Verifiable Credential Showcase & B2B Buyer Settlement Portal
+* **Target Component:** `src/components/BuyerShowcaseScreen.tsx` & `@raiz-protocol/sdk`
+* **Labels:** `drips-eligible`, `sdk`, `b2b-portal`, `showcase`, `phase-4`
+* **Estimated Effort:** 350 USDC / Drips Tier 2 (3–4 days)
+* **Goal:** Connects specialty roasters, European importers, and ethical restaurants directly with certified communities through verifiable on-chain audits.
 
 ---
 
-### 📌 ISSUE #302: `[Web3/Gasless]` Fee-Bump Transaction Sponsorship Relay
-* **Target File:** `src/core/blockchain/FeeSponsorRelay.ts`
-* **Labels:** `drips-eligible`, `stellar-tx`, `security`, `gasless`, `phase-3`
-* **Estimated Effort:** 350 USDC / Drips Tier 3 (3–5 days)
-* **Difficulty:** Advanced
+## 🔴 FINAL PHASE: PRODUCTION FIELD PILOT & RELEASE (NOV 23 – DEC 01, 2026)
 
-#### Problem Statement:
-Indigenous elders and rural farmers do not hold native XLM balances to pay network gas fees. The cooperative node or TecNM institutional gateway must sponsor all transaction fees transparently using native Stellar Fee-Bump mechanics (SEP-0015).
-
-#### Technical Specifications:
-1. Implement `FeeSponsorRelay.sponsorTransaction(innerTx: Transaction): Promise<FeeBumpTransaction>`.
-2. Configure secure institutional sponsorship keys (`SPONSOR_SOURCE_KEY`).
-3. Implement `maxFee` protection ceilings to prevent gas-drain attacks.
-
-#### Definition of Done (Acceptance Criteria):
-- [ ] End-user keys sign the payload with 0.0000000 XLM balance.
-- [ ] Final transaction broadcasts successfully on Testnet, debited from the designated institutional sponsor account.
+### 📌 Issue #29: `[US-501]` Production Validation: 15-Producer Field Test in the Mixteca Highlands & Protocol v1.0.0 Genesis Release
+* **Target Communities:** Tlaxiaco, San Pablo Tijaltepec, Santa María Yucuhiti, San Mateo Peñasco
+* **Labels:** `drips-eligible`, `field-test`, `community-validation`, `production-release`, `phase-5`
+* **Estimated Effort:** 600 USDC / Drips Tier 4 (7–10 days)
+* **Goal:** Validates the end-to-end Attestation Protocol in real field conditions with 15 live indigenous producers across coffee, honey, and textiles, publishing the official Production Release v1.0.0.
