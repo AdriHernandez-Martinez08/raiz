@@ -1,7 +1,7 @@
 #![no_std]
 use soroban_sdk::{
     contract, contracterror, contractimpl, contracttype, symbol_short, token, Address, BytesN,
-    Env, String, Symbol,
+    Env,
 };
 
 #[contracterror]
@@ -161,7 +161,7 @@ impl FairEscrowContract {
     }
 
     /// Release funds upon verified PhysicalDeliveryAttestation (MicoPay weighing scale confirmation)
-    pub fn release_with_delivery_attestation(
+    pub fn release_with_attestation(
         env: Env,
         order_id: BytesN<32>,
         delivery_attestation_uid: BytesN<32>,

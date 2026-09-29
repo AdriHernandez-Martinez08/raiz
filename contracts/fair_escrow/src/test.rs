@@ -52,7 +52,7 @@ fn test_create_fund_and_release_micopay_escrow() {
 
     // Release upon verified weighing delivery
     let delivery_attestation_uid = BytesN::from_array(&env, &[9u8; 32]);
-    client.release_with_delivery_attestation(&order_id, &delivery_attestation_uid, &micopay_authority);
+    client.release_with_attestation(&order_id, &delivery_attestation_uid, &micopay_authority);
 
     let settled_order = client.get_order(&order_id);
     assert_eq!(settled_order.status, OrderStatus::Settled);
