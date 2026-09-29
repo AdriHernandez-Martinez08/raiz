@@ -8,6 +8,7 @@ interface TopAppBarProps {
   onNavigateScreen: (screen: ScreenView) => void;
   onOpenCart?: () => void;
   onOpenMicDiagnostic?: () => void;
+  onOpenExplainerVideo?: () => void;
   cartCount: number;
   appLanguage?: AppLanguage;
   onToggleLanguage?: () => void;
@@ -22,6 +23,7 @@ export const TopAppBar: React.FC<TopAppBarProps> = ({
   onNavigateScreen,
   onOpenCart,
   onOpenMicDiagnostic,
+  onOpenExplainerVideo,
   cartCount,
   appLanguage = 'es',
   onToggleLanguage,
@@ -96,7 +98,7 @@ export const TopAppBar: React.FC<TopAppBarProps> = ({
               <>
                 <span className="w-2 h-2 rounded-full bg-[#fe7952] animate-pulse"></span>
                 <span className="text-[11px] text-[#424843] font-medium">
-                  {appLanguage === 'mix' ? 'Tu’un Bot' : 'Asistente Comunitario'}
+                  {appLanguage === 'mix' ? 'Tu’un Raíz' : 'Compañero TecNM'}
                 </span>
               </>
             ) : (
@@ -146,6 +148,20 @@ export const TopAppBar: React.FC<TopAppBarProps> = ({
           >
             <span className="text-[13px]">🧓🏽</span>
             <span>{elderMode ? 'Grande' : 'Normal'}</span>
+          </button>
+        )}
+
+        {/* Video Explicativo Button */}
+        {onOpenExplainerVideo && (
+          <button
+            type="button"
+            onClick={onOpenExplainerVideo}
+            className="px-2.5 py-1 rounded-xl bg-linear-to-r from-red-700 to-amber-700 text-white font-extrabold text-[11px] hover:brightness-110 flex items-center gap-1 shadow-xs transition-all active:scale-95 cursor-pointer border border-white/20"
+            title="Ver video explicativo interactivo: Open Hub, MicoPay y Raíz"
+            aria-label="Ver video explicativo: Open Hub, MicoPay y Raíz"
+          >
+            <span className="material-symbols-outlined text-[16px]">play_circle</span>
+            <span className="hidden sm:inline">Video</span>
           </button>
         )}
 

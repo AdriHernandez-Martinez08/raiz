@@ -147,7 +147,7 @@ export const NormativeCertificateModal: React.FC<NormativeCertificateModalProps>
     <div>
       <h1 class="title">INSTITUTO TECNOLÓGICO DE TLAXIACO</h1>
       <div class="subtitle">Laboratorio de Calidad del Café & Raíz · Tlaxiaco, Oaxaca</div>
-      <div class="subtitle"><strong>CERTIFICADO DE CONFORMIDAD NORMATIVA (NMX-F-083 / NOM-255-SCFI)</strong></div>
+      <div class="subtitle"><strong>CERTIFICADO DE CONFORMIDAD NORMATIVA (${lot.nomCompliance?.standard || 'CALIDAD TRADICIONAL Y COMUNITARIA'})</strong></div>
     </div>
     <div class="badge">Sello Inmutable Stellar</div>
   </div>
@@ -161,12 +161,12 @@ export const NormativeCertificateModal: React.FC<NormativeCertificateModalProps>
     <p style="margin: 0; color: #424843; font-size: 13px; line-height: 1.5;">
       <strong>Productor:</strong> ${lot.producerName} (${lot.producerInitials})<br/>
       <strong>Ubicación Comunitaria:</strong> ${lot.location}<br/>
-      <strong>Volumen Certificado:</strong> ${lot.volumeKg} Kilogramos · Pergamino Seco<br/>
+      <strong>Volumen Certificado:</strong> ${lot.volumeKg} kg · ${lot.productType}<br/>
       <strong>Organismo Evaluador:</strong> ${lot.evaluatorOrg}
     </p>
   </div>
 
-  <h3 style="color: #032517; font-size: 14px; margin-bottom: 6px;">TABLA DE CUMPLIMIENTO DE NORMAS OFICIALES MEXICANAS</h3>
+  <h3 style="color: #032517; font-size: 14px; margin-bottom: 6px;">TABLA DE CUMPLIMIENTO DE NORMAS OFICIALES Y COMUNITARIAS</h3>
   <table class="table-nom">
     <thead>
       <tr>
@@ -178,33 +178,33 @@ export const NormativeCertificateModal: React.FC<NormativeCertificateModalProps>
     </thead>
     <tbody>
       <tr>
-        <td><strong>Humedad en Grano Pergamino</strong></td>
-        <td>NMX-F-083-COFOCAFE (10.0% a 12.0%)</td>
-        <td>${compliance?.humidity || '11.4%'}</td>
+        <td><strong>Condición / Humedad de Muestra</strong></td>
+        <td>${lot.nomCompliance?.standard || 'Norma Tradicional Oaxaqueña'}</td>
+        <td>${compliance?.humidity || 'Óptimo'}</td>
         <td style="color: #032517; font-weight: bold;">CONFORME (Óptimo)</td>
       </tr>
       <tr>
-        <td><strong>Conteo Físico de Defectos</strong></td>
-        <td>NMX-F-083 (Muestra de 300g)</td>
-        <td>${compliance ? compliance.defectPercentage + '%' : '< 1.2%'}</td>
-        <td style="color: #032517; font-weight: bold;">GRADO ESPECIALIDAD (Exportación)</td>
+        <td><strong>Inspección Física y Selección</strong></td>
+        <td>Evaluación de Laboratorio Comunitario</td>
+        <td>${compliance ? compliance.defectPercentage + '% def.' : '< 1% def.'}</td>
+        <td style="color: #032517; font-weight: bold;">${compliance?.defectClassification || 'GRADO GOURMET / ESPECIALIDAD'}</td>
       </tr>
       <tr>
-        <td><strong>Altitud de Origen</strong></td>
-        <td>NOM-255-SCFI-2018 (> 1,200 msnm)</td>
-        <td>${lot.altitude || '1,650 msnm'}</td>
-        <td style="color: #032517; font-weight: bold;">ESTRICTA ALTURA (SHG)</td>
+        <td><strong>Altitud / Región de Origen</strong></td>
+        <td>Trazabilidad Geográfica Mixteca</td>
+        <td>${lot.altitude || 'Región Oaxaqueña'}</td>
+        <td style="color: #032517; font-weight: bold;">${compliance?.strictAltitude ? 'ESTRICTA ALTURA (SHG)' : 'ORIGEN CERTIFICADO'}</td>
       </tr>
       <tr>
-        <td><strong>Pureza Varietal & OGM</strong></td>
-        <td>Catálogo Nacional Variedades</td>
-        <td>${compliance?.botanicalPurity || '100% Typica Pluma Nativo'}</td>
-        <td style="color: #032517; font-weight: bold;">CONFORME (Nativo Libre OGM)</td>
+        <td><strong>Pureza de Origen & Calidad Ancestral</strong></td>
+        <td>Sello Comunitario de Calidad</td>
+        <td>${compliance?.botanicalPurity || lot.variety || '100% Auténtico Nativo'}</td>
+        <td style="color: #032517; font-weight: bold;">CONFORME (Libre de OGM / Sintéticos)</td>
       </tr>
       <tr>
-        <td><strong>Inocuidad & Agroquímicos</strong></td>
-        <td>Manejo Agroecológico Sostenible</td>
-        <td>0.0 ppm Trazas Sintéticas</td>
+        <td><strong>Inocuidad & Cuidado Agroecológico</strong></td>
+        <td>Manejo Sostenible Tradicional</td>
+        <td>0.0 ppm Trazas Químicas</td>
         <td style="color: #032517; font-weight: bold;">CERTIFICACIÓN AGROECOLÓGICA</td>
       </tr>
     </tbody>
@@ -213,16 +213,16 @@ export const NormativeCertificateModal: React.FC<NormativeCertificateModalProps>
   <h3 style="color: #032517; font-size: 14px; margin-top: 18px; margin-bottom: 6px;">EVIDENCIAS FOTOGRÁFICAS DE CAMPO Y LABORATORIO</h3>
   <div class="grid-photos">
     <div class="photo-card">
-      <img src="${compliance?.evidencePhotos?.grainGridSampleUrl || lot.imageUrl}" alt="Muestra Grano" />
-      <div class="photo-label">Muestra Grano Pergamino (NMX-F-083)</div>
+      <img src="${compliance?.evidencePhotos?.grainGridSampleUrl || lot.imageUrl}" alt="Muestra de Cosecha" />
+      <div class="photo-label">Muestra de Cosecha / Producto (${lot.title.slice(0, 25)})</div>
     </div>
     <div class="photo-card">
-      <img src="${compliance?.evidencePhotos?.humidityGaugeUrl || 'https://images.unsplash.com/photo-1559056199-641a0ac8b55e?w=400&auto=format&fit=crop&q=80'}" alt="Lectura Humedad" />
-      <div class="photo-label">Humedad en Rango 11.4%</div>
+      <img src="${compliance?.evidencePhotos?.humidityGaugeUrl || 'https://images.unsplash.com/photo-1559056199-641a0ac8b55e?w=400&auto=format&fit=crop&q=80'}" alt="Lectura Instrumento" />
+      <div class="photo-label">Parámetro Técnico: ${compliance?.humidity || 'Conforme'}</div>
     </div>
     <div class="photo-card">
-      <img src="${compliance?.evidencePhotos?.foliarHealthUrl || 'https://images.unsplash.com/photo-1514432324607-a09d9b4aefdd?w=400&auto=format&fit=crop&q=80'}" alt="Inspección Parcela" />
-      <div class="photo-label">Sanidad Foliar y de Parcela</div>
+      <img src="${compliance?.evidencePhotos?.foliarHealthUrl || 'https://images.unsplash.com/photo-1514432324607-a09d9b4aefdd?w=400&auto=format&fit=crop&q=80'}" alt="Inspección Origen" />
+      <div class="photo-label">Inspección de Parcela / Taller</div>
     </div>
   </div>
 
@@ -337,7 +337,7 @@ export const NormativeCertificateModal: React.FC<NormativeCertificateModalProps>
             <p className="text-[#424843] leading-relaxed">
               <strong>Productor:</strong> {lot.producerName} <br />
               <strong>Ubicación:</strong> {lot.location} <br />
-              <strong>Volumen Amparado:</strong> {lot.volumeKg} kg · Grano Pergamino Seco
+              <strong>Volumen Amparado:</strong> {lot.volumeKg} kg · {lot.productType}
             </p>
           </div>
 
@@ -346,7 +346,7 @@ export const NormativeCertificateModal: React.FC<NormativeCertificateModalProps>
             <div className="flex items-center justify-between">
               <h5 className="font-bold text-[#032517] text-[12px] uppercase tracking-wide flex items-center gap-1.5">
                 <span className="material-symbols-outlined text-[16px] text-emerald-700">fact_check</span>
-                <span>Conformidad Normativa Oficial (NMX / NOM)</span>
+                <span>Conformidad Normativa Oficial ({lot.nomCompliance?.standard || 'Norma Tradicional'})</span>
               </h5>
               <span className="text-[10px] text-emerald-800 bg-emerald-50 font-bold px-2 py-0.5 rounded border border-emerald-200">
                 Aprobado 100%
@@ -357,57 +357,63 @@ export const NormativeCertificateModal: React.FC<NormativeCertificateModalProps>
               <div className="divide-y divide-gray-100 text-[11px]">
                 <div className="p-2.5 flex items-center justify-between bg-[#fcf9f3]">
                   <div>
-                    <span className="font-bold text-[#032517] block">Humedad en Grano Pergamino</span>
-                    <span className="text-[10px] text-[#727973]">NMX-F-083 (Rango Óptimo 10.0% – 12.0%)</span>
+                    <span className="font-bold text-[#032517] block">
+                      {lot.productType?.toLowerCase().includes('chapul')
+                        ? 'Deshidratación / Humedad al Comal'
+                        : lot.productType?.toLowerCase().includes('chocolate')
+                        ? 'Humedad en Cacao / Barra'
+                        : 'Condición y Humedad'}
+                    </span>
+                    <span className="text-[10px] text-[#727973]">{lot.nomCompliance?.standard || 'Parámetro Comunitario'}</span>
                   </div>
                   <div className="text-right">
                     <span className="font-extrabold text-emerald-800 block text-[12px]">
                       {lot.nomCompliance?.humidity || '11.4%'}
                     </span>
                     <span className="text-[9px] font-semibold text-emerald-700 bg-emerald-100/70 px-1.5 py-0.2 rounded">
-                      Cumple NMX
+                      Conforme
                     </span>
                   </div>
                 </div>
 
                 <div className="p-2.5 flex items-center justify-between">
                   <div>
-                    <span className="font-bold text-[#032517] block">Conteo Físico de Defectos</span>
-                    <span className="text-[10px] text-[#727973]">Muestra 300g (Broca, grano negro, agrio)</span>
+                    <span className="font-bold text-[#032517] block">Inspección Física y Selección</span>
+                    <span className="text-[10px] text-[#727973]">Selección limpia, sin impurezas</span>
                   </div>
                   <div className="text-right">
                     <span className="font-extrabold text-emerald-800 block text-[12px]">
-                      {lot.nomCompliance ? `${lot.nomCompliance.defectPercentage}%` : '< 1.2%'}
+                      {lot.nomCompliance ? `${lot.nomCompliance.defectPercentage}% def.` : '< 1.2%'}
                     </span>
                     <span className="text-[9px] font-semibold text-emerald-700 bg-emerald-100/70 px-1.5 py-0.2 rounded">
-                      Especialidad
+                      {lot.nomCompliance?.defectClassification || 'Especialidad'}
                     </span>
                   </div>
                 </div>
 
                 <div className="p-2.5 flex items-center justify-between bg-[#fcf9f3]">
                   <div>
-                    <span className="font-bold text-[#032517] block">Altitud de Parcela</span>
-                    <span className="text-[10px] text-[#727973]">NOM-255-SCFI-2018 (&gt; 1,200 msnm)</span>
+                    <span className="font-bold text-[#032517] block">Altitud / Región de Origen</span>
+                    <span className="text-[10px] text-[#727973]">Trazabilidad Geográfica Comunitaria</span>
                   </div>
                   <div className="text-right">
                     <span className="font-extrabold text-emerald-800 block text-[12px]">
                       {lot.altitude || '1,650 msnm'}
                     </span>
                     <span className="text-[9px] font-semibold text-emerald-700 bg-emerald-100/70 px-1.5 py-0.2 rounded">
-                      Estricta Altura
+                      {lot.nomCompliance?.strictAltitude ? 'Estricta Altura' : 'Origen Garantizado'}
                     </span>
                   </div>
                 </div>
 
                 <div className="p-2.5 flex items-center justify-between">
                   <div>
-                    <span className="font-bold text-[#032517] block">Pureza Botánica & Agroecología</span>
-                    <span className="text-[10px] text-[#727973]">Sin agroquímicos ni transgénicos</span>
+                    <span className="font-bold text-[#032517] block">Pureza de Origen & Agroecología</span>
+                    <span className="text-[10px] text-[#727973]">Sin agroquímicos sintéticos ni OGM</span>
                   </div>
                   <div className="text-right">
                     <span className="font-extrabold text-[#032517] block text-[12px]">
-                      100% Typica Pluma
+                      {lot.nomCompliance?.botanicalPurity || lot.variety || '100% Nativo'}
                     </span>
                     <span className="text-[9px] font-semibold text-emerald-700 bg-emerald-100/70 px-1.5 py-0.2 rounded">
                       Libre OGM
@@ -428,31 +434,31 @@ export const NormativeCertificateModal: React.FC<NormativeCertificateModalProps>
               <div className="rounded-xl overflow-hidden border border-[#c1c8c2]/50 bg-white">
                 <img
                   src={lot.nomCompliance?.evidencePhotos?.grainGridSampleUrl || lot.imageUrl}
-                  alt="Muestra de grano pergamino"
+                  alt="Muestra de cosecha"
                   className="w-full h-16 object-cover"
                 />
                 <span className="text-[9px] font-bold text-center block py-1 bg-[#f0eee8] text-[#032517] truncate px-1">
-                  Muestra Grano
+                  Muestra de Cosecha
                 </span>
               </div>
               <div className="rounded-xl overflow-hidden border border-[#c1c8c2]/50 bg-white">
                 <img
                   src={lot.nomCompliance?.evidencePhotos?.humidityGaugeUrl || 'https://images.unsplash.com/photo-1559056199-641a0ac8b55e?w=400&auto=format&fit=crop&q=80'}
-                  alt="Lectura de Humedad"
+                  alt="Lectura de Humedad / Proceso"
                   className="w-full h-16 object-cover"
                 />
                 <span className="text-[9px] font-bold text-center block py-1 bg-[#f0eee8] text-[#032517] truncate px-1">
-                  Higrómetro 11.4%
+                  {lot.nomCompliance?.humidity ? `Humedad ${lot.nomCompliance.humidity}` : 'Condición Óptima'}
                 </span>
               </div>
               <div className="rounded-xl overflow-hidden border border-[#c1c8c2]/50 bg-white">
                 <img
                   src={lot.nomCompliance?.evidencePhotos?.foliarHealthUrl || 'https://images.unsplash.com/photo-1514432324607-a09d9b4aefdd?w=400&auto=format&fit=crop&q=80'}
-                  alt="Inspección Parcela"
+                  alt="Inspección Parcela o Taller"
                   className="w-full h-16 object-cover"
                 />
                 <span className="text-[9px] font-bold text-center block py-1 bg-[#f0eee8] text-[#032517] truncate px-1">
-                  Sanidad Ladera
+                  Sanidad y Origen
                 </span>
               </div>
             </div>

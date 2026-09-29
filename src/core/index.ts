@@ -7,24 +7,30 @@ export * from './crypto/CryptoEngine';
 export * from './sync/SyncEngine';
 export * from './policy/FairTradeEngine';
 export * from './blockchain/SorobanAdapter';
+export * from './settlement/HybridSettlementOrchestrator';
+export * from './auth/RaizAuthEngine';
 
 import { CryptoEngine } from './crypto/CryptoEngine';
 import { SyncEngine } from './sync/SyncEngine';
 import { FairTradeEngine } from './policy/FairTradeEngine';
 import { SorobanAdapter, DEFAULT_STELLAR_CONFIG } from './blockchain/SorobanAdapter';
+import { HybridSettlementOrchestrator } from './settlement/HybridSettlementOrchestrator';
+import { RaizAuthEngine } from './auth/RaizAuthEngine';
 
 export const RaizCore = {
   crypto: CryptoEngine,
   sync: SyncEngine,
   fairTrade: FairTradeEngine,
   soroban: new SorobanAdapter(DEFAULT_STELLAR_CONFIG),
+  settlement: HybridSettlementOrchestrator,
+  auth: RaizAuthEngine,
   
   /**
    * Inicializa los servicios del Core en el ciclo de vida de la app
    */
   init: () => {
     SyncEngine.initAutoSync();
-    console.log('🌱 Raíz Core inicializado: Sincronización offline y Criptografía comunitaria listos.');
+    console.log('🌱 Raíz Core inicializado: Sincronización offline, Criptografía, Liquidación Híbrida y Autenticación listos.');
   },
 };
 

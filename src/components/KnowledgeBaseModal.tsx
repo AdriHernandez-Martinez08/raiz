@@ -248,7 +248,7 @@ Combina:
                   }}
                   className="w-full py-2 px-3 rounded-xl bg-cyan-700 hover:bg-cyan-600 text-white font-bold text-[12px] transition-all cursor-pointer"
                 >
-                  Ver Tarjeta Interactiva del Agente Logístico en el Chat
+                  Ver Tarjeta de Transporte y Cajero Móvil en el Chat
                 </button>
               )}
             </div>

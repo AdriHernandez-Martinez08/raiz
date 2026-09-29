@@ -90,6 +90,36 @@ export const INITIAL_PRODUCTS: ProductItem[] = [
     stock: '100% Pura',
     imageUrl: 'https://lh3.googleusercontent.com/aida-public/AB6AXuA8ZBROS9VsAw7NHM5L1DmOrsjS5_bgY5WUAX2CWi4t5af2aINWReGNta7MhraFl1vMglwJfhe52szbMFK3zJCSVdtzGS8Wxk4FAPcGg0ryh6r5SO--xklxpgEP7fXFnRFHhG28vL6IwUl3qW6cFysfAyubAB0o5lspYGGWJSMCYFqxBvweNm6W2qlz6HlxvvKjRiSwLsfBYXxK7Cv3WSoPy77qwwVCiEOx_s0cTXnQKPYnYNHr48piLg',
     imageAlt: 'Frasco de miel pura silvestre de campanilla'
+  },
+  {
+    id: 'prod-7',
+    title: 'Chocolate Criollo de Metate (1kg)',
+    category: 'Cacao & Chocolate',
+    badge: 'Molienda Tradicional',
+    craftType: 'Cacao criollo con canela y almendra',
+    description: 'Tablillas de chocolate artesanal elaborado en metate caliente con cacao criollo fino de aroma de la región de Putla y Mixteca Oaxaqueña.',
+    price: 180,
+    artisanName: 'Doña Esperanza Morales',
+    artisanInitials: 'EM',
+    location: 'Putla / Tlaxiaco, Oax.',
+    stock: '15 kg disp.',
+    imageUrl: 'https://upload.wikimedia.org/wikipedia/commons/e/e8/Chocolate_mayordomo_oaxaca_%28cropped%29.jpg',
+    imageAlt: 'Pasta y tablillas de chocolate tradicional oaxaqueño'
+  },
+  {
+    id: 'prod-8',
+    title: 'Chapulines de Milpa Tostados al Comal (500g)',
+    category: 'Gastronomía Ancestral',
+    badge: 'Sazón Tradicional',
+    craftType: 'Recolectados en milpa y tostados al barro',
+    description: 'Chapulines limpios sazonados en comal con sal marina, ajo criollo y limón. Crujientes, ricos en proteína y 100% oaxaqueños.',
+    price: 150,
+    artisanName: 'Doña Francisca López',
+    artisanInitials: 'FL',
+    location: 'Tlacolula / Tlaxiaco, Oax.',
+    stock: '12 bolsas disp.',
+    imageUrl: 'https://upload.wikimedia.org/wikipedia/commons/d/d1/Chapulines_de_Oaxaca.jpg',
+    imageAlt: 'Chapulines tostados al comal de barro con ajo y limón'
   }
 ];
 
@@ -226,6 +256,122 @@ export const INITIAL_VERIFIED_LOTS: DigitalPassportLot[] = [
     ],
     pricePerKg: 190.0,
     hash: '0x992b...d1e4438fa7211'
+  },
+  {
+    id: 'lot-988',
+    code: 'MX-2024-988',
+    title: 'Chocolate Criollo Tradicional de la Mixteca',
+    productType: 'Cacao & Chocolate',
+    imageUrl: 'https://upload.wikimedia.org/wikipedia/commons/e/e8/Chocolate_mayordomo_oaxaca_%28cropped%29.jpg',
+    imageAlt: 'Pasta y tablillas de chocolate tradicional de cacao criollo elaborado en metate',
+    producerName: 'Doña Esperanza Morales Bautista',
+    producerInitials: 'EM',
+    location: 'Putla Villa de Guerrero / Mixteca Oaxaqueña',
+    volumeKg: 65,
+    verifiedStatus: 'Calidad Artesanal Comunitaria Aprobada',
+    evaluatorOrg: 'Laboratorio de Calidad Mixteco & Tec Hub',
+    tags: ['Cacao criollo nativo', 'Molienda en metate', '100% puro artesanal', 'Sin conservadores'],
+    timeline: [
+      {
+        title: 'Cosecha y Fermentación en Cajón',
+        dateAndLocation: '15 Oct 2024 · Putla Villa de Guerrero (850 msnm)',
+        color: '#032517'
+      },
+      {
+        title: 'Secado Solar y Tueste en Comal de Barro',
+        dateAndLocation: '20 Oct 2024 · Tueste artesanal en comal con leña de encino',
+        color: '#032517'
+      },
+      {
+        title: 'Molienda Ancestral en Metate y Tablillado',
+        dateAndLocation: '24 Oct 2024 · Molienda en metate caliente con canela criolla',
+        color: '#a73918'
+      }
+    ],
+    pricePerKg: 180.0,
+    hash: '0x9c4f...d81ae309b1f73',
+    variety: 'Cacao Criollo Forastero Fino de Aroma',
+    altitude: '850 msnm (Región Putla-Mixteca)',
+    process: 'Fermentado en Cajón, Tostado en Comal y Molido en Metate',
+    notes: 'Lote de chocolate criollo ancestral elaborado por maestras chocolateras de la Mixteca Oaxaqueña, con canela y almendra sobre metate de piedra volcánica.',
+    nomCompliance: {
+      standard: 'NOM-186-SSA1/SCFI-2013 / Sello Mixteca',
+      humidity: '6.8% (Óptimo para molienda)',
+      humidityCompliant: true,
+      defectPercentage: 0.8,
+      defectClassification: 'Grado Gourmet / Artesanal Ancestral',
+      altitudeMeters: 850,
+      strictAltitude: false,
+      botanicalPurity: '100% Cacao Criollo Nativo libre de OGM',
+      agroecologicalFreePesticides: true,
+      evidencePhotos: {
+        grainGridSampleUrl: 'https://upload.wikimedia.org/wikipedia/commons/e/e8/Chocolate_mayordomo_oaxaca_%28cropped%29.jpg',
+        humidityGaugeUrl: 'https://upload.wikimedia.org/wikipedia/commons/7/76/Cocoa_beans.jpg',
+        foliarHealthUrl: 'https://upload.wikimedia.org/wikipedia/commons/0/01/Cacao-pod-k4636-14.jpg'
+      },
+      stellarTxLedger: 52493110,
+      stellarTxHash: 'a7b8c94298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b999',
+      stellarTimestamp: '2024-10-24T18:15:30Z',
+      immutableSealStatus: 'Sellado Inmutable'
+    }
+  },
+  {
+    id: 'lot-750',
+    code: 'MX-2024-750',
+    title: 'Chapulines Tostados al Comal de Oaxaca',
+    productType: 'Gastronomía Ancestral',
+    imageUrl: 'https://upload.wikimedia.org/wikipedia/commons/d/d1/Chapulines_de_Oaxaca.jpg',
+    imageAlt: 'Chapulines de milpa tostados al comal de barro con ajo y limón',
+    producerName: 'Doña Francisca López Bautista',
+    producerInitials: 'FL',
+    location: 'Tlacolula / Valles Centrales y Mixteca, Oax.',
+    volumeKg: 20,
+    verifiedStatus: 'Calidad Ancestral Aprobada',
+    evaluatorOrg: 'Laboratorio de Calidad Mixteco & Tec Hub',
+    tags: ['Chapulín de milpa', 'Tostado al comal', 'Ajo, chile y limón', '100% Oaxaqueño'],
+    timeline: [
+      {
+        title: 'Recolección en Milpa Tradicional',
+        dateAndLocation: '18 Oct 2024 · Milpa agroecológica sin pesticidas',
+        color: '#032517'
+      },
+      {
+        title: 'Lavado y Purga Tradicional',
+        dateAndLocation: '19 Oct 2024 · Selección manual limpia',
+        color: '#032517'
+      },
+      {
+        title: 'Tueste en Comal de Barro con Leña',
+        dateAndLocation: '21 Oct 2024 · Tueste crujiente con sal marina y ajo',
+        color: '#a73918'
+      }
+    ],
+    pricePerKg: 280.0,
+    hash: '0x7e2a...c418f902b3310',
+    variety: 'Chapulín de Milpa (Sphenarium purpurascens)',
+    altitude: '1,550 msnm',
+    process: 'Recolección Manual, Purga y Tueste al Comal',
+    notes: 'Chapulines de milpa tostados a la leña en comal tradicional de barro. Excelente fuente de proteína limpia y orgullo culinario de Oaxaca.',
+    nomCompliance: {
+      standard: 'Norma Sanitaria Tradicional Oaxaqueña / Sello Raíz',
+      humidity: '3.5%',
+      humidityCompliant: true,
+      defectPercentage: 0.2,
+      defectClassification: 'Grado Gourmet Ancestral / Selección Manual Limpia',
+      altitudeMeters: 1550,
+      strictAltitude: false,
+      botanicalPurity: '100% Silvestre de Milpa libre de Agroquímicos',
+      agroecologicalFreePesticides: true,
+      evidencePhotos: {
+        grainGridSampleUrl: 'https://upload.wikimedia.org/wikipedia/commons/d/d1/Chapulines_de_Oaxaca.jpg',
+        humidityGaugeUrl: 'https://upload.wikimedia.org/wikipedia/commons/e/e8/Chapulines_Oaxaca.jpg',
+        foliarHealthUrl: 'https://upload.wikimedia.org/wikipedia/commons/d/d4/Small_chapulines_basket.JPG'
+      },
+      stellarTxLedger: 52494050,
+      stellarTxHash: 'b8c9d04298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b750',
+      stellarTimestamp: '2024-10-21T14:30:00Z',
+      immutableSealStatus: 'Sellado Inmutable'
+    }
   }
 ];
 

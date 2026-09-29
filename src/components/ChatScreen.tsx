@@ -70,7 +70,7 @@ export const ChatScreen: React.FC<ChatScreenProps> = ({
 
   // Realistic Bot Typing simulation state
   const [isBotTyping, setIsBotTyping] = useState<boolean>(false);
-  const [typingAgent, setTypingAgent] = useState<string>('🤖 Asistente Bot');
+  const [typingAgent, setTypingAgent] = useState<string>('🌱 Guía Raíz');
   const [speakingMsgText, setSpeakingMsgText] = useState<string | null>(null);
 
   const messagesEndRef = useRef<HTMLDivElement>(null);
@@ -110,72 +110,40 @@ export const ChatScreen: React.FC<ChatScreenProps> = ({
     };
   }, []);
 
-  // Messages for the Bot Orchestrator & Cards Flow
+  // Flag to ensure initial view stays at top like WhatsApp, only scrolling when user or bot actually interacts
+  const isInitialMountRef = useRef<boolean>(true);
+  const userInteractedRef = useRef<boolean>(false);
+
+  // Messages for the Bot Orchestrator & Cards Flow - WhatsApp style clean sequential start
   const [assistantMessages, setAssistantMessages] = useState<MessageItem[]>([
     {
       id: 'ast-1',
       sender: 'bot',
-      agentTag: '🤖 Orquestador Raíz',
-      text: '¡Buenos días Don Aurelio! Soy el Asistente Bot Multiagente de Raíz. Todos los flujos de la plataforma están simulados de forma interactiva en este chat.\n\nPuedes escribirme libremente por texto, enviar fotos de tu cultivo, notas de voz o usar las tarjetas interactivas:',
-      time: '09:40 a. m.'
-    },
-    {
-      id: 'ast-2',
-      sender: 'bot',
-      agentTag: '⛓️ Agente Notario Stellar',
-      text: 'Aquí tienes el estado del Dictamen Normativo verificado y anclado en la red Stellar Testnet con hash inmutable:',
-      time: '09:41 a. m.',
-      card: {
-        type: 'dictamen_stellar',
-        title: 'Dictamen Oficial Lote #884',
-        data: {
-          hash: '0x8f3c4e204a9e527a98bc19d44e510f2c814407ab198762f0592'
-        }
-      }
-    },
-    {
-      id: 'ast-3',
-      sender: 'bot',
-      agentTag: '💰 Agente Tesorero',
-      text: 'Y este es el saldo acumulado en contrato de custodia (Escrow) disponible para cobro en Tlaxiaco:',
-      time: '09:41 a. m.',
-      card: {
-        type: 'billetera_pago'
-      }
+      agentTag: '🌱 Compañero Raíz • TecNM Tlaxiaco',
+      text: '¡Buenos días paisano, bienvenido a Raíz!\n\nSoy tu compañero del Instituto Tecnológico de Tlaxiaco. Estoy aquí para acompañarte paso a paso con tus cosechas y artesanías de la Mixteca.\n\n¿En qué te podemos apoyar hoy? Toca una opción o platícame por nota de voz:',
+      time: 'Ahora',
+      options: [
+        { id: 1, title: '🌾 Registrar Cosecha o Artesanía', subtitle: 'Café, textil, miel, palma, etc.', icon: 'add_circle', action: 'registrar_lote' },
+        { id: 2, title: '📸 Evaluar Muestra con Foto', subtitle: 'Revisión de calidad con apoyo del Tec', icon: 'photo_camera', action: 'evaluar_foto' },
+        { id: 3, title: '💰 Consultar Mis Pagos y Saldo', subtitle: 'Billetera comunitaria y retiros', icon: 'payments', action: 'ver_pagos' },
+        { id: 4, title: '📜 Ver Dictamen Oficial Stellar', subtitle: 'Certificado sellado en blockchain', icon: 'verified', action: 'ver_dictamen' }
+      ]
     }
   ]);
 
-  // Messages for Onboarding Registration flow
+  // Messages for Onboarding Registration flow - Progressive questionnaire matching user's real actions
   const [registrationMessages, setRegistrationMessages] = useState<MessageItem[]>([
     {
       id: 'm1',
       sender: 'bot',
-      text: '¡Buenos días paisano! Le damos la bienvenida a Raíz. Para vincular sus cosechas y abrir su catálogo regional, contestaremos tres datos sencillos en este chat.',
-      time: '09:40 a. m.'
-    },
-    {
-      id: 'm2',
-      sender: 'bot',
-      text: '1. Escriba su Nombre Completo (como aparece en su credencial).',
-      time: '09:40 a. m.'
-    },
-    {
-      id: 'm3',
-      sender: 'user',
-      text: 'Aurelio López Bautista',
-      time: '09:41 a. m.',
-      isCheck: true
-    },
-    {
-      id: 'm4',
-      sender: 'bot',
-      text: '2. ¿En qué municipio se encuentra su parcela o centro de trabajo?\nToque una opción de la lista:',
-      time: '09:41 a. m.',
+      agentTag: '📝 Padrón Comunitario',
+      text: '¡Bienvenido paisano al Padrón de Productores de la Mixteca!\n\nPara vincular sus cosechas y activar su Credencial Digital, comenzaremos con una pregunta sencilla:\n\n¿En qué municipio se encuentra su parcela, taller o centro de trabajo?',
+      time: 'Ahora',
       options: [
-        { id: 1, title: 'Tlaxiaco', subtitle: 'Heroica Ciudad de Tlaxiaco', icon: 'chevron_right' },
-        { id: 2, title: 'Huajuapan de León', subtitle: 'Región Mixteca Baja / Centro', icon: 'chevron_right' },
-        { id: 3, title: 'Nochixtlán', subtitle: 'Asunción Nochixtlán', icon: 'chevron_right' },
-        { id: 4, title: 'Otro municipio mixteco', subtitle: 'Escribir nombre por teclado o nota de voz', icon: 'edit' }
+        { id: 1, title: 'Heroica Ciudad de Tlaxiaco', subtitle: 'Cabecera de la Mixteca Alta', icon: 'location_on' },
+        { id: 2, title: 'Huajuapan de León', subtitle: 'Región Mixteca Baja', icon: 'location_on' },
+        { id: 3, title: 'Asunción Nochixtlán', subtitle: 'Entrada a la Mixteca', icon: 'location_on' },
+        { id: 4, title: 'Otro municipio mixteco', subtitle: 'Indicar por voz o teclado', icon: 'edit' }
       ]
     }
   ]);
@@ -192,9 +160,17 @@ export const ChatScreen: React.FC<ChatScreenProps> = ({
     }
   ]);
 
-  // Auto scroll to bottom on new messages or when typing starts
+  // Auto scroll to bottom ONLY when user interacts or new messages are appended after initial mount (WhatsApp behavior)
   useEffect(() => {
-    messagesEndRef.current?.scrollIntoView({ behavior: 'smooth' });
+    if (isInitialMountRef.current) {
+      isInitialMountRef.current = false;
+      // Keep viewport at the top on first load so the user sees the greeting and first question
+      window.scrollTo({ top: 0, behavior: 'instant' });
+      return;
+    }
+    if (userInteractedRef.current || isBotTyping) {
+      messagesEndRef.current?.scrollIntoView({ behavior: 'smooth' });
+    }
   }, [assistantMessages, registrationMessages, supportMessages, isBotTyping]);
 
   // Audio recording simulation timer
@@ -256,6 +232,53 @@ export const ChatScreen: React.FC<ChatScreenProps> = ({
     };
   }, []);
 
+  // Función para garantizar nombres 100% humanos, comunitarios y respetuosos (sin la palabra robótica "Agente" ni "Bot")
+  const humanizeAgentTag = (rawName?: string | null): string => {
+    if (!rawName) return '🌱 Compañero Raíz (TecNM)';
+    const clean = rawName.toLowerCase();
+    if (clean.includes('tesorero') || clean.includes('pago') || clean.includes('billetera')) {
+      return '💰 Tesorería y Fondos Comunitarios';
+    }
+    if (clean.includes('agronomo') || clean.includes('agrónomo')) {
+      return '🌿 Asesoría Agronómica TecNM';
+    }
+    if (clean.includes('notario') || clean.includes('stellar')) {
+      return '⛓️ Certificación Notarial Stellar';
+    }
+    if (clean.includes('logistico') || clean.includes('logístico') || clean.includes('coyote') || clean.includes('flete')) {
+      return '🚚 Transporte y Fletes Comunitarios';
+    }
+    if (clean.includes('comercial') || clean.includes('vitrina')) {
+      return '🛍️ Vitrina y Enlace Comercial';
+    }
+    if (clean.includes('trazabilidad') || clean.includes('pasaporte')) {
+      return '🏷️ Pasaporte y Origen Mixteco';
+    }
+    if (clean.includes('pulque') || clean.includes('tradicional')) {
+      return '🏺 Tradición y Pulque Comunitario';
+    }
+    if (clean.includes('miel') || clean.includes('apicola') || clean.includes('apícola')) {
+      return '🍯 Módulo Apícola Comunitario';
+    }
+    if (clean.includes('grano') || clean.includes('maiz') || clean.includes('maíz')) {
+      return '🌽 Granos Nativos y Maíz Criollo';
+    }
+    if (clean.includes('textil') || clean.includes('regalia') || clean.includes('regalía')) {
+      return '🧵 Textil y Regalías Artesanales';
+    }
+    if (clean.includes('artesanal') || clean.includes('palma')) {
+      return '👒 Creación Artesanal de Palma';
+    }
+    if (clean.includes('multiproducto')) {
+      return '🌾 Catálogo Rural Raíz';
+    }
+    if (clean.includes('orquestador') || clean.includes('bot') || clean.includes('asistente comunitario')) {
+      return '🌱 Compañero Raíz (TecNM)';
+    }
+    // Si contiene la palabra "Agente", la limpiamos amigablemente
+    return rawName.replace(/agente\s*/gi, '').trim() || '🌱 Compañero Raíz (TecNM)';
+  };
+
   // Helper to dispatch simulated Bot responses with realistic typing delay
   const dispatchSimulatedBotReply = (
     agentName: string,
@@ -264,8 +287,9 @@ export const ChatScreen: React.FC<ChatScreenProps> = ({
     options?: { id: number; title: string; subtitle: string; icon?: string; action?: string }[],
     delayMs: number = 1000
   ) => {
+    const friendlyName = humanizeAgentTag(agentName);
     setIsBotTyping(true);
-    setTypingAgent(agentName);
+    setTypingAgent(friendlyName);
 
     setTimeout(() => {
       setIsBotTyping(false);
@@ -273,7 +297,7 @@ export const ChatScreen: React.FC<ChatScreenProps> = ({
       const botMsg: MessageItem = {
         id: newId,
         sender: 'bot',
-        agentTag: agentName,
+        agentTag: friendlyName,
         text: replyText,
         time: 'Ahora',
         card: cardData,
@@ -308,7 +332,7 @@ export const ChatScreen: React.FC<ChatScreenProps> = ({
     ) {
       const reply =
         '🎤 Instrucción de voz ejecutada: Abriendo Billetera y Saldo Comunitario ($38,250.00 MXN en custodia Soroban)...';
-      dispatchSimulatedBotReply('💰 Agente Tesorero', reply, { type: 'billetera_pago' }, undefined, 300);
+      dispatchSimulatedBotReply('💰 Tesorería y Fondos Comunitarios', reply, { type: 'billetera_pago' }, undefined, 300);
       if (onOpenPaymentsModal) setTimeout(() => onOpenPaymentsModal(), 650);
       return true;
     }
@@ -557,9 +581,9 @@ export const ChatScreen: React.FC<ChatScreenProps> = ({
       clean.includes('entregar cafe')
     ) {
       const reply =
-        '¡Con mucho gusto, paisano! En Raíz registrar su cosecha o producto es muy fácil y rápido, sin papeleos ni intermediarios ("coyotes").\n\nPuede registrar Pulque tradicional, Café pergamino, Miel pura, Granos criollos o Artesanías.\n\nToque abajo para elegir el producto que desea registrar:';
+        '¡Con mucho gusto, paisano! En Raíz registrar tu cosecha o artesanía es muy fácil y rápido, sin trámites complicados ni intermediarios.\n\nPuedes registrar Pulque tradicional, Café pergamino, Miel pura, Granos criollos o Artesanías.\n\nToca abajo para elegir lo que deseas registrar:';
       dispatchSimulatedBotReply(
-        '🌾 Asistente de Registro Rural',
+        '🌱 TecNM Tlaxiaco • Guía de Campo',
         reply,
         { type: 'lote_registro' },
         [
@@ -670,7 +694,7 @@ export const ChatScreen: React.FC<ChatScreenProps> = ({
     ) {
       const reply =
         '🎤 Instrucción de voz ejecutada: Abriendo el Diagnóstico y Calibrador Físico de Micrófono...';
-      dispatchSimulatedBotReply('🤖 Orquestador Raíz', reply, undefined, undefined, 300);
+      dispatchSimulatedBotReply('🌱 Compañero Raíz (TecNM)', reply, undefined, undefined, 300);
       if (onOpenMicDiagnosticModal) setTimeout(() => onOpenMicDiagnosticModal(), 650);
       return true;
     }
@@ -682,7 +706,7 @@ export const ChatScreen: React.FC<ChatScreenProps> = ({
       clean.includes('ir al inicio')
     ) {
       const reply = '🎤 Instrucción de voz ejecutada: Regresando a la pantalla de Menú Principal...';
-      dispatchSimulatedBotReply('🤖 Orquestador Raíz', reply, undefined, undefined, 300);
+      dispatchSimulatedBotReply('🌱 Compañero Raíz (TecNM)', reply, undefined, undefined, 300);
       setTimeout(() => onNavigateScreen('menu_principal'), 700);
       return true;
     }
@@ -1017,7 +1041,7 @@ export const ChatScreen: React.FC<ChatScreenProps> = ({
 
       // 2. Otherwise, analyze the voice query with Gemini AI!
       setIsBotTyping(true);
-      setTypingAgent('🤖 Asistente Raíz (Analizando voz...)');
+      setTypingAgent('🌱 Compañero Raíz (Escuchando tu voz...)');
 
       try {
         const res = await fetch('/api/chat', {
@@ -1039,8 +1063,8 @@ export const ChatScreen: React.FC<ChatScreenProps> = ({
           const botMsg: MessageItem = {
             id: newBotId,
             sender: 'bot',
-            agentTag: data.agent || '🤖 Asistente Raíz',
-            text: data.reply || `Entendido: "${spokenText}". Tu mensaje fue procesado correctamente.`,
+            agentTag: data.agent || '🌱 Compañero Raíz (TecNM)',
+            text: data.reply || `Entendido, paisano: "${spokenText}". Tu mensaje fue procesado correctamente.`,
             time: 'Ahora',
             card: data.cardType ? { type: data.cardType } : undefined,
           };
@@ -1054,8 +1078,8 @@ export const ChatScreen: React.FC<ChatScreenProps> = ({
       // Intelligent fallback if Gemini response fails
       setIsBotTyping(false);
       dispatchSimulatedBotReply(
-        '☕ Asistente Raíz',
-        `Recibí tu nota de voz: "${spokenText}". Los técnicos de acopio y trazabilidad comunitaria en Tlaxiaco han registrado tu consulta.`,
+        '🌱 Compañero Raíz (TecNM)',
+        `Recibí tu nota de voz: "${spokenText}". Los compañeros del centro de acopio y apoyo técnico en Tlaxiaco tienen registrada tu consulta.`,
         undefined,
         undefined,
         700
@@ -1116,7 +1140,7 @@ export const ChatScreen: React.FC<ChatScreenProps> = ({
 
     setAssistantMessages((prev) => [...prev, userMsg]);
 
-    let agentTag = '🤖 Orquestador Bot';
+    let agentTag = '🌱 Compañero Raíz (TecNM)';
     let botText = '';
 
     if (type === 'dictamen_stellar') {
@@ -1124,7 +1148,7 @@ export const ChatScreen: React.FC<ChatScreenProps> = ({
       botText =
         'He verificado en vivo la firma en Stellar Testnet Ledger #52,491,802. El dictamen cumple al 100% con la Norma Agroecológica Regional:';
     } else if (type === 'billetera_pago') {
-      agentTag = '💰 Agente Tesorero';
+      agentTag = '💰 Tesorería y Fondos Comunitarios';
       botText =
         'Billetera Comunitaria sincronizada con contrato inteligente Soroban. Tienes saldo disponible por liquidación de café:';
     } else if (type === 'lote_registro') {
@@ -1162,6 +1186,8 @@ export const ChatScreen: React.FC<ChatScreenProps> = ({
     const text = (customText || inputMessage).trim();
     if (!text) return;
 
+    userInteractedRef.current = true;
+
     const userMsg: MessageItem = {
       id: `usr-${Date.now()}`,
       sender: 'user',
@@ -1187,10 +1213,10 @@ export const ChatScreen: React.FC<ChatScreenProps> = ({
 
     const defaultAgentLabel =
       activeChannel === 'soporte'
-        ? (targetProducer ? `💬 ${targetProducer}` : '💬 Asesoría Técnica Comunitaria')
+        ? (targetProducer ? `💬 ${targetProducer}` : '💬 Asesoría Técnica del Tec')
         : activeChannel === 'registro'
         ? '📝 Padrón Comunitario'
-        : '🤖 Asistente Comunitario Raíz';
+        : '🌱 Compañero Raíz (TecNM)';
 
     setIsBotTyping(true);
     setTypingAgent(defaultAgentLabel);
@@ -1223,7 +1249,7 @@ export const ChatScreen: React.FC<ChatScreenProps> = ({
         const botMsg: MessageItem = {
           id: newBotId,
           sender: 'bot',
-          agentTag: data.agent || defaultAgentLabel,
+          agentTag: humanizeAgentTag(data.agent) || defaultAgentLabel,
           text: data.reply || 'Consulta atendida por el sistema Raíz.',
           time: 'Ahora',
           card: data.cardType ? { type: data.cardType as BotCardType } : undefined,
@@ -1321,8 +1347,8 @@ export const ChatScreen: React.FC<ChatScreenProps> = ({
       lower.includes('ayuda')
     ) {
       dispatchSimulatedBotReply(
-        '🤖 Asistente Comunitario Raíz',
-        '¡Con mucho gusto, paisano! La plataforma Raíz fue creada junto al Tec de Tlaxiaco para que las familias del campo reciban un pago justo por su cosecha y no dependan de intermediarios ("coyotes").\n\nAquí puede realizar 4 cosas muy sencillas con un solo toque:\n\n1. 📸 Evaluar su cosecha con foto: Le toma foto a sus granos de café o producto y la IA revisa la humedad y calidad en 3 segundos sin costo.\n2. 💰 Ver y retirar su dinero: El pago de sus cosechas se guarda seguro en su billetera comunitaria ($85/kg o más) y puede cobrarlo en efectivo en Tlaxiaco.\n3. 🏷️ Pasaporte y Sello Oficial: Su lote recibe certificación con sello digital para venderlo a cafeterías a precio alto.\n4. 🚚 Flete y transporte en parcela: Las camionetas de la región recogen los sacos en su comunidad con tarifa fija acordada.',
+        '🌱 Compañero Raíz (TecNM)',
+        '¡Con mucho gusto, paisano! La plataforma Raíz fue creada junto al Tec de Tlaxiaco para que las familias de la Mixteca reciban un trato y pago justo por su trabajo sin intermediarios ni abusos.\n\nAquí puedes realizar 4 tareas muy sencillas con un solo toque:\n\n1. 📸 Evaluar cosecha o artesanía con foto: Revisión de calidad y humedad en 3 segundos con apoyo técnico del Tec.\n2. 💰 Ver y cobrar tus pagos: El dinero de tus ventas se resguarda en tu billetera y puedes cobrarlo en efectivo en Tlaxiaco.\n3. 🏷️ Pasaporte y Sello Digital: Tu trabajo recibe un sello oficial verificado para vender a mejor precio a clientes directos.\n4. 🚚 Transporte seguro: Rutas acordadas con transportistas de la región para mover tu producto desde tu comunidad.',
         undefined,
         [
           { id: 1, title: '📦 Registrar Cosecha o Producto', subtitle: 'Café, miel o artesanías', icon: 'add_box', action: 'registrar_cafe' },
@@ -1363,7 +1389,7 @@ export const ChatScreen: React.FC<ChatScreenProps> = ({
       lower.includes('usdc')
     ) {
       dispatchSimulatedBotReply(
-        '💰 Agente Tesorero',
+        '💰 Tesorería y Fondos Comunitarios',
         'Tu saldo acumulado por 450 kg de café pergamino lavado es de $38,250.00 MXN en contrato de custodia (Escrow):\n\nPuedes solicitar el retiro en efectivo en Tlaxiaco o directamente en parcela con el transportista aliado:',
         { type: 'billetera_pago' },
         [
@@ -1450,13 +1476,13 @@ export const ChatScreen: React.FC<ChatScreenProps> = ({
       lower.includes('saludos')
     ) {
       dispatchSimulatedBotReply(
-        '🤖 Asistente Comunitario Raíz',
-        '¡Hola paisano! Un gusto saludarle. Soy el asistente comunitario de Raíz en Tlaxiaco. ¿Qué desea realizar hoy?',
+        '🌱 Compañero Raíz (TecNM)',
+        '¡Hola paisano! Un gusto saludarte. Soy tu compañero del Tec de Tlaxiaco en la plataforma Raíz. ¿En qué te podemos apoyar hoy?',
         undefined,
         [
-          { id: 1, title: '📸 Evaluar Cosecha con Foto', subtitle: 'Revisar muestra con IA', icon: 'photo_camera', action: 'evaluar_foto' },
-          { id: 2, title: '💰 Ver Mis Pagos y Saldo', subtitle: 'Billetera con $38,250 MXN', icon: 'payments', action: 'ver_pagos' },
-          { id: 3, title: '❓ ¿Qué más puede hacer esta app?', subtitle: 'Explicación sencilla', icon: 'help', action: 'consulta' }
+          { id: 1, title: '📸 Evaluar Cosecha con Foto', subtitle: 'Revisar muestra con apoyo del Tec', icon: 'photo_camera', action: 'evaluar_foto' },
+          { id: 2, title: '💰 Ver Mis Pagos y Saldo', subtitle: 'Billetera comunitaria', icon: 'payments', action: 'ver_pagos' },
+          { id: 3, title: '❓ ¿Qué más puedo hacer aquí?', subtitle: 'Explicación sencilla paso a paso', icon: 'help', action: 'consulta' }
         ],
         700
       );
@@ -1486,6 +1512,7 @@ export const ChatScreen: React.FC<ChatScreenProps> = ({
   };
 
   const handleSelectOption = (optionTitle: string, action?: string) => {
+    userInteractedRef.current = true;
     // 1. Direct system actions
     if (
       action === 'evaluar_foto' ||
@@ -1572,7 +1599,14 @@ export const ChatScreen: React.FC<ChatScreenProps> = ({
       };
       setRegistrationMessages((prev) => [...prev, userMsg]);
 
-      const isMunicipality = ['Tlaxiaco', 'Huajuapan de León', 'Nochixtlán', 'Otro municipio mixteco'].includes(optionTitle);
+      const isMunicipality = [
+        'Heroica Ciudad de Tlaxiaco',
+        'Tlaxiaco',
+        'Huajuapan de León',
+        'Asunción Nochixtlán',
+        'Nochixtlán',
+        'Otro municipio mixteco'
+      ].some((m) => optionTitle.includes(m) || m.includes(optionTitle));
 
       setIsBotTyping(true);
       setTypingAgent('📝 Padrón Comunitario');
@@ -1584,16 +1618,16 @@ export const ChatScreen: React.FC<ChatScreenProps> = ({
             id: `bot-mun-${Date.now()}`,
             sender: 'bot',
             agentTag: '📝 Padrón Comunitario',
-            text: `Municipio registrado: ${optionTitle}.\n\n3. ¿A qué cooperativa, unión de ejidos o grupo pertenece? Seleccione una opción o escriba la suya:`,
+            text: `Municipio registrado: ${optionTitle}.\n\n2. ¿A qué cooperativa, unión de ejidos o grupo pertenece? Seleccione una opción o escriba la suya:`,
             time: 'Ahora',
             options: [
-              { id: 1, title: 'Cooperativa Café de las Nubes', subtitle: 'Tlaxiaco / San Juan Ñumí', icon: 'chevron_right' },
-              { id: 2, title: 'Unión Ejidal de la Mixteca Alta', subtitle: 'Red de Acopio Comunitario', icon: 'chevron_right' },
-              { id: 3, title: 'Productor Comunitario Independiente', subtitle: 'Finca familiar tradicional', icon: 'chevron_right' }
+              { id: 1, title: 'Cooperativa Café de las Nubes', subtitle: 'Tlaxiaco / San Juan Ñumí', icon: 'groups' },
+              { id: 2, title: 'Unión Ejidal de la Mixteca Alta', subtitle: 'Red de Acopio Comunitario', icon: 'groups' },
+              { id: 3, title: 'Productor Comunitario Independiente', subtitle: 'Taller o parcela familiar', icon: 'person' }
             ]
           };
           setRegistrationMessages((prev) => [...prev, botFollowUp]);
-        }, 900);
+        }, 800);
       } else {
         setTimeout(() => {
           setIsBotTyping(false);
@@ -1601,14 +1635,14 @@ export const ChatScreen: React.FC<ChatScreenProps> = ({
             id: `bot-done-${Date.now()}`,
             sender: 'bot',
             agentTag: '📝 Padrón Comunitario',
-            text: `¡Felicidades Don Aurelio! Su registro como Productor Verificado ha concluido con éxito.\nSu Credencial Digital ID #HUB-MIX-2026 está activa en el sistema.`,
+            text: `¡Felicidades paisano! Su registro en el Padrón Regional ha concluido con éxito.\nSu Credencial Digital ID #HUB-MIX-2026 está activa en el sistema.`,
             time: 'Ahora',
             card: {
               type: 'lote_registro'
             }
           };
           setRegistrationMessages((prev) => [...prev, botSuccess]);
-        }, 900);
+        }, 800);
       }
       return;
     }
@@ -1625,9 +1659,9 @@ export const ChatScreen: React.FC<ChatScreenProps> = ({
       : supportMessages;
 
   return (
-    <main className="w-full max-w-md mx-auto px-4 py-3 flex-1 flex flex-col justify-between pb-40">
-      {/* Channel Switcher Tabs */}
-      <div className="flex items-center gap-1.5 bg-[#ebe8e2] p-1 rounded-full mb-2 shadow-2xs">
+    <main className="w-full max-w-md mx-auto px-4 py-3 flex-1 flex flex-col justify-between pb-28">
+      {/* Channel Switcher Tabs (Limpio y elegante estilo WhatsApp) */}
+      <div className="flex items-center gap-1.5 bg-[#ebe8e2] p-1 rounded-full mb-3 shadow-2xs">
         <button
           type="button"
           onClick={() => setActiveChannel('asistente')}
@@ -1637,7 +1671,7 @@ export const ChatScreen: React.FC<ChatScreenProps> = ({
               : 'text-[#424843] hover:text-[#032517]'
           }`}
         >
-          🤖 Bot &amp; Cards
+          🌱 Guía Raíz
         </button>
         <button
           type="button"
@@ -1648,7 +1682,7 @@ export const ChatScreen: React.FC<ChatScreenProps> = ({
               : 'text-[#424843] hover:text-[#032517]'
           }`}
         >
-          📝 Registro
+          📝 Mi Padrón
         </button>
         <button
           type="button"
@@ -1659,41 +1693,12 @@ export const ChatScreen: React.FC<ChatScreenProps> = ({
               : 'text-[#424843] hover:text-[#032517]'
           }`}
         >
-          {targetProducer ? `💬 Productor` : '💬 Ayuda'}
+          {targetProducer ? `💬 Productor` : '💬 Preguntar al Tec'}
         </button>
       </div>
 
-      {/* Interactive Simulation Status Bar */}
-      <div className="bg-[#f0eee8] rounded-xl px-3 py-1.5 mb-2 border border-[#c1c8c2]/40 shadow-2xs flex items-center justify-between text-[11px] text-[#424843]">
-        <span className="flex items-center gap-1.5 font-bold text-[#032517]">
-          <span className="w-2 h-2 rounded-full bg-emerald-500 animate-pulse" />
-          <span>IA Gemini • Instrucciones &amp; Análisis</span>
-        </span>
-        <div className="flex items-center gap-1.5">
-          <button
-            type="button"
-            onClick={() => setShowKnowledgeBaseModal(true)}
-            className="font-bold text-[10.5px] bg-white hover:bg-[#ebe8e2] text-[#424843] px-2 py-0.5 rounded-full border border-[#c1c8c2]/50 transition-colors flex items-center gap-1 cursor-pointer"
-            title="Ver base de conocimiento"
-          >
-            <span>📖 Dossier</span>
-          </button>
-          {onOpenMicDiagnosticModal && (
-            <button
-              type="button"
-              onClick={onOpenMicDiagnosticModal}
-              className="font-bold text-[10.5px] bg-[#032517] hover:bg-[#1b3b2b] text-emerald-200 px-2 py-0.5 rounded-full border border-emerald-500/40 transition-colors flex items-center gap-1 cursor-pointer"
-              title="Abrir calibrador y prueba física de micrófono"
-            >
-              <span className="material-symbols-outlined text-[13px]">mic</span>
-              <span>Probar Mic</span>
-            </button>
-          )}
-        </div>
-      </div>
-
       {/* Chat Messages Flow */}
-      <div className="flex-1 flex flex-col gap-3 justify-end">
+      <div className="flex-1 flex flex-col gap-3 justify-start">
         {currentMessages.map((msg) => {
           if (msg.sender === 'user') {
             return (
@@ -1769,32 +1774,36 @@ export const ChatScreen: React.FC<ChatScreenProps> = ({
 
           // Bot message
           return (
-            <div key={msg.id} className="flex flex-col items-start w-full max-w-[96%] gap-1.5">
-              {msg.agentTag && (
-                <span className="text-[11px] font-bold text-[#032517] bg-[#f0eee8] px-2 py-0.5 rounded-md border border-[#c1c8c2]/30">
-                  {msg.agentTag}
-                </span>
-              )}
-
-              <div className="bg-white rounded-2xl rounded-tl-xs p-3.5 shadow-xs border border-[#c1c8c2]/30 w-full">
-                <p className="text-[14px] text-[#1c1c18] whitespace-pre-line leading-relaxed">
-                  {msg.text}
-                </p>
-                <div className="flex items-center justify-between mt-2 pt-1.5 border-t border-[#c1c8c2]/20">
-                  <button
-                    type="button"
-                    onClick={() => handleSpeakBotMessage(msg.text)}
-                    className="inline-flex items-center gap-1.5 text-[11px] font-bold text-[#032517] bg-[#f0eee8] hover:bg-[#e4e1d9] px-2.5 py-1 rounded-full border border-[#c1c8c2]/50 transition-colors cursor-pointer active:scale-95"
-                    title="Escuchar mensaje en voz alta (Lectura para adultos mayores)"
-                  >
-                    <span className="material-symbols-outlined text-[15px] text-emerald-800">
-                      {speakingMsgText === msg.text ? 'volume_off' : 'volume_up'}
-                    </span>
-                    <span>{speakingMsgText === msg.text ? 'Detener voz' : '🔊 Escuchar'}</span>
-                  </button>
-                  <span className="text-[10px] text-[#727973]">{msg.time}</span>
-                </div>
+            <div key={msg.id} className="flex items-start gap-2.5 w-full max-w-[96%]">
+              <div className="w-8 h-8 rounded-full bg-[#032517] flex items-center justify-center text-white shrink-0 shadow-xs mt-0.5">
+                <span className="material-symbols-outlined text-[17px]">school</span>
               </div>
+
+              <div className="flex-1 flex flex-col gap-1.5 min-w-0">
+                <div className="bg-white rounded-2xl rounded-tl-xs p-3.5 shadow-xs border border-[#c1c8c2]/30 w-full">
+                  <div className="flex items-center justify-between gap-2 mb-1.5 pb-1 border-b border-[#c1c8c2]/20">
+                    <span className="text-[12px] font-bold text-[#032517] truncate">
+                      {humanizeAgentTag(msg.agentTag)}
+                    </span>
+                    <span className="text-[10px] text-[#727973] shrink-0">{msg.time}</span>
+                  </div>
+                  <p className="text-[14px] text-[#1c1c18] whitespace-pre-line leading-relaxed">
+                    {msg.text}
+                  </p>
+                  <div className="flex items-center justify-between mt-2 pt-1.5 border-t border-[#c1c8c2]/20">
+                    <button
+                      type="button"
+                      onClick={() => handleSpeakBotMessage(msg.text)}
+                      className="inline-flex items-center gap-1.5 text-[11px] font-bold text-[#032517] bg-[#f0eee8] hover:bg-[#e4e1d9] px-2.5 py-1 rounded-full border border-[#c1c8c2]/50 transition-colors cursor-pointer active:scale-95"
+                      title="Escuchar mensaje en voz alta (Lectura para adultos mayores)"
+                    >
+                      <span className="material-symbols-outlined text-[15px] text-emerald-800">
+                        {speakingMsgText === msg.text ? 'volume_off' : 'volume_up'}
+                      </span>
+                      <span>{speakingMsgText === msg.text ? 'Detener voz' : '🔊 Escuchar'}</span>
+                    </button>
+                  </div>
+                </div>
 
               {/* RENDER DYNAMIC BOT CARD (IF ATTACHED) */}
               {msg.card && (
@@ -1841,6 +1850,7 @@ export const ChatScreen: React.FC<ChatScreenProps> = ({
                   ))}
                 </div>
               )}
+              </div>
             </div>
           );
         })}
@@ -2252,84 +2262,67 @@ export const ChatScreen: React.FC<ChatScreenProps> = ({
                 <span className="text-[16px]">🗺️</span>
                 <span>Mapa Parcelas</span>
               </button>
+              <button
+                type="button"
+                onClick={() => {
+                  setShowCardPicker(false);
+                  handleInsertSampleMixtecoAudio();
+                }}
+                className="p-2 rounded-xl bg-stone-50 hover:bg-stone-100 text-stone-900 font-bold text-left border border-stone-200 flex items-center gap-2 transition-colors cursor-pointer"
+              >
+                <span className="text-[16px]">🎙️</span>
+                <span>Audio Mixteco</span>
+              </button>
+              {onOpenMicDiagnosticModal && (
+                <button
+                  type="button"
+                  onClick={() => {
+                    setShowCardPicker(false);
+                    onOpenMicDiagnosticModal();
+                  }}
+                  className="p-2 rounded-xl bg-emerald-50 hover:bg-emerald-100 text-emerald-950 font-bold text-left border border-emerald-200 flex items-center gap-2 transition-colors cursor-pointer"
+                >
+                  <span className="text-[16px]">🎤</span>
+                  <span>Calibrar Mic</span>
+                </button>
+              )}
             </div>
           </div>
         )}
 
-        {/* Clean, High-Contrast Quick Action Bar (Designed for Elderly Adults - Zero Friction) */}
-        <div className="flex items-center gap-1.5 overflow-x-auto no-scrollbar mb-2 pb-0.5 text-[12px]">
-          <button
-            type="button"
-            onClick={() => handleSelectOption('Registrar Café Pergamino', 'registrar_cafe')}
-            className="shrink-0 bg-[#032517] hover:bg-[#1b3b2b] text-white font-bold px-3 py-1.5 rounded-full shadow-2xs transition-all active:scale-95 flex items-center gap-1.5 cursor-pointer"
-          >
-            <span>☕ Registrar Cosecha</span>
-          </button>
-          <button
-            type="button"
-            onClick={() => setShowCameraModal(true)}
-            className="shrink-0 bg-emerald-100 hover:bg-emerald-200 text-emerald-950 font-bold px-3 py-1.5 rounded-full border border-emerald-300 shadow-2xs transition-all active:scale-95 flex items-center gap-1.5 cursor-pointer"
-          >
-            <span className="material-symbols-outlined text-[16px]">photo_camera</span>
-            <span>Evaluar con Foto</span>
-          </button>
-          <button
-            type="button"
-            onClick={() => onOpenPaymentsModal?.()}
-            className="shrink-0 bg-amber-100 hover:bg-amber-200 text-amber-950 font-bold px-3 py-1.5 rounded-full border border-amber-300 shadow-2xs transition-all active:scale-95 flex items-center gap-1.5 cursor-pointer"
-          >
-            <span>💰 Mi Saldo ($38,250)</span>
-          </button>
-          <button
-            type="button"
-            onClick={handleInsertSampleMixtecoAudio}
-            className="shrink-0 bg-stone-100 hover:bg-stone-200 text-stone-900 font-semibold px-3 py-1.5 rounded-full border border-stone-300 shadow-2xs transition-all active:scale-95 flex items-center gap-1 cursor-pointer"
-          >
-            <span>🎙️ Audio Mixteco</span>
-          </button>
-          <button
-            type="button"
-            onClick={() => setShowCardPicker(!showCardPicker)}
-            className="shrink-0 bg-white hover:bg-[#f0eee8] text-[#032517] font-semibold px-2.5 py-1.5 rounded-full border border-[#c1c8c2]/50 shadow-2xs transition-all active:scale-95 flex items-center gap-1 cursor-pointer text-[11px]"
-          >
-            <span className="material-symbols-outlined text-[15px]">widgets</span>
-            <span>Más Módulos</span>
-          </button>
-        </div>
-
-        {/* Text, Photo and Voice Input Form */}
+        {/* Text, Photo and Voice Input Form - Clean WhatsApp Style Dock */}
         <form
           onSubmit={handleSendMessage}
-          className="bg-white rounded-full p-1 pl-2.5 pr-1 flex items-center justify-between shadow-lg border border-[#c1c8c2]/40"
+          className="bg-white rounded-full p-1 pl-2 pr-1 flex items-center justify-between shadow-lg border border-[#c1c8c2]/50"
         >
-          {/* Card Invoker Quick Icon */}
+          {/* Card Invoker Quick Icon (+) */}
           <button
             type="button"
             onClick={() => setShowCardPicker(!showCardPicker)}
-            title="Desplegar tarjeta de módulo"
+            title="Abrir menú de opciones y módulos"
             className="w-8 h-8 rounded-full flex items-center justify-center text-[#032517] hover:bg-[#f0eee8] transition-colors cursor-pointer shrink-0"
           >
-            <span className="material-symbols-outlined text-[20px]">add_circle</span>
+            <span className="material-symbols-outlined text-[22px]">add</span>
           </button>
 
           {/* Photo upload camera button */}
           <button
             type="button"
             onClick={() => setShowCameraModal(true)}
-            title="Abrir cámara o subir foto de cultivo"
+            title="Tomar foto de cultivo o muestra"
             className="w-8 h-8 rounded-full flex items-center justify-center text-[#424843] hover:text-[#032517] hover:bg-[#f0eee8] transition-colors cursor-pointer shrink-0"
           >
-            <span className="material-symbols-outlined text-[19px]">photo_camera</span>
+            <span className="material-symbols-outlined text-[20px]">photo_camera</span>
           </button>
 
           <input
             className="flex-1 bg-transparent border-0 focus:ring-0 text-[14px] text-[#1c1c18] placeholder:text-[#424843]/60 px-2 py-1 outline-none"
             placeholder={
               activeChannel === 'asistente'
-                ? 'Escriba su mensaje, registre café o use el micrófono...'
+                ? 'Escribe tu mensaje o usa el micrófono...'
                 : activeChannel === 'registro'
-                ? 'Escriba su respuesta o toque una opción...'
-                : 'Escriba un mensaje al productor...'
+                ? 'Escribe tu respuesta o elige una opción...'
+                : 'Escribe un mensaje al productor...'
             }
             type="text"
             value={inputMessage}
@@ -2349,23 +2342,25 @@ export const ChatScreen: React.FC<ChatScreenProps> = ({
               }}
               aria-label="Mensaje de voz"
               title={isRecording ? "Detener y enviar consulta de voz" : "Grabar consulta de voz con micrófono"}
-              className={`w-8 h-8 rounded-full flex items-center justify-center transition-all cursor-pointer shrink-0 ${
-                isRecording ? 'bg-red-600 text-white animate-pulse' : 'text-[#424843] hover:bg-[#f0eee8]'
+              className={`w-9 h-9 rounded-full flex items-center justify-center transition-all cursor-pointer shrink-0 ${
+                isRecording ? 'bg-red-600 text-white animate-pulse' : 'text-[#032517] hover:bg-[#f0eee8]'
               }`}
             >
-              <span className="material-symbols-outlined text-[19px]">
+              <span className="material-symbols-outlined text-[20px]">
                 {isRecording ? 'stop' : 'mic'}
               </span>
             </button>
 
             {/* Send text button */}
-            <button
-              aria-label="Enviar mensaje"
-              className="w-9 h-9 rounded-full bg-[#a73918] hover:bg-[#6c1900] text-white flex items-center justify-center shadow-sm active:scale-95 transition-all cursor-pointer shrink-0"
-              type="submit"
-            >
-              <span className="material-symbols-outlined text-[17px]">send</span>
-            </button>
+            {inputMessage.trim().length > 0 && (
+              <button
+                aria-label="Enviar mensaje"
+                className="w-9 h-9 rounded-full bg-[#a73918] hover:bg-[#6c1900] text-white flex items-center justify-center shadow-sm active:scale-95 transition-all cursor-pointer shrink-0"
+                type="submit"
+              >
+                <span className="material-symbols-outlined text-[17px]">send</span>
+              </button>
+            )}
           </div>
         </form>
 

@@ -433,7 +433,7 @@ export const BotCardView: React.FC<BotCardViewProps> = ({
                 Logística Rural Inclusiva • Contrato Soroban
               </p>
               <h4 className="text-[15px] font-bold">
-                {card.title || 'Agente Logístico Comunitario (Ex-Coyote)'}
+                {card.title || 'Transporte Comunitario y Cajero Móvil'}
               </h4>
             </div>
           </div>
@@ -476,7 +476,7 @@ export const BotCardView: React.FC<BotCardViewProps> = ({
         <div className="flex gap-2">
           <button
             type="button"
-            onClick={() => onSendChatMessage?.('Confirmar asignación de flete y recolección de 15 sacos con el Agente Logístico en Yucuhiti')}
+            onClick={() => onSendChatMessage?.('Confirmar asignación de flete y recolección de 15 sacos con el transportista en Yucuhiti')}
             className="flex-1 py-2 px-3 rounded-xl bg-cyan-600 hover:bg-cyan-500 text-white text-[12px] font-bold transition-all active:scale-95 cursor-pointer shadow"
           >
             Aceptar Ruta de Carga
@@ -563,13 +563,13 @@ export const BotCardView: React.FC<BotCardViewProps> = ({
       <div className="flex items-center justify-between border-b border-white/15 pb-2">
         <div className="flex items-center gap-2">
           <span className="w-8 h-8 rounded-xl bg-white/15 flex items-center justify-center text-[16px]">
-            🤖
+            🌱
           </span>
           <div>
             <p className="text-[11px] font-extrabold uppercase tracking-wide text-emerald-300">
-              Orquestador Multiagente
+              Acompañamiento TecNM
             </p>
-            <h4 className="text-[14px] font-bold">4 Agentes Especializados Activos</h4>
+            <h4 className="text-[14px] font-bold">4 Módulos de Apoyo Comunitario</h4>
           </div>
         </div>
         <span className="text-[10px] bg-emerald-500/20 text-emerald-300 px-2 py-0.5 rounded-full border border-emerald-500/30">
@@ -580,34 +580,34 @@ export const BotCardView: React.FC<BotCardViewProps> = ({
       <div className="grid grid-cols-2 gap-2 text-[12px]">
         <button
           type="button"
-          onClick={() => onSendChatMessage?.('¿Cuál es el dictamen del Agente Agrónomo sobre la cosecha?')}
+          onClick={() => onSendChatMessage?.('¿Cuál es la asesoría sobre la calidad de la cosecha?')}
           className="p-2.5 rounded-xl bg-white/10 hover:bg-white/15 text-left border border-white/10 transition-colors cursor-pointer"
         >
-          <p className="font-bold text-emerald-300">🌿 Agente Agrónomo</p>
+          <p className="font-bold text-emerald-300">🌿 Asesoría Agronómica</p>
           <p className="text-[11px] text-white/80 mt-0.5">Control de humedad y broca</p>
         </button>
         <button
           type="button"
-          onClick={() => onSendChatMessage?.('Solicitar comprobante al Agente Notario Stellar')}
+          onClick={() => onSendChatMessage?.('Solicitar comprobante de certificación notarial Stellar')}
           className="p-2.5 rounded-xl bg-white/10 hover:bg-white/15 text-left border border-white/10 transition-colors cursor-pointer"
         >
-          <p className="font-bold text-emerald-300">⛓️ Agente Notario</p>
+          <p className="font-bold text-emerald-300">⛓️ Certificación Notarial</p>
           <p className="text-[11px] text-white/80 mt-0.5">Notarización en blockchain</p>
         </button>
         <button
           type="button"
-          onClick={() => onSendChatMessage?.('Consultar saldo con el Agente Tesorero')}
+          onClick={() => onSendChatMessage?.('Consultar saldo con Tesorería y Fondos Comunitarios')}
           className="p-2.5 rounded-xl bg-white/10 hover:bg-white/15 text-left border border-white/10 transition-colors cursor-pointer"
         >
-          <p className="font-bold text-emerald-300">💰 Agente Tesorero</p>
+          <p className="font-bold text-emerald-300">💰 Tesorería y Pagos</p>
           <p className="text-[11px] text-white/80 mt-0.5">Contratos Escrow y pagos</p>
         </button>
         <button
           type="button"
-          onClick={() => onSendChatMessage?.('Ver ofertas del Agente Comercial en la vitrina')}
+          onClick={() => onSendChatMessage?.('Ver ofertas en la Vitrina Comunitaria')}
           className="p-2.5 rounded-xl bg-white/10 hover:bg-white/15 text-left border border-white/10 transition-colors cursor-pointer"
         >
-          <p className="font-bold text-emerald-300">📦 Agente Comercial</p>
+          <p className="font-bold text-emerald-300">🛍️ Enlace Comercial</p>
           <p className="text-[11px] text-white/80 mt-0.5">Fletes y pedidos mayoreo</p>
         </button>
       </div>

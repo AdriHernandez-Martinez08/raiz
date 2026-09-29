@@ -33,6 +33,25 @@ export interface LotTimelineEvent {
   color: string;
 }
 
+export interface ProcessStage {
+  id?: string;
+  name: string;
+  timestamp?: string;
+  notes?: string;
+  completed?: boolean;
+  category?: string;
+  metricValue?: string | number;
+  [key: string]: any;
+}
+
+export interface DynamicSpec {
+  id?: string;
+  key?: string;
+  label: string;
+  value: string;
+  [key: string]: any;
+}
+
 export interface DigitalPassportLot {
   id: string;
   code: string;
@@ -54,6 +73,11 @@ export interface DigitalPassportLot {
   altitude?: string;
   process?: string;
   notes?: string;
+  producer?: string;
+  community?: string;
+  processStages?: ProcessStage[];
+  customSpecs?: DynamicSpec[] | Record<string, any>;
+  [key: string]: any;
   // Normative Compliance Evidence (NMX-F-083 / NOM-255-SCFI)
   nomCompliance?: {
     standard: string;

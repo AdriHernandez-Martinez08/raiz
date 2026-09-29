@@ -96,7 +96,7 @@ DOMINIO Y REGLA DE ORO (GUARDRAILS):
 
 FORMATO DE SALIDA:
 - "reply": Texto explicativo claro, cálido, estructurado con viñetas legibles.
-- "agent": Nombre del agente (ej. "🤖 Asistente Comunitario Raíz", "🌿 Agente Agrónomo IA", "💰 Agente Tesorero", "⛓️ Agente Notario Stellar").
+- "agent": Nombre cálido, humano e institucional (ej. "🌱 Compañero Raíz (TecNM)", "🌿 Asesoría Agronómica TecNM", "💰 Tesorería y Fondos Comunitarios", "⛓️ Certificación Notarial Stellar", "🚚 Transporte y Fletes Comunitarios", "🛍️ Vitrina Comunitaria"). NUNCA uses la palabra robótica "Agente" ni "Bot".
 - "cardType": 'dictamen_stellar', 'billetera_pago', 'lote_registro', 'producto_vitrina', 'trazabilidad_pasaporte', 'logistica_coyote', 'regalias_mercado' o null.
 - "options": Lista de 2 a 3 botones de acción rápida con:
   - id: número
@@ -128,7 +128,7 @@ function getDomainFallback(message: string): {
     return {
       reply:
         "¡Con mucho gusto, paisano! En Raíz apoyamos con orgullo a los tlachiqueros y familias productoras de Pulque y Aguamiel tradicional de la Mixteca Alta sin intermediarios ('coyotes').\n\nEl registro se realiza en 3 pasos sencillos:\n\n1. 🏺 Indique los litros o garrafas preparadas en su tinacal.\n2. 📸 Tómale una foto a su muestra en jícara o garrafa para avalar con IA que es 100% aguamiel natural sin azúcar agregada.\n3. 💰 Su lote queda registrado a precio comunal justo para venta directa.\n\nToque abajo para registrar su pulque de inmediato:",
-      agent: "🏺 Agente Tradicional Comunitario",
+      agent: "🏺 Tradición y Pulque Comunitario",
       cardType: "lote_registro",
       options: [
         {
@@ -161,7 +161,7 @@ function getDomainFallback(message: string): {
     return {
       reply:
         "¡Con mucho gusto, paisano! En Raíz apoyamos a los apicultores de la Mixteca Alta para comercializar su Miel Pura de Abeja a precio justo sin intermediarios.\n\nToque abajo para registrar su lote de miel de inmediato:",
-      agent: "🍯 Agente Apícola Comunitario",
+      agent: "🍯 Módulo Apícola Comunitario",
       cardType: "lote_registro",
       options: [
         {
@@ -198,7 +198,7 @@ function getDomainFallback(message: string): {
     return {
       reply:
         "¡Entendido, paisano! En Raíz apoyamos a todas las cosechas y creaciones de la Mixteca: Pulque tradicional, Miel de abeja, Maíz criollo, Jitomate, Sombreros de palma y Textiles artesanales.\n\nToque abajo para abrir el catálogo y registrar su producto:",
-      agent: "🌾 Agente Multiproducto Raíz",
+      agent: "🌾 Catálogo Rural Raíz",
       cardType: "producto_vitrina",
       options: [
         {
@@ -335,7 +335,7 @@ function getDomainFallback(message: string): {
     return {
       reply:
         "Para evaluar su café o cosecha sin ninguna complicación:\n\n• Toque el botón de abajo '📸 Abrir Cámara y Evaluar'.\n• Apunte la cámara a un puñado de granos o a su producto sobre una superficie con buena luz.\n• La inteligencia artificial del TecNM Tlaxiaco detectará el porcentaje de humedad estimada (rango óptimo 10%-12%), revisará si hay broca o manchas y emitirá su Dictamen Comunitario al momento.",
-      agent: "🌿 Agente Agrónomo IA",
+      agent: "🌿 Asesoría Agronómica TecNM",
       cardType: "dictamen_stellar",
       options: [
         {
@@ -370,7 +370,7 @@ function getDomainFallback(message: string): {
     return {
       reply:
         "Su saldo acumulado por entrega de cosechas es de $38,250.00 MXN en su Billetera Comunitaria protegida por MicoPay.\n\n• Liquidación a precio de comercio justo: $85.00/kg de café pergamino.\n• Puede solicitar su retiro en efectivo en las oficinas de Tlaxiaco con su código QR o mediante el transportista aliado como cajero móvil en parcela.",
-      agent: "💰 Agente Tesorero",
+      agent: "💰 Tesorería y Pagos Comunitarios",
       cardType: "billetera_pago",
       options: [
         {
@@ -402,8 +402,8 @@ function getDomainFallback(message: string): {
   ) {
     return {
       reply:
-        "En Raíz, el transportista local se integra formalmente como Agente Logístico Comunitario y Cajero Móvil en su parcela.\n\n• Flete garantizado con tarifa fija de $2.00 por kilogramo.\n• El chofer puede entregarle su pago en efectivo al momento de subir los sacos a la camioneta escaneando su QR MicoPay.",
-      agent: "🚚 Agente Logístico Comunitario",
+        "En Raíz, el transportista local se integra formalmente a la red de transporte comunitario y cajero móvil en su parcela.\n\n• Flete garantizado con tarifa fija de $2.00 por kilogramo.\n• El chofer puede entregarle su pago en efectivo al momento de subir los sacos a la camioneta escaneando su QR MicoPay.",
+      agent: "🚚 Transporte y Fletes Comunitarios",
       cardType: "logistica_coyote",
       options: [
         {
@@ -422,7 +422,7 @@ function getDomainFallback(message: string): {
     return {
       reply:
         "El Dictamen Oficial está anclado en la red Stellar Testnet en el ledger #52,491,802 con hash criptográfico inmutable que avala 11.4% de humedad, 0% broca y origen 100% de la Mixteca Oaxaqueña.",
-      agent: "⛓️ Agente Notario Stellar",
+      agent: "⛓️ Certificación Notarial Stellar",
       cardType: "dictamen_stellar",
       options: [
         {
@@ -665,7 +665,7 @@ app.post("/api/analyze-image", async (req: Request, res: Response) => {
           analysis:
             "🏺 Diagnóstico del Tecnológico de Tlaxiaco:\n\n• La fotografía corresponde a PULQUE BLANCO TRADICIONAL elaborado con aguamiel de maguey mixteco.\n• Se aprecia consistencia idónea, color blanco lechoso uniforme y aroma fresco de fermentación natural en tinacal.\n• Producto conforme para comercialización comunitaria a precio justo sin intermediarios.",
           cardType: "lote_registro",
-          agent: "🏺 Agente Comunitario de Pulque y Tradición",
+          agent: "🏺 Tradición y Pulque Comunitario",
           isSimulated: true,
         });
       }
@@ -685,7 +685,114 @@ app.post("/api/analyze-image", async (req: Request, res: Response) => {
           analysis:
             "🍯 Observación del Tecnológico de Tlaxiaco:\n\n• La imagen analizada NO corresponde a granos de café ni cereza cafetalera.\n• Se identifica como Miel pura o derivado apícola de la Mixteca Alta.\n• Para registrar un lote de café, por favor toma una foto de grano verde pergamino, cereza o grano tostado.",
           cardType: "producto_vitrina",
-          agent: "🍯 Agente Apícola y Agroecológico Tec",
+          agent: "🍯 Módulo Apícola Comunitario",
+          isSimulated: true,
+        });
+      }
+
+      // Check for Cheese / Dairy
+      if (pLower.includes("queso") || pLower.includes("quesillo") || pLower.includes("lacteo") || pLower.includes("cuajada")) {
+        return res.json({
+          isCoffee: false,
+          detectedCategory: "queso",
+          detectedItem: "Queso Artesanal de la Mixteca",
+          estado: "Lácteo Artesanal Fresco de Primera Calidad",
+          calidadScore: 97,
+          humedadEstimada: "Punto Óptimo de Cuajada y Salmuera",
+          defectosDetectados: "0% adulterantes químicos, leche pura de ordeña comunal",
+          recomendacion: "Lote de queso artesanal aprobado para comercialización y distribución comunitaria directa.",
+          analysis: "🧀 Dictamen de Calidad Alimentaria (Tec de Tlaxiaco):\n\n• Muestra evaluada correspondiente a QUESO ARTESANAL / TRADICIONAL de la región Mixteca.\n• Textura homogénea, aroma lácteo fresco y elaboración con leche entera sin sueros añadidos ni conservadores artificiales.\n• Apto para registro en la red comunitaria con Pasaporte Digital inmutable.",
+          cardType: "lote_registro",
+          agent: "🧀 Lácteos y Quesería Campesina TecNM",
+          isSimulated: true,
+        });
+      }
+
+      // Check for Avocado
+      if (pLower.includes("aguacate") || pLower.includes("palta")) {
+        return res.json({
+          isCoffee: false,
+          detectedCategory: "aguacate",
+          detectedItem: "Aguacate Hass Criollo de Altura",
+          estado: "Fruto en Madurez Fisiológica Óptima",
+          calidadScore: 95,
+          humedadEstimada: "Materia Seca Óptima (>21%)",
+          defectosDetectados: "0% plagas cuarentenarias, piel sana",
+          recomendacion: "Lote aprobado para venta directa y canastas comunitarias.",
+          analysis: "🥑 Dictamen de Sanidad Vegetal (Tec de Tlaxiaco):\n\n• Frutos cosechados en huertos de altura de la Mixteca.\n• Excelente calibre y sin daños mecánicos.",
+          cardType: "lote_registro",
+          agent: "🥑 Fruticultura y Huertos TecNM",
+          isSimulated: true,
+        });
+      }
+
+      // Check for Chapulines / Insectos Comestibles Ancestrales
+      if (
+        pLower.includes("chapulin") ||
+        pLower.includes("chapulines") ||
+        pLower.includes("chicatana") ||
+        pLower.includes("chicatanas") ||
+        pLower.includes("gusano") ||
+        pLower.includes("chinicuil")
+      ) {
+        return res.json({
+          isCoffee: false,
+          detectedCategory: "chapulines",
+          detectedItem: "Chapulines Tostados al Comal de Oaxaca",
+          estado: "Chapulín de Milpa en Óptimo Punto de Tueste",
+          calidadScore: 98,
+          humedadEstimada: "Tostado seco crujiente (< 4% humedad)",
+          defectosDetectados: "0% impurezas, selección manual limpia y sazón tradicional",
+          recomendacion:
+            "Lote de chapulines aprobado. Proceder con el registro del lote y su Pasaporte Digital para venta comunitaria directa.",
+          analysis:
+            "🦗 Dictamen Gastronómico y Sanitario (Tec de Tlaxiaco):\n\n• Muestra evaluada correspondiente a CHAPULINES TOSTADOS TRADICIONALES de Oaxaca.\n• Coloración dorada-rojiza homogénea, libre de tierra o tallos de milpa, sazonado al comal con ajo criollo, sal marina y limón.\n• Apto para registro en la red comunitaria con Pasaporte Digital inmutable.",
+          cardType: "lote_registro",
+          agent: "🦗 Insectos Ancestrales de Oaxaca",
+          isSimulated: true,
+        });
+      }
+
+      // Check for Mole Oaxaqueño
+      if (
+        pLower.includes("mole") ||
+        pLower.includes("coloradito") ||
+        pLower.includes("chichilo") ||
+        pLower.includes("manchamanteles")
+      ) {
+        return res.json({
+          isCoffee: false,
+          detectedCategory: "mole",
+          detectedItem: "Mole Negro Auténtico Oaxaqueño",
+          estado: "Pasta Tradicional de Mole Negro en Metate",
+          calidadScore: 97,
+          humedadEstimada: "Pasta homogénea y brillante",
+          defectosDetectados: "0% conservadores químicos, ingredientes 100% nativos",
+          recomendacion:
+            "Lote de pasta de mole aprobado. Listo para Pasaporte Digital y venta directa.",
+          analysis:
+            "🍲 Dictamen Culinario (Tec de Tlaxiaco):\n\n• Muestra de pasta de mole negro con chilhuacle, cacao criollo, pasas y especias de la Mixteca.\n• Excelente aroma ahumado tradicional y molienda uniforme.",
+          cardType: "lote_registro",
+          agent: "🍲 Moles Tradicionales de Oaxaca",
+          isSimulated: true,
+        });
+      }
+
+      // Check for Cacao / Chocolate
+      if (pLower.includes("cacao") || pLower.includes("chocolate")) {
+        const isChoc = pLower.includes("chocolate");
+        return res.json({
+          isCoffee: false,
+          detectedCategory: "cacao",
+          detectedItem: isChoc ? "Chocolate Artesanal Criollo de la Mixteca" : "Semilla de Cacao Criollo Nativo",
+          estado: isChoc ? "Chocolate de Metate Tradicional Conforme" : "Cacao Fermentado y Secado al Sol",
+          calidadScore: 97,
+          humedadEstimada: isChoc ? "Consistencia y pasta homogénea" : "7.2% Humedad",
+          defectosDetectados: "0% adulterantes, 100% puro cacao criollo de Oaxaca",
+          recomendacion: "Aprobado para Pasaporte Digital y venta comunitaria directa de chocolate tradicional.",
+          analysis: "🍫 Dictamen Agroindustrial y de Calidad (Tec de Tlaxiaco):\n\n• Muestra evaluada correspondiente a CHOCOLATE ARTESANAL / CACAO CRIOLLO de la Mixteca Oaxaqueña.\n• Molienda tradicional en metate con canela y cacao criollo, sin grasas vegetales ajenas ni sustitutos.\n• Apto para registro en la red comunitaria con Pasaporte Digital inmutable.",
+          cardType: "lote_registro",
+          agent: "🍫 Cacao y Tradición Mixteca",
           isSimulated: true,
         });
       }
@@ -714,7 +821,7 @@ app.post("/api/analyze-image", async (req: Request, res: Response) => {
         },
         recomendacion: "Lote conforme a Norma Oficial. Proceder al sellado criptográfico en Stellar Testnet.",
         cardType: "dictamen_stellar",
-        agent: "🌿 Agente Agrónomo IA (Visión)",
+        agent: "🌿 Asesoría Agronómica TecNM",
         isSimulated: true,
       });
     }
@@ -728,8 +835,11 @@ REGLA FUNDAMENTAL DE VERIFICACIÓN VISUAL:
    - ¿Es café? (cereza madura/verde, café pergamino lavado, café verde oro/trillado, o café tostado en grano/molido).
    - ¿Es PULQUE tradicional o aguamiel en tinacal? (líquido blanco lechoso en jícara o vaso, tinacal de fermentación, garrafa o maguey pulquero).
    - ¿Es MIEL de abeja o producto apícola? (frasco con líquido ámbar/dorado, panal, miel cristalizada).
+   - ¿Es CACAO o CHOCOLATE tradicional? (tablillas de chocolate artesanal, pasta de chocolate en metate, semillas secas de cacao o mazorca). Si es chocolate o cacao, coloca "isCoffee": false, "detectedCategory": "cacao", "detectedItem": "Chocolate Artesanal / Cacao Criollo".
+   - ¿Es CHAPULINES u otros insectos comestibles ancestrales de Oaxaca? (chapulines tostados al comal con ajo y sal en jícara o canasto, chicatanas, gusanos). Si son chapulines o insectos, coloca "isCoffee": false, "detectedCategory": "chapulines", "detectedItem": "Chapulines Tostados al Comal de Oaxaca".
+   - ¿Es MOLE oaxaqueño tradicional, tlayudas, tejate, queso/quesillo o pan de yema?
    - ¿Es maíz criollo, frijol, jitomate, sombrero de palma o textil en telar?
-   - NO fuerces jamás un diagnóstico de café si la imagen muestra pulque, miel u otro producto.
+   - NO fuerces jamás un diagnóstico de café si la imagen muestra chapulines, chocolate, mole, pulque, miel u otro producto.
    - Si es PULQUE, coloca "isCoffee": false, "detectedCategory": "pulque", "detectedItem": "Pulque Tradicional de Maguey Mixteco".
 
 2. PASO 2 - AUDITORÍA NORMATIVA NOM / NMX (SI ES CAFÉ):
@@ -833,7 +943,7 @@ Responde estrictamente en formato JSON con la siguiente estructura:
       },
       recomendacion: parsed.recomendacion || (isHoney ? "Producto excelente para la Vitrina Comunitaria de Miel del Tec." : "Proceder al registro del lote y sellado en Stellar."),
       cardType: isHoney ? "producto_vitrina" : (isCoffee ? "dictamen_stellar" : "trazabilidad_pasaporte"),
-      agent: isHoney ? "🍯 Agente Apícola y Agroecológico Tec" : "🌿 Agente Agrónomo IA (Visión Gemini)",
+      agent: isHoney ? "🍯 Módulo Apícola Comunitario" : "🌿 Asesoría Agronómica TecNM",
       isRealAI: true,
     });
   } catch (error: any) {
@@ -847,7 +957,7 @@ Responde estrictamente en formato JSON con la siguiente estructura:
       defectosDetectados: "0% broca, pergamino limpio",
       recomendacion: "Lote listo para entrega y registro comunal.",
       cardType: "dictamen_stellar",
-      agent: "🌿 Agente Agrónomo IA",
+      agent: "🌿 Asesoría Agronómica TecNM",
       error: error?.message,
     });
   }

@@ -17,6 +17,10 @@ import { ArtisanQrTagModal } from './components/ArtisanQrTagModal';
 import { CartModal, CartItem } from './components/CartModal';
 import { RegionalMapModal } from './components/RegionalMapModal';
 import { MicrophoneDiagnosticModal } from './components/MicrophoneDiagnosticModal';
+import { ExplainerVideoModal } from './components/ExplainerVideoModal';
+import { RaizAuthModal } from './components/RaizAuthModal';
+import { HybridArchitectureModal } from './components/HybridArchitectureModal';
+import { RaizAuthEngine, UserProfile } from './core/auth/RaizAuthEngine';
 import { RaizCore } from './core';
 
 export default function App() {
@@ -24,6 +28,11 @@ export default function App() {
   const [currentScreen, setCurrentScreen] = useState<ScreenView>('menu_principal');
   const [appLanguage, setAppLanguage] = useState<AppLanguage>('es');
   const [elderMode, setElderMode] = useState<boolean>(false);
+
+  // Active User & Identity (Account Abstraction & Stellar Keypair)
+  const [currentUser, setCurrentUser] = useState<UserProfile>(() => RaizAuthEngine.getActiveUser());
+  const [isAuthModalOpen, setIsAuthModalOpen] = useState(false);
+  const [isArchitectureModalOpen, setIsArchitectureModalOpen] = useState(false);
 
   // Active data
   const [lots, setLots] = useState<DigitalPassportLot[]>(INITIAL_VERIFIED_LOTS);
@@ -41,6 +50,7 @@ export default function App() {
   const [isCartModalOpen, setIsCartModalOpen] = useState(false);
   const [isMapModalOpen, setIsMapModalOpen] = useState(false);
   const [isMicDiagnosticModalOpen, setIsMicDiagnosticModalOpen] = useState(false);
+  const [isExplainerVideoOpen, setIsExplainerVideoOpen] = useState(false);
   const [targetChatProducer, setTargetChatProducer] = useState<string | null>(null);
   const [chatInitialMessage, setChatInitialMessage] = useState<string | null>(null);
   const [isOnline, setIsOnline] = useState<boolean>(typeof navigator !== 'undefined' ? navigator.onLine : true);
@@ -173,14 +183,28 @@ export default function App() {
     const mockTxHash = `0x${Array.from({ length: 32 }, () => Math.floor(Math.random() * 16).toString(16)).join('')}`;
 
     const prodType = customLot?.productType || selectedProductType || 'Café de Especialidad';
+    const isTenate = prodType.toLowerCase().includes('tenate') || prodType.toLowerCase().includes('tanate');
+    const isChapulines = prodType.toLowerCase().includes('chapulin') || prodType.toLowerCase().includes('chapulines') || prodType.toLowerCase().includes('chicatana');
+    const isMole = prodType.toLowerCase().includes('mole') || prodType.toLowerCase().includes('coloradito');
+    const isChocolate = prodType.toLowerCase().includes('chocolate') || prodType.toLowerCase().includes('cacao');
     const isPulque = prodType.toLowerCase().includes('pulque') || prodType.toLowerCase().includes('aguamiel') || prodType.toLowerCase().includes('tinacal');
     const isTextil = prodType.toLowerCase().includes('textil');
-    const isPalma = prodType.toLowerCase().includes('sombrero') || prodType.toLowerCase().includes('palma');
+    const isPalma = !isTenate && (prodType.toLowerCase().includes('sombrero') || prodType.toLowerCase().includes('palma'));
     const isMiel = prodType.toLowerCase().includes('miel');
     const isMaiz = prodType.toLowerCase().includes('maíz') || prodType.toLowerCase().includes('maiz');
     const isTomate = prodType.toLowerCase().includes('jitomate') || prodType.toLowerCase().includes('tomate');
 
-    const defaultImg = isPulque
+    const defaultImg = customLot?.imageUrl
+      ? customLot.imageUrl
+      : isTenate
+      ? 'https://lh3.googleusercontent.com/aida-public/AB6AXuADMzysc8buYnt4_J6N6fK3aJOpQwIXmK6rDrxaTI_kI2QHwPZaveZN-R-YpdSXJl83jv428Yd5_IFDtytjOVkkte6-yB6pXskpvxdiTLt3gQ4EoFSAS1SzELEaKKIDGkkY-oWJOM68851O2vaSsz92iubLVZ69vQp19ZYBqh38PsSqvSJ-_I0vXR4ZpTDTgoRrmCS2f5HnSOLlMZWIdp0uyeXZVn1fkdUzQelGLAyhj_tOsM-t8ikpbQ'
+      : isChapulines
+      ? 'https://upload.wikimedia.org/wikipedia/commons/d/d1/Chapulines_de_Oaxaca.jpg'
+      : isMole
+      ? 'https://upload.wikimedia.org/wikipedia/commons/5/59/Mole_negro_de_Oaxaca_con_arroz.jpg'
+      : isChocolate
+      ? 'https://upload.wikimedia.org/wikipedia/commons/e/e8/Chocolate_mayordomo_oaxaca_%28cropped%29.jpg'
+      : isPulque
       ? 'https://images.unsplash.com/photo-1546853020-ca4909aef454?w=800&auto=format&fit=crop&q=80'
       : isTextil
       ? 'https://lh3.googleusercontent.com/aida-public/AB6AXuB5Ch3EnTKfOPzLhJvKhO3lCcPIUAE3hVVkfX5Im0s-WO1vCixJXClxdVdruWiPRqr3ZuxAzdlH3yAof7r8gqeX3gu9Ib76kDaeSl6pOyNhXt8PsFUfn2Jc7_xqUysoYwZ8H3nJ1yfgy2pOSZt3H-5XCr1VJuyIa-sigPM_rzR4gUCUs1ekNF4IJND5FqstPVswevuKVBQzWO0uds-_-hVuY5mZRW5VnjA9Ovw00rmRFDxpZZ5yIbtMBA'
@@ -192,9 +216,27 @@ export default function App() {
       ? 'https://lh3.googleusercontent.com/aida-public/AB6AXuAx4jUpQopozBH8CYGA3m-Tfhex_UjwxY-4UKei8h4QhxSSmzObP9OdoONSXqi0XITG11whMMoDAOmA4bw0hSNWommPAh4F1D5ffA86lEaxrdfmf3kJ11rzljgIJllTeHX25OBP5QgRG79YiKsHHOLHgZPBf6D-AEEoGtbjiemIcHXuuXj7ZM1cyu0e6F19V9rkEX4nPjc7Dsc2w4tfJ_eHgPoPJzpuWKstIg6jmmd_4HM4ixO1PrSK4Q'
       : isTomate
       ? 'https://images.unsplash.com/photo-1592924357228-91a4daadcfea?w=800&auto=format&fit=crop&q=80'
-      : 'https://lh3.googleusercontent.com/aida-public/AB6AXuDVqal830zp_JFXZ3K1_Rr7bbte3jwc_lJwXPf-TxcAcEg2raHlxCK89btRwH4uwzhF2fLfO_VmIZsA4gTepWeTnnrV6vLEcToMhwFBkbarbh5uwCol3bpetHUY8kzwnxJxVdtmqGOZThqZnec77V9oKnLql4l29d8XAJan9Acm66pPUlaO6eAOQymtE0KneK_qV0L0sOeux4_wReZWm6lmbXiAdjKdpv5FSyJqzx_42kMz_U4T3L2q_g';
+      : 'https://upload.wikimedia.org/wikipedia/commons/1/17/Tlacolula_Market_230122_1.jpg';
 
-    const evidencePhotos = isPulque
+    const evidencePhotos = isChapulines
+      ? {
+          grainGridSampleUrl: defaultImg,
+          humidityGaugeUrl: 'https://upload.wikimedia.org/wikipedia/commons/e/e8/Chapulines_Oaxaca.jpg',
+          foliarHealthUrl: 'https://upload.wikimedia.org/wikipedia/commons/d/d4/Small_chapulines_basket.JPG'
+        }
+      : isMole
+      ? {
+          grainGridSampleUrl: defaultImg,
+          humidityGaugeUrl: 'https://upload.wikimedia.org/wikipedia/commons/e/eb/Mole_negro_mexicano.jpg',
+          foliarHealthUrl: 'https://upload.wikimedia.org/wikipedia/commons/5/59/Mole_negro_de_Oaxaca_con_arroz.jpg'
+        }
+      : isChocolate
+      ? {
+          grainGridSampleUrl: defaultImg,
+          humidityGaugeUrl: 'https://upload.wikimedia.org/wikipedia/commons/7/76/Cocoa_beans.jpg',
+          foliarHealthUrl: 'https://upload.wikimedia.org/wikipedia/commons/0/01/Cacao-pod-k4636-14.jpg'
+        }
+      : isPulque
       ? {
           grainGridSampleUrl: defaultImg,
           humidityGaugeUrl: 'https://images.unsplash.com/photo-1546853020-ca4909aef454?w=600&auto=format&fit=crop&q=80',
@@ -231,7 +273,7 @@ export default function App() {
           foliarHealthUrl: 'https://images.unsplash.com/photo-1582284540020-8acbe03f4924?w=600&auto=format&fit=crop&q=80'
         }
       : {
-          grainGridSampleUrl: 'https://lh3.googleusercontent.com/aida-public/AB6AXuDVqal830zp_JFXZ3K1_Rr7bbte3jwc_lJwXPf-TxcAcEg2raHlxCK89btRwH4uwzhF2fLfO_VmIZsA4gTepWeTnnrV6vLEcToMhwFBkbarbh5uwCol3bpetHUY8kzwnxJxVdtmqGOZThqZnec77V9oKnLql4l29d8XAJan9Acm66pPUlaO6eAOQymtE0KneK_qV0L0sOeux4_wReZWm6lmbXiAdjKdpv5FSyJqzx_42kMz_U4T3L2q_g',
+          grainGridSampleUrl: 'https://upload.wikimedia.org/wikipedia/commons/1/17/Tlacolula_Market_230122_1.jpg',
           humidityGaugeUrl: 'https://images.unsplash.com/photo-1559056199-641a0ac8b55e?w=600&auto=format&fit=crop&q=80',
           foliarHealthUrl: 'https://images.unsplash.com/photo-1514432324607-a09d9b4aefdd?w=600&auto=format&fit=crop&q=80'
         };
@@ -240,7 +282,17 @@ export default function App() {
     const baseLot: DigitalPassportLot = {
       id: `lot-${Date.now()}`,
       code: `MX-2024-${Math.floor(900 + Math.random() * 99)}`,
-      title: isPulque
+      title: customLot?.title
+        ? customLot.title
+        : isTenate
+        ? 'Tenate Ceremonial de Palma Dulce'
+        : isChapulines
+        ? 'Chapulines Tostados al Comal de Oaxaca'
+        : isMole
+        ? 'Mole Negro Auténtico Oaxaqueño'
+        : isChocolate
+        ? 'Chocolate Criollo Tradicional de la Mixteca'
+        : isPulque
         ? 'Pulque Tradicional de Maguey Mixteco'
         : isTextil
         ? 'Rebozo Tradicional en Telar'
@@ -255,24 +307,94 @@ export default function App() {
         : 'Café Arábica Pluma Hidalgo Lavado',
       productType: prodType,
       imageUrl: customLot?.imageUrl || defaultImg,
-      imageAlt: 'Muestra de cosecha o artesanía',
-      producerName: isPulque ? 'Don Aurelio López' : 'Don Efraín Bautista Santiago',
-      producerInitials: isPulque ? 'AL' : 'EB',
-      location: isPulque ? 'San Mateo Peñasco, Tlaxiaco, Oax.' : 'Magdalena Peñasco, Tlaxiaco, Oax.',
-      volumeKg: isPulque ? 80 : 680,
-      verifiedStatus: isPulque ? '100% Aguamiel Puro (Tinacal Tradicional)' : 'Calidad Comunitaria Aprobada (Sello Tec)',
+      imageAlt: isTenate ? 'Tenate tradicional mixteco tejido con palma' : 'Muestra de cosecha o artesanía',
+      producerName: isTenate
+        ? 'Doña María Guzmán Bautista'
+        : isChapulines
+        ? 'Doña Francisca López Bautista'
+        : isMole
+        ? 'Doña Josefina Hernández'
+        : isChocolate
+        ? 'Doña Esperanza Morales Bautista'
+        : isPulque
+        ? 'Don Aurelio López'
+        : 'Don Efraín Bautista Santiago',
+      producerInitials: isTenate ? 'MG' : isChapulines ? 'FL' : isMole ? 'JH' : isChocolate ? 'EM' : isPulque ? 'AL' : 'EB',
+      location: isTenate
+        ? 'Santa María Cuquila / Tlaxiaco, Oax.'
+        : isChapulines
+        ? 'Tlacolula / Valles Centrales y Mixteca, Oax.'
+        : isMole
+        ? 'Zaachila / Mixteca Oaxaqueña'
+        : isChocolate
+        ? 'Putla Villa de Guerrero / Mixteca Oaxaqueña'
+        : isPulque
+        ? 'San Mateo Peñasco, Tlaxiaco, Oax.'
+        : 'Magdalena Peñasco, Tlaxiaco, Oax.',
+      volumeKg: isTenate ? 3 : isChapulines ? 15 : isMole ? 25 : isChocolate ? 45 : isPulque ? 80 : 680,
+      verifiedStatus: isTenate
+        ? '100% Palma Dulce Tejida a Mano (Doble Nudo)'
+        : isChapulines
+        ? '100% Chapulín de Milpa Limpio (Tostado Tradicional)'
+        : isMole
+        ? 'Pasta Tradicional de Mole Negro en Metate'
+        : isChocolate
+        ? '100% Cacao Criollo Puro (Molienda Ancestral)'
+        : isPulque
+        ? '100% Aguamiel Puro (Tinacal Tradicional)'
+        : 'Calidad Comunitaria Aprobada (Sello Tec)',
       evaluatorOrg: 'Laboratorio de Calidad Mixteco & Tec Hub',
-      tags: isPulque
+      tags: isTenate
+        ? ['Tenate tradicional', 'Palma dulce', 'Doble nudo', 'Mixteca Alta']
+        : isChapulines
+        ? ['Chapulín de milpa', 'Tostado al comal', 'Ajo, chile y limón', '100% Oaxaqueño']
+        : isMole
+        ? ['Chilhuacle negro', 'Receta tradicional', 'Cacao y especias', 'Sin conservadores']
+        : isChocolate
+        ? ['Cacao criollo nativo', 'Molienda en metate', '100% artesanal', 'Sin adulterar']
+        : isPulque
         ? ['100% Aguamiel', 'Tinacal Artesanal', 'Sin Adulterar', 'Maguey Manso']
         : ['Cero intermediarios', 'Origen Mixteca Alta', 'Precio Justo Directo'],
       timeline: [
         {
-          title: 'Registro y Cosecha/Elaboración en Parcela',
-          dateAndLocation: 'Hace 5 días · Magdalena Peñasco, Oax.',
+          title: isTenate
+            ? 'Corte de Palma Dulce de Cueva y Tejido de Doble Nudo'
+            : isMole
+            ? 'Selección de Chiles Nativos y Molienda Ancestral'
+            : isChapulines
+            ? 'Recolección en Milpa y Tostado en Comal de Barro'
+            : isChocolate
+            ? 'Tueste de Cacao Criollo y Molienda en Metate'
+            : isTextil
+            ? 'Urdido de Hilos y Tejido en Telar de Cintura'
+            : isPalma
+            ? 'Recolección de Palma Dulce y Tejido a Mano'
+            : isPulque
+            ? 'Raspado de Maguey y Fermentación en Tinacal'
+            : 'Registro y Cosecha en Parcela',
+          dateAndLocation: isTenate
+            ? 'Hace 4 días · Taller de Palma, Santa María Cuquila'
+            : isMole
+            ? 'Hace 3 días · Cocina Tradicional, Zaachila / Mixteca'
+            : isChapulines
+            ? 'Hace 3 días · Milpa Comunitaria, Tlacolula / Mixteca'
+            : isChocolate
+            ? 'Hace 3 días · Taller de Molienda, Putla Villa de Guerrero'
+            : isTextil
+            ? 'Hace 5 días · Taller de Telar, Mixteca Alta'
+            : 'Hace 5 días · Magdalena Peñasco, Oax.',
           color: '#032517'
         },
         {
-          title: 'Inspección de Calidad y Muestra de Origen',
+          title: isTenate
+            ? 'Inspección de Flexibilidad de Fibra y Remate de Tapa'
+            : isMole
+            ? 'Evaluación Sensorial, Textura y Sazón Tradicional'
+            : isChapulines
+            ? 'Inspección de Limpieza de Milpa y Grado de Tueste'
+            : isChocolate
+            ? 'Inspección de Pureza de Grano de Cacao (< 1% cascarilla)'
+            : 'Inspección de Calidad y Muestra de Origen',
           dateAndLocation: 'Hace 2 días · Laboratorio del TecNM Tlaxiaco',
           color: '#032517'
         },
@@ -282,21 +404,51 @@ export default function App() {
           color: '#a73918'
         }
       ],
-      pricePerKg: 115.0,
+      pricePerKg: isTenate ? 380.0 : isChapulines ? 280.0 : isMole ? 240.0 : isChocolate ? 180.0 : isPulque ? 115.0 : 115.0,
       hash: mockTxHash.slice(0, 10) + '...' + mockTxHash.slice(-13),
-      variety: 'Pluma Hidalgo / Arabica',
-      altitude: '1,650 msnm (Estricta Altura)',
-      process: 'Lavado Tradicional Artesanal',
-      notes: 'Lote registrado con trazabilidad de origen y respaldo comunitario de la Mixteca Alta.',
+      variety: isChapulines
+        ? 'Chapulín de Milpa (Sphenarium purpurascens) Sazonado Tradicional'
+        : isMole
+        ? 'Mole Negro Ancestral con Chilhuacle'
+        : isChocolate
+        ? 'Cacao Criollo Fino de Aroma'
+        : 'Pluma Hidalgo / Arabica',
+      altitude: isChapulines
+        ? '1,550 msnm (Valles y Cañadas Mixtecas)'
+        : isChocolate
+        ? '850 msnm (Región Putla-Mixteca)'
+        : '1,650 msnm (Estricta Altura)',
+      process: isChapulines
+        ? 'Recolección en Milpa, Lavado, Hervido y Tueste en Comal de Barro'
+        : isChocolate
+        ? 'Fermentación en Cajón y Molienda en Metate'
+        : 'Lavado Tradicional Artesanal',
+      notes: isChapulines
+        ? 'Lote registrado de chapulines de milpa recolectados artesanalmente y tostados en comal de barro con sal marina, ajo criollo y limón.'
+        : isChocolate
+        ? 'Lote registrado de chocolate artesanal elaborado a base de cacao criollo con molienda ancestral en metate y canela.'
+        : 'Lote registrado con trazabilidad de origen y respaldo comunitario de la Mixteca Alta.',
       nomCompliance: {
-        standard: 'NOM-255-SCFI / Sello Mixteca',
-        humidity: '11.4%',
+        standard: isChapulines
+          ? 'Norma Sanitaria Tradicional Oaxaqueña / Sello Raíz'
+          : isChocolate
+          ? 'NOM-186-SSA1/SCFI-2013 / Sello Mixteca'
+          : 'NOM-255-SCFI / Sello Mixteca',
+        humidity: isChapulines ? '3.5%' : isChocolate ? '6.8%' : '11.4%',
         humidityCompliant: true,
-        defectPercentage: 1.1,
-        defectClassification: 'Grado Especialidad / Exportación (< 2% defectos)',
-        altitudeMeters: 1650,
-        strictAltitude: true,
-        botanicalPurity: '100% Nativo de la Mixteca libre OGM',
+        defectPercentage: isChapulines ? 0.2 : isChocolate ? 0.8 : 1.1,
+        defectClassification: isChapulines
+          ? 'Grado Gourmet Ancestral / Selección Manual Limpia'
+          : isChocolate
+          ? 'Grado Gourmet / Artesanal Ancestral (< 1% defectos)'
+          : 'Grado Especialidad / Exportación (< 2% defectos)',
+        altitudeMeters: isChapulines ? 1550 : isChocolate ? 850 : 1650,
+        strictAltitude: !isChocolate && !isChapulines,
+        botanicalPurity: isChapulines
+          ? '100% Silvestre de Milpa libre de Agroquímicos'
+          : isChocolate
+          ? '100% Cacao Criollo Nativo libre OGM'
+          : '100% Nativo de la Mixteca libre OGM',
         agroecologicalFreePesticides: true,
         evidencePhotos,
         stellarTxLedger: mockLedger,
@@ -330,6 +482,7 @@ export default function App() {
         onNavigateScreen={handleNavigateScreen}
         onOpenCart={() => setIsCartModalOpen(true)}
         onOpenMicDiagnostic={() => setIsMicDiagnosticModalOpen(true)}
+        onOpenExplainerVideo={() => setIsExplainerVideoOpen(true)}
         cartCount={totalCartCount}
         appLanguage={appLanguage}
         onToggleLanguage={() => setAppLanguage((prev) => (prev === 'es' ? 'mix' : 'es'))}
@@ -361,6 +514,8 @@ export default function App() {
           onOpenPayments={() => setIsPaymentsModalOpen(true)}
           onOpenMap={() => setIsMapModalOpen(true)}
           onOpenMicDiagnostic={() => setIsMicDiagnosticModalOpen(true)}
+          onOpenExplainerVideo={() => setIsExplainerVideoOpen(true)}
+          currentUser={currentUser}
           appLanguage={appLanguage}
           elderMode={elderMode}
           isOnline={isOnline}
@@ -400,6 +555,7 @@ export default function App() {
           onNavigateScreen={handleNavigateScreen}
           onOpenDictamen={() => setIsDictamenModalOpen(true)}
           onOpenQrTag={handleOpenQrTag}
+          onOpenLotsModal={() => setIsLotsModalOpen(true)}
           onDirectMessageProducer={handleDirectContact}
           onAddToCart={handleAddToCart}
           elderMode={elderMode}
@@ -452,6 +608,7 @@ export default function App() {
       <MyPaymentsModal
         isOpen={isPaymentsModalOpen}
         onClose={() => setIsPaymentsModalOpen(false)}
+        initialCountry={currentUser.country}
         onRequestWithdrawal={(amount) => {
           setTargetChatProducer('Raíz - Tesorería');
           setChatInitialMessage(
@@ -515,6 +672,29 @@ export default function App() {
       <MicrophoneDiagnosticModal
         isOpen={isMicDiagnosticModalOpen}
         onClose={() => setIsMicDiagnosticModalOpen(false)}
+      />
+
+      <ExplainerVideoModal
+        isOpen={isExplainerVideoOpen}
+        onClose={() => setIsExplainerVideoOpen(false)}
+        onNavigateScreen={handleNavigateScreen}
+      />
+
+      {/* Identidad Raíz Modal (Acceso Soberano sin Contraseñas) */}
+      <RaizAuthModal
+        isOpen={isAuthModalOpen}
+        onClose={() => setIsAuthModalOpen(false)}
+        currentUser={currentUser}
+        onUserChanged={(updatedUser) => {
+          setCurrentUser(updatedUser);
+        }}
+      />
+
+      {/* Arquitectura Híbrida Trilateral Modal (Etherfuse + Polar + PIX + MicoPay) */}
+      <HybridArchitectureModal
+        isOpen={isArchitectureModalOpen}
+        onClose={() => setIsArchitectureModalOpen(false)}
+        onOpenPayments={() => setIsPaymentsModalOpen(true)}
       />
     </div>
   );

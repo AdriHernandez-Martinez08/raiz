@@ -1,6 +1,7 @@
 import React, { useState, useRef, useEffect } from 'react';
 import { AppLanguage, ScreenView } from '../types';
 import { startAudioRecording, LiveRecorderSession } from '../utils/audioRecorder';
+import { UserProfile } from '../core/auth/RaizAuthEngine';
 
 interface MainMenuScreenProps {
   onNavigateScreen: (screen: ScreenView) => void;
@@ -9,6 +10,8 @@ interface MainMenuScreenProps {
   onOpenTechHelp: () => void;
   onOpenMap?: () => void;
   onOpenMicDiagnostic?: () => void;
+  onOpenExplainerVideo?: () => void;
+  currentUser?: UserProfile;
   appLanguage?: AppLanguage;
   elderMode?: boolean;
   isOnline?: boolean;
@@ -21,6 +24,8 @@ export const MainMenuScreen: React.FC<MainMenuScreenProps> = ({
   onOpenTechHelp,
   onOpenMap,
   onOpenMicDiagnostic,
+  onOpenExplainerVideo,
+  currentUser,
   appLanguage = 'es',
   elderMode = false,
   isOnline = true
@@ -47,7 +52,7 @@ export const MainMenuScreen: React.FC<MainMenuScreenProps> = ({
     };
   }, []);
 
-  const matchMainMenuOption = (text: string): 1 | 2 | 3 | 4 | null => {
+  const matchMainMenuOption = (text: string): 1 | 2 | 3 | 4 | 5 | null => {
     const clean = text
       .toLowerCase()
       .normalize('NFD')
@@ -55,6 +60,23 @@ export const MainMenuScreen: React.FC<MainMenuScreenProps> = ({
       .trim();
 
     if (!clean) return null;
+
+    // Check Option 5: Video Explicativo / Open Hub / MicoPay / Raíz
+    if (
+      /\b(5|cinco|quinta)\b/i.test(clean) ||
+      /(opcion|numero|num|no\.?)\s*(5|cinco)/i.test(clean) ||
+      clean.includes('video') ||
+      clean.includes('pelicula') ||
+      clean.includes('explicar') ||
+      clean.includes('explicacion') ||
+      clean.includes('open hub') ||
+      clean.includes('openhub') ||
+      clean.includes('micopay') ||
+      clean.includes('mico pay') ||
+      clean.includes('que es raiz')
+    ) {
+      return 5;
+    }
 
     // Check Option 4 FIRST (Ayuda técnica / chat / soporte / Mixteco)
     if (
@@ -123,7 +145,7 @@ export const MainMenuScreen: React.FC<MainMenuScreenProps> = ({
     return null;
   };
 
-  const executeMenuOption = (option: 1 | 2 | 3 | 4) => {
+  const executeMenuOption = (option: 1 | 2 | 3 | 4 | 5) => {
     if (option === 1) {
       setRecognizedOptionToast('🎯 Opción 1: Registrar cosecha o artesanía');
       setTimeout(() => onNavigateScreen('catalogo_producto'), 500);
@@ -136,6 +158,13 @@ export const MainMenuScreen: React.FC<MainMenuScreenProps> = ({
     } else if (option === 4) {
       setRecognizedOptionToast('🎯 Opción 4: Ayuda técnica (Abriendo chat directo...)');
       setTimeout(() => onOpenTechHelp(), 500);
+    } else if (option === 5) {
+      setRecognizedOptionToast('🎬 Opción 5: Abriendo Video Explicativo (Open Hub, MicoPay y Raíz)...');
+      setTimeout(() => {
+        if (onOpenExplainerVideo) {
+          onOpenExplainerVideo();
+        }
+      }, 500);
     }
   };
 
@@ -146,7 +175,7 @@ export const MainMenuScreen: React.FC<MainMenuScreenProps> = ({
       executeMenuOption(matched);
       setMicStatusMessage(null);
     } else if (numericInput.trim()) {
-      setMicStatusMessage(`No se reconoció "${numericInput}". Por favor elija 1, 2, 3 o 4.`);
+      setMicStatusMessage(`No se reconoció "${numericInput}". Por favor elija 1, 2, 3, 4 o 5.`);
       setTimeout(() => setMicStatusMessage(null), 4000);
     }
     setNumericInput('');
@@ -277,16 +306,18 @@ export const MainMenuScreen: React.FC<MainMenuScreenProps> = ({
         <div className="flex flex-col gap-1 max-w-[88%]">
           <div className={`bg-white p-4 rounded-2xl rounded-tl-xs border border-[#c1c8c2]/30 shadow-sm ${elderMode ? 'p-5' : 'p-4'}`}>
             <p className={`text-[#032517] font-extrabold mb-1 tracking-tight ${elderMode ? 'text-[26px]' : 'text-[22px]'}`}>
-              {appLanguage === 'mix' ? "¡Ta'vi, Don Efraín! (¡Hola!)" : "¡Hola, Don Efraín!"}
+              {appLanguage === 'mix'
+                ? `¡Ta'vi, ${currentUser ? currentUser.name.split(' ')[0] : 'Don Aurelio'}! (¡Hola!)`
+                : `¡Hola, ${currentUser ? currentUser.name.split(' ')[0] + ' ' + (currentUser.name.split(' ')[1] || '') : 'Don Aurelio'}!`}
             </p>
             <p className={`text-[#1c1c18] leading-relaxed ${elderMode ? 'text-[19px] font-medium' : 'text-[16px]'}`}>
               {appLanguage === 'mix'
                 ? "¿Ndá chuun kuu kuñu'un yo vixin? Toca número u hablo por voz:"
-                : "¿Qué tarea realizaremos hoy en sus parcelas o taller? Presione o diga un número:"}
+                : `¿Qué tarea realizaremos hoy en ${currentUser?.community || 'sus parcelas'}? Presione o diga un número:`}
             </p>
           </div>
           <span className={`text-[#424843] ml-2 font-bold ${elderMode ? 'text-[14px]' : 'text-[13px]'}`}>
-            10:42 a.m. • {elderMode ? 'Modo Mayor (Letra Grande)' : 'Modo Campesino'}
+            Identidad Protegida · {elderMode ? 'Modo Mayor (Letra Grande)' : 'Modo Campesino'}
           </span>
         </div>
       </div>
@@ -413,6 +444,43 @@ export const MainMenuScreen: React.FC<MainMenuScreenProps> = ({
             <span className={`material-symbols-outlined ${elderMode ? 'text-[26px]' : 'text-[22px]'}`}>chat</span>
           </div>
         </button>
+
+        {/* OPCIÓN 5: Video Explicativo */}
+        {onOpenExplainerVideo && (
+          <button
+            type="button"
+            onClick={onOpenExplainerVideo}
+            className={`touch-ripple w-full bg-linear-to-r from-[#032517] via-[#123826] to-[#a73918] hover:brightness-110 active:scale-[0.98] transition-all duration-200 border-2 border-amber-400/50 rounded-2xl flex items-center justify-between text-left shadow-md cursor-pointer group ${
+              elderMode ? 'min-h-[78px] p-4.5' : 'min-h-[62px] p-3.5'
+            }`}
+          >
+            <div className="flex items-center gap-3.5">
+              <div className={`rounded-full bg-amber-400 text-neutral-950 flex items-center justify-center font-black shrink-0 shadow-xs group-hover:scale-105 transition-transform ${
+                elderMode ? 'w-14 h-14 text-[24px]' : 'w-12 h-12 text-[20px]'
+              }`}>
+                5
+              </div>
+              <div className="flex flex-col">
+                <div className="flex items-center gap-2">
+                  <span className={`text-white font-extrabold ${elderMode ? 'text-[20px]' : 'text-[16px]'}`}>
+                    5. Video Explicativo
+                  </span>
+                  <span className="bg-amber-300 text-neutral-900 text-[9px] font-black uppercase px-2 py-0.5 rounded-full">
+                    Interactiva
+                  </span>
+                </div>
+                <span className={`text-emerald-100 ${elderMode ? 'text-[15px] font-medium' : 'text-[12.5px]'}`}>
+                  Open Hub, MicoPay, Raíz y Drips TecNM
+                </span>
+              </div>
+            </div>
+            <div className={`rounded-full bg-white/20 flex items-center justify-center text-amber-300 shrink-0 group-hover:bg-amber-400 group-hover:text-neutral-950 transition-colors ${
+              elderMode ? 'w-12 h-12' : 'w-10 h-10'
+            }`}>
+              <span className={`material-symbols-outlined ${elderMode ? 'text-[28px]' : 'text-[24px]'}`}>play_circle</span>
+            </div>
+          </button>
+        )}
       </div>
 
       {/* TARJETA DE NAVEGACIÓN POR VOZ (Reconocimiento en vivo para campo) */}
@@ -422,7 +490,7 @@ export const MainMenuScreen: React.FC<MainMenuScreenProps> = ({
             <span className="material-symbols-outlined text-[#1b3b2b] text-[22px]">mic</span>
             <div>
               <span className="text-[14px] font-bold text-[#032517] block">Navegación por Voz</span>
-              <span className="text-[12px] text-[#424843]">Diga "1", "2", "3", "4" o el nombre de la opción</span>
+              <span className="text-[12px] text-[#424843]">Diga "1", "2", "3", "4", "5" o "Video"</span>
             </div>
           </div>
           <button
@@ -528,12 +596,12 @@ export const MainMenuScreen: React.FC<MainMenuScreenProps> = ({
       >
         <div className="flex items-center gap-2">
           <span className="material-symbols-outlined text-[#727973] text-[22px]">dialpad</span>
-          <span className="text-[14px] text-[#424843] font-medium">O escriba 1, 2, 3 o 4</span>
+          <span className="text-[14px] text-[#424843] font-medium">O escriba 1, 2, 3, 4 o 5</span>
         </div>
         <div className="flex items-center gap-2">
           <input
             className="w-16 h-10 text-center text-[18px] font-bold bg-white border border-[#727973] rounded-lg text-[#032517] focus:ring-2 focus:ring-[#a73918] focus:outline-none"
-            placeholder="1-4"
+            placeholder="1-5"
             type="text"
             value={numericInput}
             onChange={(e) => setNumericInput(e.target.value)}

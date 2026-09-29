@@ -1,32 +1,46 @@
 import React, { useState, useEffect } from 'react';
 import { MOCK_PAYMENTS } from '../data/mockData';
+import { SupportedCountry, COUNTRY_CONFIGS } from '../core/settlement/HybridSettlementOrchestrator';
 
 interface MyPaymentsModalProps {
   isOpen: boolean;
   onClose: () => void;
   onRequestWithdrawal?: (amount: number) => void;
   onNavigateToLots?: () => void;
+  onOpenArchitecture?: () => void;
+  initialCountry?: SupportedCountry;
 }
 
 export const MyPaymentsModal: React.FC<MyPaymentsModalProps> = ({
   isOpen,
   onClose,
   onRequestWithdrawal,
-  onNavigateToLots
+  onNavigateToLots,
+  onOpenArchitecture,
+  initialCountry = 'MX'
 }) => {
+  const [selectedCountry, setSelectedCountry] = useState<SupportedCountry>(initialCountry);
   const [showVoucher, setShowVoucher] = useState(false);
-  const [withdrawalType, setWithdrawalType] = useState<'bienestar' | 'cajero' | 'ventanilla'>('bienestar');
+  const [withdrawalType, setWithdrawalType] = useState<'bienestar' | 'cajero' | 'ventanilla' | 'polar_qr' | 'pix'>('bienestar');
   const [copiedCode, setCopiedCode] = useState(false);
   const [cashCollected, setCashCollected] = useState(false);
 
-  // Tarjeta Bienestar SPEI State
+  // Tarjeta Bienestar SPEI State (Etherfuse MX)
   const [cardNumber, setCardNumber] = useState('4152 3100 8921 4012');
   const [cardHolder, setCardHolder] = useState('Don Aurelio Bautista Santiago');
   const [isTransferring, setIsTransferring] = useState(false);
   const [transferSuccess, setTransferSuccess] = useState(false);
   const [speiTracking, setSpeiTracking] = useState('2026090440014BMA00004891024');
 
-  // 12-digit withdrawal code + 4-digit security PIN for ATM
+  // Bolivia Polar State
+  const [boliviaAccount, setBoliviaAccount] = useState('BO-QR-881920 Banco Unión');
+  const [boliviaHolder, setBoliviaHolder] = useState('Doña Esperanza Mamani Quispe');
+  
+  // Brasil PIX State
+  const [pixKey, setPixKey] = useState('35998124021'); // Celular
+  const [pixHolder, setPixHolder] = useState('João Paulo da Silva');
+
+  // 12-digit withdrawal code + 4-digit security PIN for ATM / MicoPay
   const [atmCode] = useState('8492 1049 2810');
   const [atmPin] = useState('7421');
   const [voucherPin] = useState(() => Math.floor(1000 + Math.random() * 9000).toString());
@@ -139,7 +153,7 @@ export const MyPaymentsModal: React.FC<MyPaymentsModalProps> = ({
           <div className="p-4 bg-[#1b3b2b] text-white m-4 rounded-2xl shadow-sm flex flex-col gap-2.5">
             <div className="flex items-center justify-between">
               <span className="text-[12px] text-[#c7ebd4] uppercase tracking-wider font-semibold">
-                Saldo disponible para retiro
+                Saldo disponible para retiro (MXN)
               </span>
               <span className="text-[10px] bg-[#c7ebd4] text-[#002113] font-bold px-2 py-0.5 rounded-full">
                 Listo para cobro
@@ -151,12 +165,12 @@ export const MyPaymentsModal: React.FC<MyPaymentsModalProps> = ({
                 ${totalAvailable.toLocaleString('es-MX', { minimumFractionDigits: 2 })} MXN
               </span>
               <span className="text-[11px] text-[#abcfb8]">
-                Sin comisión
+                Sin comisión (0%)
               </span>
             </div>
 
             <p className="text-[12px] text-[#abcfb8] leading-relaxed">
-              Elige cómo deseas cobrar tu liquidación de café en Tlaxiaco sin comisiones intermediarias:
+              Elige cómo deseas cobrar tu liquidación directa en Tlaxiaco y la Mixteca sin intermediarios:
             </p>
 
             <div className="grid grid-cols-3 gap-1.5 mt-1">
@@ -169,7 +183,7 @@ export const MyPaymentsModal: React.FC<MyPaymentsModalProps> = ({
                 className="bg-emerald-400 hover:bg-emerald-300 text-emerald-950 font-extrabold py-2 px-1.5 rounded-xl text-[11px] flex flex-col items-center justify-center gap-1 transition-all cursor-pointer shadow-xs active:scale-95 text-center leading-tight"
               >
                 <span className="material-symbols-outlined text-[18px]">credit_card</span>
-                <span>Tarjeta Bienestar</span>
+                <span>Tarjeta Bienestar (SPEI / Etherfuse)</span>
               </button>
 
               <button
@@ -181,7 +195,7 @@ export const MyPaymentsModal: React.FC<MyPaymentsModalProps> = ({
                 className="bg-amber-400 hover:bg-amber-300 text-amber-950 font-extrabold py-2 px-1.5 rounded-xl text-[11px] flex flex-col items-center justify-center gap-1 transition-all cursor-pointer shadow-xs active:scale-95 text-center leading-tight"
               >
                 <span className="material-symbols-outlined text-[18px]">local_atm</span>
-                <span>Cajero s/Tarjeta</span>
+                <span>Cajero en Parcela (MicoPay)</span>
               </button>
 
               <button
@@ -193,7 +207,7 @@ export const MyPaymentsModal: React.FC<MyPaymentsModalProps> = ({
                 className="bg-white/15 hover:bg-white/25 text-white font-bold py-2 px-1.5 rounded-xl text-[11px] flex flex-col items-center justify-center gap-1 transition-all cursor-pointer border border-white/20 active:scale-95 text-center leading-tight"
               >
                 <span className="material-symbols-outlined text-[18px]">storefront</span>
-                <span>Ventanilla INE</span>
+                <span>Ventanilla Finabien</span>
               </button>
             </div>
           </div>
@@ -514,6 +528,120 @@ export const MyPaymentsModal: React.FC<MyPaymentsModalProps> = ({
                   <p><strong>Puntos de Cobro en Tlaxiaco:</strong> Banco del Bienestar o Finabien Centro</p>
                   <p><strong>Requisito:</strong> Presentar Credencial INE original (sin tarjeta ni cuenta bancaria).</p>
                   <p><strong>Vigencia:</strong> 15 días naturales · 0% comisión.</p>
+                </div>
+              </div>
+            )}
+
+            {/* OPTION 4: BOLIVIA POLAR QR SIMPLE */}
+            {withdrawalType === 'polar_qr' && (
+              <div className="bg-gradient-to-b from-amber-50 to-white border-2 border-amber-400 rounded-2xl p-4 text-[#1c1c18] space-y-3 shadow-md">
+                <div className="flex justify-between items-center border-b border-amber-200 pb-2">
+                  <div className="flex items-center gap-1.5">
+                    <span className="text-[20px]">🇧🇴</span>
+                    <span className="text-[12px] font-extrabold text-amber-950 uppercase tracking-wide">
+                      QR Simple ASFI · Polar Stellar Anchor
+                    </span>
+                  </div>
+                  <button
+                    type="button"
+                    onClick={() => setShowVoucher(false)}
+                    className="text-[11px] text-amber-900 underline font-bold cursor-pointer"
+                  >
+                    Ocultar
+                  </button>
+                </div>
+
+                <div className="flex justify-between items-baseline">
+                  <div>
+                    <span className="text-[10px] text-[#727973] uppercase font-bold block">Liquidación en Bolivia</span>
+                    <span className="text-[24px] font-black text-amber-950">
+                      Bs. {(totalAvailable * 0.38).toLocaleString('es-BO', { minimumFractionDigits: 2 })} BOB
+                    </span>
+                  </div>
+                  <span className="text-[10px] bg-amber-200 text-amber-950 font-bold px-2 py-0.5 rounded-full">
+                    QR Interbancario
+                  </span>
+                </div>
+
+                <div className="bg-white p-3 rounded-xl border border-amber-300 space-y-2 text-[11.5px]">
+                  <div className="flex items-center justify-between">
+                    <span className="text-[#424843]">Beneficiaria:</span>
+                    <strong className="text-[#032517]">{boliviaHolder}</strong>
+                  </div>
+                  <div className="flex items-center justify-between">
+                    <span className="text-[#424843]">Banco Receptor:</span>
+                    <strong className="text-[#032517]">Banco Unión (Bolivia)</strong>
+                  </div>
+                  <div className="flex items-center justify-between">
+                    <span className="text-[#424843]">Riel y Protocolo:</span>
+                    <strong className="text-amber-800">Polar Anchor (USDC/BOB en Stellar)</strong>
+                  </div>
+                  <div className="flex items-center justify-between pt-1 border-t border-amber-200">
+                    <span className="text-[#424843]">Comisión al Productor:</span>
+                    <strong className="text-emerald-700">0.00 BOB (100% Neto)</strong>
+                  </div>
+                </div>
+
+                <div className="p-2.5 bg-amber-100/60 rounded-xl border border-amber-300 text-[11px] text-amber-950 flex items-center gap-2">
+                  <span className="material-symbols-outlined text-amber-800 text-[18px]">verified</span>
+                  <span>Escaneable con cualquier app bancaria de Bolivia (Banco Unión, BCP, Bisa).</span>
+                </div>
+              </div>
+            )}
+
+            {/* OPTION 5: BRASIL PIX INSTANTÂNEO */}
+            {withdrawalType === 'pix' && (
+              <div className="bg-gradient-to-b from-emerald-50 to-white border-2 border-emerald-400 rounded-2xl p-4 text-[#1c1c18] space-y-3 shadow-md">
+                <div className="flex justify-between items-center border-b border-emerald-200 pb-2">
+                  <div className="flex items-center gap-1.5">
+                    <span className="text-[20px]">🇧🇷</span>
+                    <span className="text-[12px] font-extrabold text-emerald-950 uppercase tracking-wide">
+                      PIX Instantâneo · Banco Central do Brasil
+                    </span>
+                  </div>
+                  <button
+                    type="button"
+                    onClick={() => setShowVoucher(false)}
+                    className="text-[11px] text-emerald-900 underline font-bold cursor-pointer"
+                  >
+                    Ocultar
+                  </button>
+                </div>
+
+                <div className="flex justify-between items-baseline">
+                  <div>
+                    <span className="text-[10px] text-[#727973] uppercase font-bold block">Liquidación en Brasil</span>
+                    <span className="text-[24px] font-black text-emerald-950">
+                      R$ {(totalAvailable * 0.28).toLocaleString('pt-BR', { minimumFractionDigits: 2 })} BRL
+                    </span>
+                  </div>
+                  <span className="text-[10px] bg-emerald-200 text-emerald-950 font-bold px-2 py-0.5 rounded-full">
+                    24/7 em 2 segundos
+                  </span>
+                </div>
+
+                <div className="bg-white p-3 rounded-xl border border-emerald-300 space-y-2 text-[11.5px]">
+                  <div className="flex items-center justify-between">
+                    <span className="text-[#424843]">Beneficiário:</span>
+                    <strong className="text-[#032517]">{pixHolder}</strong>
+                  </div>
+                  <div className="flex items-center justify-between">
+                    <span className="text-[#424843]">Chave PIX (Telefone):</span>
+                    <strong className="font-mono text-emerald-900">+55 (35) 99812-4021</strong>
+                  </div>
+                  <div className="flex items-center justify-between">
+                    <span className="text-[#424843]">Orquestrador:</span>
+                    <strong className="text-emerald-800">Stellar BRL / BACEN Rails</strong>
+                  </div>
+                  <div className="flex items-center justify-between pt-1 border-t border-emerald-200">
+                    <span className="text-[#424843]">Taxa ao Produtor:</span>
+                    <strong className="text-emerald-700">R$ 0,00 (Gratuito)</strong>
+                  </div>
+                </div>
+
+                <div className="p-2.5 bg-emerald-100/60 rounded-xl border border-emerald-300 text-[11px] text-emerald-950 flex items-center gap-2">
+                  <span className="material-symbols-outlined text-emerald-800 text-[18px]">bolt</span>
+                  <span>Pagamento liquidado e creditado imediatamente na conta do produtor.</span>
                 </div>
               </div>
             )}

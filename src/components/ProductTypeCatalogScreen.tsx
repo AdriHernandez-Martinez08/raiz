@@ -17,8 +17,10 @@ export const ProductTypeCatalogScreen: React.FC<ProductTypeCatalogScreenProps> =
   appLanguage = 'es'
 }) => {
   const isMixteco = appLanguage === 'mix';
-  const [selectedItem, setSelectedItem] = useState<string>('Café');
+  const [selectedItem, setSelectedItem] = useState<string>('');
   const [inputText, setInputText] = useState<string>('');
+  const [customProductModalOpen, setCustomProductModalOpen] = useState<boolean>(false);
+  const [customProductName, setCustomProductName] = useState<string>('');
   const [isRecording, setIsRecording] = useState<boolean>(false);
   const [audioVolume, setAudioVolume] = useState<number>(0);
   const [liveTranscript, setLiveTranscript] = useState<string>('');
@@ -103,7 +105,8 @@ export const ProductTypeCatalogScreen: React.FC<ProductTypeCatalogScreenProps> =
   const handleCardClick = (name: string) => {
     if (name === 'Otro producto') {
       setSelectedItem('Otro producto');
-      setInputText('');
+      setCustomProductName('');
+      setCustomProductModalOpen(true);
       return;
     }
     const clean = sanitizeProductName(name);
@@ -114,10 +117,49 @@ export const ProductTypeCatalogScreen: React.FC<ProductTypeCatalogScreenProps> =
     onNavigateScreen('registrar_lote_cafe');
   };
 
+  const handleConfirmCustomProduct = (nameToConfirm?: string) => {
+    const raw = (nameToConfirm !== undefined ? nameToConfirm : customProductName).trim();
+    if (!raw) return;
+    const clean = sanitizeProductName(raw);
+    setSelectedItem(clean);
+    setInputText(clean);
+    setCustomProductModalOpen(false);
+    onSelectProduct(clean);
+    onNavigateScreen('registrar_lote_cafe');
+  };
+
   const handleSubmit = (e?: React.FormEvent) => {
     if (e) e.preventDefault();
-    const val = inputText.trim() || selectedItem;
-    if (val && val !== 'Otro producto') {
+    const rawVal = inputText.trim();
+    if (!rawVal && !selectedItem) {
+      setMicStatusMessage('Por favor escribe o selecciona primero el producto a registrar.');
+      return;
+    }
+
+    if (
+      rawVal.toLowerCase() === 'continuar' ||
+      rawVal.toLowerCase() === 'siguiente' ||
+      rawVal.toLowerCase() === 'avanzar'
+    ) {
+      if (selectedItem && selectedItem !== 'Otro producto') {
+        const clean = sanitizeProductName(selectedItem);
+        onSelectProduct(clean);
+        onNavigateScreen('registrar_lote_cafe');
+        return;
+      } else {
+        setCustomProductName('');
+        setCustomProductModalOpen(true);
+        return;
+      }
+    }
+
+    const val = rawVal || selectedItem;
+    if (val === 'Otro producto' || val === '8' || val === 'ocho') {
+      setCustomProductName('');
+      setCustomProductModalOpen(true);
+      return;
+    }
+    if (val) {
       const clean = sanitizeProductName(val);
       onSelectProduct(clean);
       onNavigateScreen('registrar_lote_cafe');
@@ -133,7 +175,29 @@ export const ProductTypeCatalogScreen: React.FC<ProductTypeCatalogScreenProps> =
 
     if (!cleanText(text)) return null;
 
-    // Check Option 7 FIRST (Pulque / Aguamiel / Maguey / Ndichi / usa)
+    // Check Action Commands: "continuar", "siguiente", "enviar", "confirmar", "avanzar"
+    if (
+      /\b(continuar|continua|siguiente|avanzar|proceder|enviar|adelante|listo|dale)\b/i.test(text)
+    ) {
+      return '__CONTINUE__';
+    }
+
+    // Check Option 8 FIRST (Otro producto / uña / ocho / manual / custom)
+    // Note: Do NOT match bare "una" here as it can confuse indefinite articles or number 1
+    if (
+      /\b(8|ocho|octava|octavo|uña)\b/i.test(text) ||
+      /(opcion|numero|num|no\.?)\s*(8|ocho)/i.test(text) ||
+      text.includes('otro producto') ||
+      text.includes('otros productos') ||
+      text.includes('escribir') ||
+      text.includes('otro cultivo') ||
+      text.includes('otra cosa') ||
+      text.includes('otro')
+    ) {
+      return 'Otro producto';
+    }
+
+    // Check Option 7 (Pulque / Aguamiel / Maguey / Ndichi / usa)
     if (
       /\b(7|siete|septima|septimo|usa)\b/i.test(text) ||
       /(opcion|numero|num|no\.?)\s*(7|siete)/i.test(text) ||
@@ -188,17 +252,9 @@ export const ProductTypeCatalogScreen: React.FC<ProductTypeCatalogScreenProps> =
       return 'Miel';
     }
 
-    // Check Option 1 (Café Pergamino / Kafé / iin)
-    if (
-      /\b(1|uno|una|primera|primero|iin)\b/i.test(text) ||
-      /(opcion|numero|num|no\.?)\s*(1|uno|una)/i.test(text) ||
-      text.includes('cafe') ||
-      text.includes('kafe') ||
-      text.includes('arabica') ||
-      text.includes('pluma') ||
-      text.includes('pergamino')
-    ) {
-      return 'Café';
+    // Check Tenate de Palma (Cestería Tradicional)
+    if (text.includes('tenate') || text.includes('tanate')) {
+      return 'Tenate';
     }
 
     // Check Option 5 (Sombrero de Palma / Titi / u'un)
@@ -206,8 +262,6 @@ export const ProductTypeCatalogScreen: React.FC<ProductTypeCatalogScreenProps> =
       /\b(5|cinco|quinta|quinto|u'un|uun)\b/i.test(text) ||
       /(opcion|numero|num|no\.?)\s*(5|cinco)/i.test(text) ||
       text.includes('sombrero') ||
-      text.includes('palma') ||
-      text.includes('tenate') ||
       text.includes('costeno') ||
       text.includes('titi')
     ) {
@@ -229,6 +283,20 @@ export const ProductTypeCatalogScreen: React.FC<ProductTypeCatalogScreenProps> =
       return 'Textil';
     }
 
+    // Check Option 1 (Café Pergamino / Kafé / iin)
+    // Only match "uno", "1", "primero", "kafe", "cafe" - NOT standalone articles like "una" or substrings in "continuar"
+    if (
+      /\b(1|uno|primera|primero|iin)\b/i.test(text) ||
+      /(opcion|numero|num|no\.?)\s*(1|uno)/i.test(text) ||
+      text.includes('cafe') ||
+      text.includes('kafe') ||
+      text.includes('arabica') ||
+      text.includes('pluma') ||
+      text.includes('pergamino')
+    ) {
+      return 'Café';
+    }
+
     return null;
   };
 
@@ -247,7 +315,29 @@ export const ProductTypeCatalogScreen: React.FC<ProductTypeCatalogScreenProps> =
           recorderSessionRef.current = null;
           const transcriptToEvaluate = (result.transcript || liveTranscript || '').trim();
           const matched = matchProductFromVoice(transcriptToEvaluate);
-          if (matched) {
+          if (matched === '__CONTINUE__') {
+            // User said "continuar" or "siguiente"
+            if (customProductModalOpen && customProductName.trim()) {
+              handleConfirmCustomProduct(customProductName);
+            } else if (selectedItem && selectedItem !== 'Otro producto') {
+              const clean = sanitizeProductName(selectedItem);
+              setMicStatusMessage(`Avanzando con ${clean}...`);
+              setTimeout(() => {
+                onSelectProduct(clean);
+                onNavigateScreen('registrar_lote_cafe');
+              }, 400);
+            } else if (selectedItem === 'Otro producto') {
+              setCustomProductModalOpen(true);
+              setMicStatusMessage('Escribe o dicta el nombre de tu producto para continuar.');
+            } else {
+              setMicStatusMessage('Selecciona primero un producto para continuar.');
+            }
+          } else if (matched === 'Otro producto') {
+            setSelectedItem('Otro producto');
+            setCustomProductName('');
+            setCustomProductModalOpen(true);
+            setMicStatusMessage('Opción 8 detectada: Escribe o dicta el nombre de tu producto.');
+          } else if (matched) {
             const clean = sanitizeProductName(matched);
             setSelectedItem(clean);
             setInputText(clean);
@@ -257,9 +347,20 @@ export const ProductTypeCatalogScreen: React.FC<ProductTypeCatalogScreenProps> =
               onNavigateScreen('registrar_lote_cafe');
             }, 900);
           } else if (transcriptToEvaluate) {
+            // User spoke a custom product name not in catalog!
             const clean = sanitizeProductName(transcriptToEvaluate);
-            setMicStatusMessage(`Escuchado: "${clean}". Selecciona o confirma tu producto.`);
-            setInputText(clean);
+            if (customProductModalOpen) {
+              setCustomProductName(clean);
+              setMicStatusMessage(`Producto: "${clean}". Presiona continuar para registrarlo.`);
+            } else {
+              setSelectedItem(clean);
+              setInputText(clean);
+              setMicStatusMessage(`Producto reconocido: "${clean}". Entrando al registro...`);
+              setTimeout(() => {
+                onSelectProduct(clean);
+                onNavigateScreen('registrar_lote_cafe');
+              }, 900);
+            }
           } else {
             setMicStatusMessage('Audio grabado. Habla claro o di el nombre del producto (ej. "Pulque", "Café").');
           }
@@ -374,13 +475,21 @@ export const ProductTypeCatalogScreen: React.FC<ProductTypeCatalogScreenProps> =
                 </div>
 
                 <div className="flex items-center gap-2 shrink-0">
-                  <div className="w-12 h-12 rounded-xl overflow-hidden bg-[#f0eee8] border border-[#c1c8c2]/30 shadow-2xs shrink-0">
-                    <img
-                      src={item.imageUrl}
-                      alt={item.imageAlt}
-                      className="w-full h-full object-cover group-hover:scale-105 transition-transform"
-                    />
-                  </div>
+                  {item.imageUrl ? (
+                    <div className="w-12 h-12 rounded-xl overflow-hidden bg-[#f0eee8] border border-[#c1c8c2]/30 shadow-2xs shrink-0">
+                      <img
+                        src={item.imageUrl}
+                        alt={item.imageAlt || item.name}
+                        className="w-full h-full object-cover group-hover:scale-105 transition-transform"
+                      />
+                    </div>
+                  ) : (
+                    <div className="w-12 h-12 rounded-xl bg-[#ffdbd1]/50 border border-[#a73918]/30 flex items-center justify-center shrink-0">
+                      <span className="material-symbols-outlined text-[#a73918] text-[24px]">
+                        {item.icon || 'edit_note'}
+                      </span>
+                    </div>
+                  )}
                   <span className="material-symbols-outlined text-[24px] text-[#a73918]">
                     chevron_right
                   </span>
@@ -563,6 +672,134 @@ export const ProductTypeCatalogScreen: React.FC<ProductTypeCatalogScreenProps> =
           <span className="material-symbols-outlined text-[22px]">send</span>
         </button>
       </form>
+      {/* Modal for Option 8: Otro producto */}
+      {customProductModalOpen && (
+        <div
+          className="fixed inset-0 z-50 bg-black/60 backdrop-blur-xs flex items-end sm:items-center justify-center p-3 sm:p-4 animate-fadeIn"
+          onClick={() => setCustomProductModalOpen(false)}
+        >
+          <div
+            className="w-full max-w-md bg-[#faf9f5] border-2 border-[#a73918]/40 rounded-3xl p-5 shadow-2xl space-y-4"
+            onClick={(e) => e.stopPropagation()}
+          >
+            <div className="flex items-center justify-between border-b border-[#c1c8c2]/40 pb-3">
+              <div className="flex items-center gap-2.5">
+                <span className="w-8 h-8 rounded-full bg-[#ffdbd1] text-[#3b0900] flex items-center justify-center text-[15px] font-black">
+                  8
+                </span>
+                <div>
+                  <h3 className="text-[17px] font-black text-[#032517] leading-tight">
+                    {isMixteco ? 'Nuni / Yuku Inka (Otro producto)' : 'Registrar Otro Producto'}
+                  </h3>
+                  <p className="text-[12px] text-[#424843]">
+                    {isMixteco ? 'Ta\'a nani producto' : 'Escribe o elige el nombre de tu cultivo/artesanía'}
+                  </p>
+                </div>
+              </div>
+              <button
+                type="button"
+                onClick={() => setCustomProductModalOpen(false)}
+                className="w-8 h-8 rounded-full bg-white hover:bg-[#f0eee8] text-[#424843] flex items-center justify-center cursor-pointer border border-[#c1c8c2]/40"
+              >
+                ✕
+              </button>
+            </div>
+
+            {/* Quick preset suggestions */}
+            <div>
+              <span className="text-[11px] font-bold text-[#424843] uppercase tracking-wider block mb-1.5">
+                Sugerencias comunes de la región:
+              </span>
+              <div className="flex flex-wrap gap-1.5">
+                {[
+                  'Tenate de palma',
+                  'Chapulines de milpa',
+                  'Chocolate artesanal',
+                  'Mole negro',
+                  'Quesillo de hebra',
+                  'Tlayudas de comal',
+                  'Cacao criollo',
+                  'Chilhuacle'
+                ].map((sug) => (
+                  <button
+                    key={sug}
+                    type="button"
+                    onClick={() => {
+                      setCustomProductName(sug);
+                      handleConfirmCustomProduct(sug);
+                    }}
+                    className="text-[12px] font-medium bg-white hover:bg-[#ffdbd1]/50 border border-[#c1c8c2]/60 hover:border-[#a73918] text-[#032517] px-2.5 py-1 rounded-full transition-colors cursor-pointer"
+                  >
+                    + {sug}
+                  </button>
+                ))}
+              </div>
+            </div>
+
+            {/* Custom input */}
+            <form
+              onSubmit={(e) => {
+                e.preventDefault();
+                handleConfirmCustomProduct();
+              }}
+              className="space-y-3"
+            >
+              <div>
+                <label className="block text-[12px] font-bold text-[#032517] mb-1">
+                  Nombre del producto:
+                </label>
+                <div className="flex items-center gap-2">
+                  <input
+                    type="text"
+                    autoFocus
+                    value={customProductName}
+                    onChange={(e) => setCustomProductName(e.target.value)}
+                    placeholder="Ej. Amaranto orgánico, Cacao..."
+                    className="flex-1 bg-white border-2 border-[#a73918]/50 focus:border-[#a73918] focus:ring-2 focus:ring-[#a73918]/20 rounded-xl px-3.5 py-2.5 text-[15px] font-semibold text-[#1c1c18] outline-none"
+                  />
+                  <button
+                    type="button"
+                    onClick={toggleVoiceRecording}
+                    className={`w-11 h-11 rounded-xl flex items-center justify-center border cursor-pointer shrink-0 transition-all ${
+                      isRecording
+                        ? 'bg-red-600 text-white border-red-700 animate-pulse shadow-md'
+                        : 'bg-[#f0eee8] text-[#a73918] border-[#c1c8c2]/60 hover:bg-[#e4e1d9]'
+                    }`}
+                    title={isRecording ? 'Detener grabación de voz' : 'Dictar nombre por voz'}
+                  >
+                    <span className="material-symbols-outlined text-[22px]">
+                      {isRecording ? 'mic' : 'mic'}
+                    </span>
+                  </button>
+                </div>
+                {isRecording && (
+                  <p className="text-[11px] text-red-700 font-bold mt-1 animate-pulse">
+                    🎙️ Grabando... Di el nombre de tu producto y presiona detener.
+                  </p>
+                )}
+              </div>
+
+              <div className="flex items-center gap-2 pt-1">
+                <button
+                  type="button"
+                  onClick={() => setCustomProductModalOpen(false)}
+                  className="flex-1 py-2.5 rounded-xl border border-[#c1c8c2] bg-white text-[#424843] font-bold text-[14px] hover:bg-[#f0eee8] cursor-pointer"
+                >
+                  Cancelar
+                </button>
+                <button
+                  type="submit"
+                  disabled={!customProductName.trim()}
+                  className="flex-1 py-2.5 rounded-xl bg-[#a73918] disabled:opacity-50 text-white font-bold text-[14px] hover:bg-[#6c1900] active:scale-95 transition-all shadow-sm cursor-pointer flex items-center justify-center gap-1.5"
+                >
+                  <span className="material-symbols-outlined text-[18px]">check_circle</span>
+                  Continuar
+                </button>
+              </div>
+            </form>
+          </div>
+        </div>
+      )}
     </main>
   );
 };

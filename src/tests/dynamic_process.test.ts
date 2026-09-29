@@ -130,7 +130,7 @@ async function testCrypto() {
 console.log('\n--- 3. Pruebas de Usabilidad Rural & Accesibilidad ---');
 
 // A. Modo Parcela (Tolerancia a desconexión 100% offline)
-const mockOfflineLot: DigitalPassportLot = {
+const mockOfflineLot: Partial<DigitalPassportLot> = {
   id: 'lot-offline-test-1',
   code: 'MX-2024-999',
   title: 'Huipil Tradicional Triqui',

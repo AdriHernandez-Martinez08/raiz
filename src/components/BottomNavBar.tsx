@@ -33,7 +33,7 @@ export const BottomNavBar: React.FC<BottomNavBarProps> = ({
             ? 'bg-[#fe7952] text-[#6c1900] shadow-xs'
             : 'text-[#424843] hover:bg-[#f0eee8]'
         }`}
-        aria-label={isMixteco ? "Tu'un Bot" : 'Asistente Comunitario'}
+        aria-label={isMixteco ? "Tu'un Raíz" : 'Compañero TecNM'}
       >
         <span
           className={`material-symbols-outlined ${elderMode ? 'text-[28px]' : 'text-[24px]'}`}

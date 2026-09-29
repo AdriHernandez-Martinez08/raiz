@@ -31,8 +31,17 @@ export function sanitizeProductName(raw: string): string {
   if (lower.includes('jitomate') || lower.includes('tomate') || lower.includes('saladette')) {
     return 'Jitomate';
   }
-  if (lower.includes('sombrero') || lower.includes('palma') || lower.includes('tenate') || lower.includes('canasto')) {
+  if (lower.includes('tenate') || lower.includes('tanate')) {
+    return 'Tenate';
+  }
+  if (lower.includes('sombrero')) {
     return 'Sombrero';
+  }
+  if (lower.includes('canasto')) {
+    return 'Canasto';
+  }
+  if (lower.includes('palma')) {
+    return 'Palma';
   }
   if (lower.includes('textil') || lower.includes('huipil') || lower.includes('telar') || lower.includes('rebozo') || lower.includes('artesania')) {
     return 'Textil';
@@ -251,8 +260,64 @@ export function getProductProfile(rawType?: string): ProductProfile {
     };
   }
 
-  // 4. Sombrero y Palma
-  if (lower.includes('sombrero') || lower.includes('palma') || lower.includes('tenate')) {
+  // 4. Tenate de Palma (Cestería Tradicional Mixteca)
+  if (lower.includes('tenate') || lower.includes('tanate') || (lower.includes('canasto') && lower.includes('palma'))) {
+    return {
+      key: 'otro',
+      displayName: 'Tenate de Palma Dulce',
+      categoryTag: 'Cestería Ancestral & Palma Mixteca',
+      defaultPhotoOne:
+        'https://lh3.googleusercontent.com/aida-public/AB6AXuADMzysc8buYnt4_J6N6fK3aJOpQwIXmK6rDrxaTI_kI2QHwPZaveZN-R-YpdSXJl83jv428Yd5_IFDtytjOVkkte6-yB6pXskpvxdiTLt3gQ4EoFSAS1SzELEaKKIDGkkY-oWJOM68851O2vaSsz92iubLVZ69vQp19ZYBqh38PsSqvSJ-_I0vXR4ZpTDTgoRrmCS2f5HnSOLlMZWIdp0uyeXZVn1fkdUzQelGLAyhj_tOsM-t8ikpbQ',
+      defaultPhotoTwo:
+        'https://upload.wikimedia.org/wikipedia/commons/d/d4/Small_chapulines_basket.JPG',
+      sampleChips: [
+        {
+          emoji: '🧺',
+          label: 'Tenate',
+          title: 'Tenate ceremonial de palma dulce tejido a mano',
+          url: 'https://lh3.googleusercontent.com/aida-public/AB6AXuADMzysc8buYnt4_J6N6fK3aJOpQwIXmK6rDrxaTI_kI2QHwPZaveZN-R-YpdSXJl83jv428Yd5_IFDtytjOVkkte6-yB6pXskpvxdiTLt3gQ4EoFSAS1SzELEaKKIDGkkY-oWJOM68851O2vaSsz92iubLVZ69vQp19ZYBqh38PsSqvSJ-_I0vXR4ZpTDTgoRrmCS2f5HnSOLlMZWIdp0uyeXZVn1fkdUzQelGLAyhj_tOsM-t8ikpbQ'
+        },
+        {
+          emoji: '🧺',
+          label: 'Tortillero',
+          title: 'Tenate tradicional para tortillas o semillas',
+          url: 'https://upload.wikimedia.org/wikipedia/commons/d/d4/Small_chapulines_basket.JPG'
+        }
+      ],
+      field1Label: 'Tipo de Palma',
+      field1Default: 'Palma dulce de cueva (Brahea dulcis) con tintes vegetales',
+      field2Label: 'Trama y Puntada',
+      field2Default: 'Tejido fino de doble nudo tradicional',
+      field3Label: 'Medida y Uso',
+      field3Default: 'Diámetro 22 cm · Con tapa tradicional tejida',
+      unitLabel: 'Piezas',
+      defaultVolume: 3,
+      defaultPrice: 380,
+      assistiveGuideText:
+        'Tome 1 o 2 fotos del tenate mostrando el fondo, las paredes y la tapa. La computadora evaluará la firmeza y finura del tejido.',
+      assistantPromptText:
+        'Para registrar tu tenate, toma 1 o 2 fotos donde se aprecie la finura de la puntada de palma dulce y el remate tradicional.',
+      verificationBadge: 'Cestería Mixteca Auténtica',
+      verificationSubtitle: 'Hecho a Mano',
+      defectCheckText:
+        'Verifica que el fondo esté firme y no presente fisuras en la palma. La finura del tejido define el precio justo directo.',
+      aiEvaluatingText: 'Evaluando tenate de palma artesanal con Inteligencia Artificial...',
+      aiEvaluatingSubtitle: 'Analizando puntada de doble nudo, remate de orilla y pureza de fibra',
+      defaultAiDiagnosis: {
+        estado: 'Tejido de Tenate con Puntada Fina Tradicional',
+        calidadScore: 98,
+        humedadEstimada: 'Fibra Flexible Hidratada',
+        defectosDetectados: 'Cero hebras sueltas, remate cerrado de alta resistencia',
+        recomendacion: 'Tenate tradicional mixteco aprobado para venta directa con sello de autenticidad.',
+        analysis:
+          '🧺 Dictamen del Instituto Tecnológico de Tlaxiaco:\n\n• Pieza de cestería correspondiente a TENATE DE PALMA DULCE tradicional mixteco.\n• Tejido cerrado de doble nudo con remate uniforme y sin hebras quebradizas.\n• Pieza aprobada para Pasaporte Digital con Sello de Autenticidad.'
+      },
+      lotTags: ['Tenate mixteco', 'Palma dulce', 'Doble nudo', 'Artesanía Certificada', 'Mixteca Alta']
+    };
+  }
+
+  // 5. Sombrero y Palma
+  if (lower.includes('sombrero') || lower.includes('palma')) {
     return {
       key: 'sombrero',
       displayName: 'Sombrero de Palma Fina',
@@ -419,7 +484,566 @@ export function getProductProfile(rawType?: string): ProductProfile {
     };
   }
 
-  // 7. Default: Café Pergamino / Especialidad
+  // 7. Default for Custom / Other Products (Opción 8 u otros productos comunitarios)
+  const isCustomProduct =
+    lower.length > 0 &&
+    !lower.includes('cafe') &&
+    !lower.includes('café') &&
+    !lower.includes('pergamino') &&
+    !lower.includes('cereza');
+
+  if (isCustomProduct) {
+    const customTitle = sanitized && sanitized !== 'Otro producto' ? sanitized : 'Producto Comunitario';
+
+    // Intelligent image & asset matching for custom products based on keywords
+    let defaultPhotoOne = 'https://upload.wikimedia.org/wikipedia/commons/1/17/Tlacolula_Market_230122_1.jpg'; // Authentic Oaxaca indigenous market & harvest
+    let defaultPhotoTwo = 'https://images.unsplash.com/photo-1488459716781-31db52582fe9?w=800&auto=format&fit=crop&q=80';
+    let sampleChips = [
+      {
+        emoji: '🌱',
+        label: customTitle,
+        title: `Muestra de ${customTitle}`,
+        url: 'https://upload.wikimedia.org/wikipedia/commons/1/17/Tlacolula_Market_230122_1.jpg'
+      },
+      {
+        emoji: '🧺',
+        label: 'Cosecha Oaxaqueña',
+        title: 'Cosecha y elaboración comunitaria de la Mixteca y Oaxaca',
+        url: 'https://images.unsplash.com/photo-1488459716781-31db52582fe9?w=800&auto=format&fit=crop&q=80'
+      }
+    ];
+    let unitLabel = 'Kilos / Unidades';
+    let defaultVolume = 50;
+    let defaultPrice = 100;
+    let categoryTag = 'Cosecha & Gastronomía Oaxaqueña';
+
+    // 1. Chapulines e Insectos Comestibles Ancestrales de Oaxaca
+    if (
+      lower.includes('chapulin') ||
+      lower.includes('chapulines') ||
+      lower.includes('chicatana') ||
+      lower.includes('chicatanas') ||
+      lower.includes('gusano') ||
+      lower.includes('chinicuil') ||
+      lower.includes('insecto') ||
+      lower.includes('sal de gusano')
+    ) {
+      categoryTag = 'Gastronomía Ancestral & Insectos de Oaxaca';
+      defaultPhotoOne = 'https://upload.wikimedia.org/wikipedia/commons/d/d1/Chapulines_de_Oaxaca.jpg'; // Authentic toasted chapulines
+      defaultPhotoTwo = 'https://upload.wikimedia.org/wikipedia/commons/e/e8/Chapulines_Oaxaca.jpg'; // Market basket
+      sampleChips = [
+        {
+          emoji: '🦗',
+          label: 'Chapulín Tostado',
+          title: 'Chapulines de milpa tostados al comal con ajo, chile y limón',
+          url: 'https://upload.wikimedia.org/wikipedia/commons/d/d1/Chapulines_de_Oaxaca.jpg'
+        },
+        {
+          emoji: '🧺',
+          label: 'Canasto Tradicional',
+          title: 'Canasto artesanal de chapulines limpios de mercado',
+          url: 'https://upload.wikimedia.org/wikipedia/commons/e/e8/Chapulines_Oaxaca.jpg'
+        },
+        {
+          emoji: '🪨',
+          label: 'Cosecha de Milpa',
+          title: 'Muestra seleccionada en jícara tradicional',
+          url: 'https://upload.wikimedia.org/wikipedia/commons/d/d4/Small_chapulines_basket.JPG'
+        }
+      ];
+      unitLabel = 'Kilos / Medidas';
+      defaultVolume = 15;
+      defaultPrice = 280;
+    }
+    // 2. Mole Negro y Moles Tradicionales de Oaxaca
+    else if (
+      lower.includes('mole') ||
+      lower.includes('coloradito') ||
+      lower.includes('chichilo') ||
+      lower.includes('manchamanteles') ||
+      lower.includes('pipian') ||
+      lower.includes('pipían') ||
+      lower.includes('adobo')
+    ) {
+      categoryTag = 'Moles Tradicionales & Pastas Ancestrales';
+      defaultPhotoOne = 'https://upload.wikimedia.org/wikipedia/commons/5/59/Mole_negro_de_Oaxaca_con_arroz.jpg'; // Mole negro oaxaqueño
+      defaultPhotoTwo = 'https://upload.wikimedia.org/wikipedia/commons/e/eb/Mole_negro_mexicano.jpg';
+      sampleChips = [
+        {
+          emoji: '🍲',
+          label: 'Mole Negro',
+          title: 'Pasta y platillo tradicional de mole negro oaxaqueño',
+          url: 'https://upload.wikimedia.org/wikipedia/commons/5/59/Mole_negro_de_Oaxaca_con_arroz.jpg'
+        },
+        {
+          emoji: '🏺',
+          label: 'Pasta en Cazuela',
+          title: 'Pasta artesanal molida en cazuela de barro',
+          url: 'https://upload.wikimedia.org/wikipedia/commons/e/eb/Mole_negro_mexicano.jpg'
+        }
+      ];
+      unitLabel = 'Kilos / Pastas';
+      defaultVolume = 20;
+      defaultPrice = 250;
+    }
+    // 3. Tlayudas, Totopos, Masas y Antojitos del Comal
+    else if (
+      lower.includes('tlayuda') ||
+      lower.includes('tlayudas') ||
+      lower.includes('totopo') ||
+      lower.includes('totopos') ||
+      lower.includes('memela') ||
+      lower.includes('memelas') ||
+      lower.includes('tamal') ||
+      lower.includes('tamales') ||
+      lower.includes('nicuatole') ||
+      lower.includes('zapalote')
+    ) {
+      categoryTag = 'Maíz Criollo, Tlayudas & Gastronomía del Comal';
+      defaultPhotoOne = 'https://upload.wikimedia.org/wikipedia/commons/5/52/Tlayuda_con_Quesillo%2C_Oaxaca.jpg'; // Tlayuda tradicional
+      defaultPhotoTwo = 'https://lh3.googleusercontent.com/aida-public/AB6AXuAx4jUpQopozBH8CYGA3m-Tfhex_UjwxY-4UKei8h4QhxSSmzObP9OdoONSXqi0XITG11whMMoDAOmA4bw0hSNWommPAh4F1D5ffA86lEaxrdfmf3kJ11rzljgIJllTeHX25OBP5QgRG79YiKsHHOLHgZPBf6D-AEEoGtbjiemIcHXuuXj7ZM1cyu0e6F19V9rkEX4nPjc7Dsc2w4tfJ_eHgPoPJzpuWKstIg6jmmd_4HM4ixO1PrSK4Q';
+      sampleChips = [
+        {
+          emoji: '🫓',
+          label: 'Tlayuda de Maíz',
+          title: 'Tlayuda tradicional de maíz criollo cocida en comal',
+          url: 'https://upload.wikimedia.org/wikipedia/commons/5/52/Tlayuda_con_Quesillo%2C_Oaxaca.jpg'
+        },
+        {
+          emoji: '🌽',
+          label: 'Maíz de Temporal',
+          title: 'Maíz nativo seleccionado para nixtamalización',
+          url: 'https://lh3.googleusercontent.com/aida-public/AB6AXuAx4jUpQopozBH8CYGA3m-Tfhex_UjwxY-4UKei8h4QhxSSmzObP9OdoONSXqi0XITG11whMMoDAOmA4bw0hSNWommPAh4F1D5ffA86lEaxrdfmf3kJ11rzljgIJllTeHX25OBP5QgRG79YiKsHHOLHgZPBf6D-AEEoGtbjiemIcHXuuXj7ZM1cyu0e6F19V9rkEX4nPjc7Dsc2w4tfJ_eHgPoPJzpuWKstIg6jmmd_4HM4ixO1PrSK4Q'
+        }
+      ];
+      unitLabel = 'Docenas / Piezas';
+      defaultVolume = 100;
+      defaultPrice = 80;
+    }
+    // 4. Tejate y Bebidas Rituales Ancestrales
+    else if (
+      lower.includes('tejate') ||
+      lower.includes('pozontle') ||
+      lower.includes('chocolateatole') ||
+      lower.includes('tascalate') ||
+      lower.includes('bupu') ||
+      lower.includes('tepache')
+    ) {
+      categoryTag = 'Bebidas Rituales & Espumas Ancestrales';
+      defaultPhotoOne = 'https://upload.wikimedia.org/wikipedia/commons/4/41/Tejate_drink.JPG'; // Tejate en jícara
+      defaultPhotoTwo = 'https://upload.wikimedia.org/wikipedia/commons/d/d5/Tejate_%26_Ma%C3%ADz_Criollo.jpg';
+      sampleChips = [
+        {
+          emoji: '🥣',
+          label: 'Tejate en Jícara',
+          title: 'Bebida de cacao, hueso de mamey, maíz y flor de rosita de cacao',
+          url: 'https://upload.wikimedia.org/wikipedia/commons/4/41/Tejate_drink.JPG'
+        },
+        {
+          emoji: '🌺',
+          label: 'Ingredientes Nativos',
+          title: 'Flor de cacao y maíz criollo tostado',
+          url: 'https://upload.wikimedia.org/wikipedia/commons/d/d5/Tejate_%26_Ma%C3%ADz_Criollo.jpg'
+        }
+      ];
+      unitLabel = 'Litros / Porciones';
+      defaultVolume = 40;
+      defaultPrice = 35;
+    }
+    // 5. Mezcal Artesanal y Agaves Silvestres
+    else if (
+      lower.includes('mezcal') ||
+      lower.includes('espadin') ||
+      lower.includes('espadín') ||
+      lower.includes('tobala') ||
+      lower.includes('tobalá') ||
+      lower.includes('tepeztate') ||
+      lower.includes('arroqueño') ||
+      lower.includes('cuixe') ||
+      lower.includes('maguey') ||
+      lower.includes('destilado')
+    ) {
+      categoryTag = 'Mezcal Artesanal & Agaves Silvestres de Oaxaca';
+      defaultPhotoOne = 'https://lh3.googleusercontent.com/aida-public/AB6AXuBc_N5Gd6_M6-7lQHNQn3u3CXOjDBgtsRYAkGv11YJL-psCvs1aTaRhU5f87szXd3mIEG0cKutzbMwwdbRrF_2uVkNRE51yH_5m7V97JQlVfin1PVYlfKXAD8xqCNnOtz9-53IwaTy4vm7Rhw-VC1ubJBS9tPv3w35YBbxOOVS4PMaLZd-D6s8ADZvyM4HnAKAiFGs76_3veillGYNT7ewqhgIa9lTXbg2p96qV9xt4PwYJJTrJab2oBw';
+      defaultPhotoTwo = 'https://images.unsplash.com/photo-1518531933037-91b2f5f229cc?w=800&auto=format&fit=crop&q=80';
+      sampleChips = [
+        {
+          emoji: '🥃',
+          label: 'Mezcal Artesanal',
+          title: 'Mezcal destilado en alambique de cobre o barro',
+          url: 'https://lh3.googleusercontent.com/aida-public/AB6AXuBc_N5Gd6_M6-7lQHNQn3u3CXOjDBgtsRYAkGv11YJL-psCvs1aTaRhU5f87szXd3mIEG0cKutzbMwwdbRrF_2uVkNRE51yH_5m7V97JQlVfin1PVYlfKXAD8xqCNnOtz9-53IwaTy4vm7Rhw-VC1ubJBS9tPv3w35YBbxOOVS4PMaLZd-D6s8ADZvyM4HnAKAiFGs76_3veillGYNT7ewqhgIa9lTXbg2p96qV9xt4PwYJJTrJab2oBw'
+        },
+        {
+          emoji: '🌱',
+          label: 'Maguey Silvestre',
+          title: 'Piña de agave maduro cosechado en monte alto',
+          url: 'https://images.unsplash.com/photo-1518531933037-91b2f5f229cc?w=800&auto=format&fit=crop&q=80'
+        }
+      ];
+      unitLabel = 'Litros / Botellas';
+      defaultVolume = 30;
+      defaultPrice = 450;
+    }
+    // 6. Queso / Quesillo / Lácteos tradicionales
+    else if (lower.includes('queso') || lower.includes('quesillo') || lower.includes('lacteo') || lower.includes('lacteos') || lower.includes('cuajada') || lower.includes('requeson')) {
+      categoryTag = 'Lácteos Tradicionales & Quesería Campesina';
+      defaultPhotoOne = 'https://upload.wikimedia.org/wikipedia/commons/5/52/Tlayuda_con_Quesillo%2C_Oaxaca.jpg'; // Authentic Oaxaca quesillo
+      defaultPhotoTwo = 'https://images.unsplash.com/photo-1486297678162-eb2a19b0a32d?w=800&auto=format&fit=crop&q=80'; // Cheese making / dairy
+      sampleChips = [
+        {
+          emoji: '🥛',
+          label: 'Quesillo de Hebra',
+          title: 'Quesillo de hebra tradicional oaxaqueño trenzado a mano',
+          url: 'https://upload.wikimedia.org/wikipedia/commons/5/52/Tlayuda_con_Quesillo%2C_Oaxaca.jpg'
+        },
+        {
+          emoji: '🧀',
+          label: 'Queso de Rancho',
+          title: 'Queso fresco artesanal de rancho mixteco',
+          url: 'https://images.unsplash.com/photo-1486297678162-eb2a19b0a32d?w=800&auto=format&fit=crop&q=80'
+        }
+      ];
+      unitLabel = 'Kilos / Piezas';
+      defaultVolume = 25;
+      defaultPrice = 140;
+    }
+    // 7. Hierbas de Olor, Quelites y Especias de la Milpa
+    else if (
+      lower.includes('hoja santa') ||
+      lower.includes('acuyo') ||
+      lower.includes('chepiche') ||
+      lower.includes('pitiona') ||
+      lower.includes('poleo') ||
+      lower.includes('guaje') ||
+      lower.includes('guajes') ||
+      lower.includes('quelite') ||
+      lower.includes('quelites') ||
+      lower.includes('yerba') ||
+      lower.includes('hierba') ||
+      lower.includes('epazote') ||
+      lower.includes('verdolaga')
+    ) {
+      categoryTag = 'Hierbas Nativas, Quelites & Aromáticas de Milpa';
+      defaultPhotoOne = 'https://images.unsplash.com/photo-1540420773420-3366772f4999?w=800&auto=format&fit=crop&q=80';
+      defaultPhotoTwo = 'https://images.unsplash.com/photo-1518531933037-91b2f5f229cc?w=800&auto=format&fit=crop&q=80';
+      sampleChips = [
+        {
+          emoji: '🌿',
+          label: 'Manojo Fresco',
+          title: 'Hierbas aromáticas y quelites frescos recolectados en milpa',
+          url: 'https://images.unsplash.com/photo-1540420773420-3366772f4999?w=800&auto=format&fit=crop&q=80'
+        },
+        {
+          emoji: '🧺',
+          label: 'Cosecha de Campo',
+          title: 'Canasto de quelites de temporal sin pesticidas',
+          url: 'https://images.unsplash.com/photo-1518531933037-91b2f5f229cc?w=800&auto=format&fit=crop&q=80'
+        }
+      ];
+      unitLabel = 'Manojos / Kilos';
+      defaultVolume = 30;
+      defaultPrice = 25;
+    }
+    // 8. Frutas Criollas, Pitayas y Huertos Familiares
+    else if (
+      lower.includes('pitaya') ||
+      lower.includes('pitahaya') ||
+      lower.includes('nanche') ||
+      lower.includes('mamey') ||
+      lower.includes('zapote') ||
+      lower.includes('chicozapote') ||
+      lower.includes('chirimoya') ||
+      lower.includes('tuna') ||
+      lower.includes('tejocote') ||
+      lower.includes('ciruela') ||
+      lower.includes('jicama') ||
+      lower.includes('jícama')
+    ) {
+      categoryTag = 'Frutos Nativos, Cactáceas & Huertos de la Mixteca';
+      defaultPhotoOne = 'https://images.unsplash.com/photo-1550258987-190a2d41a8ba?w=800&auto=format&fit=crop&q=80';
+      defaultPhotoTwo = 'https://images.unsplash.com/photo-1619566636858-adf3ef46400b?w=800&auto=format&fit=crop&q=80';
+      sampleChips = [
+        {
+          emoji: '🌵',
+          label: 'Fruto Nativo',
+          title: 'Fruta criolla recolectada en su punto dulce de madurez',
+          url: 'https://images.unsplash.com/photo-1550258987-190a2d41a8ba?w=800&auto=format&fit=crop&q=80'
+        },
+        {
+          emoji: '🧺',
+          label: 'Canasto Cosecha',
+          title: 'Canasto de cosecha fresca de huerto familiar',
+          url: 'https://images.unsplash.com/photo-1619566636858-adf3ef46400b?w=800&auto=format&fit=crop&q=80'
+        }
+      ];
+      unitLabel = 'Kilos / Canastos';
+      defaultVolume = 50;
+      defaultPrice = 45;
+    }
+    // 9. Aguacate / Frutales
+    else if (lower.includes('aguacate') || lower.includes('palta')) {
+      categoryTag = 'Frutales de Altura & Huertos Familiares';
+      defaultPhotoOne = 'https://images.unsplash.com/photo-1523049673857-eb18f1d7b578?w=800&auto=format&fit=crop&q=80'; // Fresh avocados
+      defaultPhotoTwo = 'https://images.unsplash.com/photo-1519162808019-7de1683fa2ad?w=800&auto=format&fit=crop&q=80';
+      sampleChips = [
+        {
+          emoji: '🥑',
+          label: 'Aguacate Hass',
+          title: 'Aguacate Hass criollo de huerto mixteco',
+          url: 'https://images.unsplash.com/photo-1523049673857-eb18f1d7b578?w=800&auto=format&fit=crop&q=80'
+        },
+        {
+          emoji: '🌳',
+          label: 'Caja Cosecha',
+          title: 'Caja de aguacates recién cortados',
+          url: 'https://images.unsplash.com/photo-1519162808019-7de1683fa2ad?w=800&auto=format&fit=crop&q=80'
+        }
+      ];
+      unitLabel = 'Kilos';
+      defaultVolume = 60;
+      defaultPrice = 55;
+    }
+    // C. Cacao / Chocolate tradicional
+    else if (lower.includes('cacao') || lower.includes('chocolate')) {
+      categoryTag = 'Cacao Criollo & Molienda Ancestral';
+      const isMetateChocolate = lower.includes('chocolate');
+      defaultPhotoOne = isMetateChocolate
+        ? 'https://upload.wikimedia.org/wikipedia/commons/e/e8/Chocolate_mayordomo_oaxaca_%28cropped%29.jpg' // Authentic Oaxaca chocolate tablets & paste
+        : 'https://upload.wikimedia.org/wikipedia/commons/7/76/Cocoa_beans.jpg'; // Cacao criollo beans
+      defaultPhotoTwo = 'https://upload.wikimedia.org/wikipedia/commons/0/01/Cacao-pod-k4636-14.jpg'; // Fresh cacao pod
+      sampleChips = [
+        {
+          emoji: '🍫',
+          label: 'Chocolate Metate',
+          title: 'Pasta y tablilla de chocolate tradicional oaxaqueño',
+          url: 'https://upload.wikimedia.org/wikipedia/commons/e/e8/Chocolate_mayordomo_oaxaca_%28cropped%29.jpg'
+        },
+        {
+          emoji: '🫘',
+          label: 'Semilla Cacao',
+          title: 'Semillas fermentadas y secas de cacao criollo',
+          url: 'https://upload.wikimedia.org/wikipedia/commons/7/76/Cocoa_beans.jpg'
+        },
+        {
+          emoji: '🌿',
+          label: 'Mazorca Cacao',
+          title: 'Mazorca fresca de cacao nativo abierta',
+          url: 'https://upload.wikimedia.org/wikipedia/commons/0/01/Cacao-pod-k4636-14.jpg'
+        }
+      ];
+      unitLabel = 'Kilos / Tablillas';
+      defaultVolume = 40;
+      defaultPrice = 180;
+    }
+    // D. Amaranto / Alegría / Semillas
+    else if (lower.includes('amaranto') || lower.includes('alegria') || lower.includes('chía') || lower.includes('chia')) {
+      categoryTag = 'Semillas Nativas & Granos Andinos-Mixtecos';
+      defaultPhotoOne = 'https://images.unsplash.com/photo-1509358271058-acd22cc93898?w=800&auto=format&fit=crop&q=80'; // Healthy grains / seeds
+      defaultPhotoTwo = 'https://images.unsplash.com/photo-1586201375761-83865001e31c?w=800&auto=format&fit=crop&q=80';
+      sampleChips = [
+        {
+          emoji: '🌾',
+          label: 'Amaranto Panoja',
+          title: 'Amaranto dorado limpio de cosecha',
+          url: 'https://images.unsplash.com/photo-1509358271058-acd22cc93898?w=800&auto=format&fit=crop&q=80'
+        },
+        {
+          emoji: '🥣',
+          label: 'Grano Seleccionado',
+          title: 'Grano reventado o seleccionado limpio',
+          url: 'https://images.unsplash.com/photo-1586201375761-83865001e31c?w=800&auto=format&fit=crop&q=80'
+        }
+      ];
+      unitLabel = 'Kilos';
+      defaultVolume = 80;
+      defaultPrice = 65;
+    }
+    // E. Pan artesanal / Pan de pulque / Pan de yema
+    else if (lower.includes('pan') || lower.includes('reposteria') || lower.includes('panaderia') || lower.includes('horno')) {
+      categoryTag = 'Panadería Tradicional & Hornos de Leña';
+      defaultPhotoOne = 'https://images.unsplash.com/photo-1509440159596-0249088772ff?w=800&auto=format&fit=crop&q=80'; // Rustic bread
+      defaultPhotoTwo = 'https://images.unsplash.com/photo-1549931319-a545dcf3bc73?w=800&auto=format&fit=crop&q=80';
+      sampleChips = [
+        {
+          emoji: '🥖',
+          label: 'Pan de Leña',
+          title: 'Pan artesanal horneado en bóveda de barro',
+          url: 'https://images.unsplash.com/photo-1509440159596-0249088772ff?w=800&auto=format&fit=crop&q=80'
+        },
+        {
+          emoji: '🍞',
+          label: 'Pan de Pulque',
+          title: 'Pan tradicional fermentado con aguamiel',
+          url: 'https://images.unsplash.com/photo-1549931319-a545dcf3bc73?w=800&auto=format&fit=crop&q=80'
+        }
+      ];
+      unitLabel = 'Piezas / Canastos';
+      defaultVolume = 100;
+      defaultPrice = 15;
+    }
+    // F. Chiles / Chilhuacle / Chile pasilla / Especias
+    else if (lower.includes('chile') || lower.includes('chilhuacle') || lower.includes('pasilla') || lower.includes('costeno') || lower.includes('chiles')) {
+      categoryTag = 'Chiles Nativos & Especias Mixtecas';
+      defaultPhotoOne = 'https://images.unsplash.com/photo-1588252303782-cb80119abd6d?w=800&auto=format&fit=crop&q=80'; // Dried / fresh artisan chilies
+      defaultPhotoTwo = 'https://images.unsplash.com/photo-1563729784474-d77dbb933a9e?w=800&auto=format&fit=crop&q=80';
+      sampleChips = [
+        {
+          emoji: '🌶️',
+          label: 'Chile Criollo',
+          title: 'Chile nativo secado al sol en petates',
+          url: 'https://images.unsplash.com/photo-1588252303782-cb80119abd6d?w=800&auto=format&fit=crop&q=80'
+        },
+        {
+          emoji: '🔥',
+          label: 'Muestra Seca',
+          title: 'Chiles secos seleccionados sin impurezas',
+          url: 'https://images.unsplash.com/photo-1563729784474-d77dbb933a9e?w=800&auto=format&fit=crop&q=80'
+        }
+      ];
+      unitLabel = 'Kilos';
+      defaultVolume = 30;
+      defaultPrice = 220;
+    }
+    // G. Calabaza / Calabacita / Flor de calabaza
+    else if (lower.includes('calabaza') || lower.includes('calabacita') || lower.includes('flor')) {
+      categoryTag = 'Hortalizas de Milpa & Huerto Campesino';
+      defaultPhotoOne = 'https://images.unsplash.com/photo-1570586437263-ab629fccc818?w=800&auto=format&fit=crop&q=80'; // Pumpkin / Squash
+      defaultPhotoTwo = 'https://images.unsplash.com/photo-1506917728037-b9bf01ac7876?w=800&auto=format&fit=crop&q=80';
+      sampleChips = [
+        {
+          emoji: '🎃',
+          label: 'Calabaza Criolla',
+          title: 'Calabaza criolla de milpa tradicional',
+          url: 'https://images.unsplash.com/photo-1570586437263-ab629fccc818?w=800&auto=format&fit=crop&q=80'
+        },
+        {
+          emoji: '🌱',
+          label: 'Cosecha Tierna',
+          title: 'Calabacita tierna recién cosechada',
+          url: 'https://images.unsplash.com/photo-1506917728037-b9bf01ac7876?w=800&auto=format&fit=crop&q=80'
+        }
+      ];
+      unitLabel = 'Kilos / Piezas';
+      defaultVolume = 70;
+      defaultPrice = 25;
+    }
+    // H. Hongos silvestres / Champiñón / Setas
+    else if (lower.includes('hongo') || lower.includes('hongos') || lower.includes('seta') || lower.includes('setas')) {
+      categoryTag = 'Recolección Silvestre & Hongos del Bosque Mixteco';
+      defaultPhotoOne = 'https://images.unsplash.com/photo-1504544750208-dc0358e63f7f?w=800&auto=format&fit=crop&q=80'; // Wild mushrooms
+      defaultPhotoTwo = 'https://images.unsplash.com/photo-1541832676-9b763b0239ab?w=800&auto=format&fit=crop&q=80';
+      sampleChips = [
+        {
+          emoji: '🍄',
+          label: 'Hongo Silvestre',
+          title: 'Hongos comestibles recolectados en bosque de encino y pino',
+          url: 'https://images.unsplash.com/photo-1504544750208-dc0358e63f7f?w=800&auto=format&fit=crop&q=80'
+        },
+        {
+          emoji: '🌲',
+          label: 'Canasto Cosecha',
+          title: 'Canasto de hongos frescos seleccionados',
+          url: 'https://images.unsplash.com/photo-1541832676-9b763b0239ab?w=800&auto=format&fit=crop&q=80'
+        }
+      ];
+      unitLabel = 'Kilos / Canastos';
+      defaultVolume = 20;
+      defaultPrice = 120;
+    }
+    // I. Barro / Alfarería
+    else if (lower.includes('barro') || lower.includes('olla') || lower.includes('cazuela') || lower.includes('ceramica') || lower.includes('alfareria')) {
+      categoryTag = 'Barro Rojo Tradicional & Bruñido a Mano';
+      defaultPhotoOne = 'https://lh3.googleusercontent.com/aida-public/AB6AXuBc_N5Gd6_M6-7lQHNQn3u3CXOjDBgtsRYAkGv11YJL-psCvs1aTaRhU5f87szXd3mIEG0cKutzbMwwdbRrF_2uVkNRE51yH_5m7V97JQlVfin1PVYlfKXAD8xqCNnOtz9-53IwaTy4vm7Rhw-VC1ubJBS9tPv3w35YBbxOOVS4PMaLZd-D6s8ADZvyM4HnAKAiFGs76_3veillGYNT7ewqhgIa9lTXbg2p96qV9xt4PwYJJTrJab2oBw';
+      defaultPhotoTwo = 'https://images.unsplash.com/photo-1565193566173-7a0ee3dbe261?w=800&auto=format&fit=crop&q=80';
+      sampleChips = [
+        {
+          emoji: '🏺',
+          label: 'Pieza de Barro',
+          title: 'Pieza de barro rojo bruñido con cuarzo de río',
+          url: 'https://lh3.googleusercontent.com/aida-public/AB6AXuBc_N5Gd6_M6-7lQHNQn3u3CXOjDBgtsRYAkGv11YJL-psCvs1aTaRhU5f87szXd3mIEG0cKutzbMwwdbRrF_2uVkNRE51yH_5m7V97JQlVfin1PVYlfKXAD8xqCNnOtz9-53IwaTy4vm7Rhw-VC1ubJBS9tPv3w35YBbxOOVS4PMaLZd-D6s8ADZvyM4HnAKAiFGs76_3veillGYNT7ewqhgIa9lTXbg2p96qV9xt4PwYJJTrJab2oBw'
+        },
+        {
+          emoji: '🔥',
+          label: 'Cocción Leña',
+          title: 'Horneado a cielo abierto con leña de encino',
+          url: 'https://images.unsplash.com/photo-1565193566173-7a0ee3dbe261?w=800&auto=format&fit=crop&q=80'
+        }
+      ];
+      unitLabel = 'Piezas';
+      defaultVolume = 15;
+      defaultPrice = 280;
+    }
+    // J. Frutas / Manzana / Durazno / Naranja / Limón
+    else if (lower.includes('manzana') || lower.includes('durazno') || lower.includes('pera') || lower.includes('fruta') || lower.includes('naranja') || lower.includes('limon')) {
+      categoryTag = 'Fruta Dulce de la Sierra Mixteca';
+      defaultPhotoOne = 'https://images.unsplash.com/photo-1619566636858-adf3ef46400b?w=800&auto=format&fit=crop&q=80'; // Fresh mountain fruit
+      defaultPhotoTwo = 'https://images.unsplash.com/photo-1560806887-1e4cd0b6cbd6?w=800&auto=format&fit=crop&q=80';
+      sampleChips = [
+        {
+          emoji: '🍎',
+          label: 'Fruta Criolla',
+          title: 'Fruta dulce criolla de huerto familiar',
+          url: 'https://images.unsplash.com/photo-1619566636858-adf3ef46400b?w=800&auto=format&fit=crop&q=80'
+        },
+        {
+          emoji: '🧺',
+          label: 'Cosecha Fresca',
+          title: 'Frutas cosechadas en su punto de madurez',
+          url: 'https://images.unsplash.com/photo-1560806887-1e4cd0b6cbd6?w=800&auto=format&fit=crop&q=80'
+        }
+      ];
+      unitLabel = 'Kilos / Cajas';
+      defaultVolume = 80;
+      defaultPrice = 45;
+    }
+
+    const isPlural = customTitle.toLowerCase().endsWith('s') || customTitle.toLowerCase().includes('granos');
+    const isFeminine = customTitle.toLowerCase().endsWith('a') || customTitle.toLowerCase().endsWith('as') || customTitle.toLowerCase().includes('miel') || customTitle.toLowerCase().includes('tlayuda');
+    const articleDef = isPlural ? (isFeminine ? 'las' : 'los') : (isFeminine ? 'la' : 'el');
+    const articlePoss = isPlural ? 'sus' : 'su';
+    const adjClean = isPlural ? (isFeminine ? 'limpias, sanas' : 'limpios, sanos') : (isFeminine ? 'limpia, sana' : 'limpio, sano');
+    const verbBe = isPlural ? 'estén' : 'esté';
+
+    return {
+      key: 'otro',
+      displayName: customTitle,
+      categoryTag,
+      defaultPhotoOne,
+      defaultPhotoTwo,
+      sampleChips,
+      field1Label: `Variedad o Tipo de ${customTitle}`,
+      field1Default: `${customTitle} Criollo de la Mixteca`,
+      field2Label: 'Origen y Comunidad',
+      field2Default: 'Mixteca Alta Oaxaqueña',
+      field3Label: 'Presentación de Entrega',
+      field3Default: `${unitLabel} seleccionados artesanalmente`,
+      unitLabel,
+      defaultVolume,
+      defaultPrice,
+      assistiveGuideText:
+        `No se preocupe por datos técnicos ni por escribir. Toque los botones grandes para tomar fotos de ${articlePoss} ${customTitle.toLowerCase()} y la computadora del Tec evaluará la muestra al momento.`,
+      assistantPromptText:
+        `Para registrar ${articlePoss} ${customTitle.toLowerCase()}, toma 1 o 2 fotos claras del producto cosechado o elaborado para verificar su autenticidad y condición.`,
+      verificationBadge: 'Producción Mixteca Auténtica',
+      verificationSubtitle: 'Comercio Directo Comunal',
+      defectCheckText:
+        `Verifica que ${articleDef} ${customTitle.toLowerCase()} ${verbBe} ${adjClean} y en óptimas condiciones para su comercialización directa.`,
+      aiEvaluatingText: `Evaluando muestra de ${customTitle.toLowerCase()} con Inteligencia Artificial...`,
+      aiEvaluatingSubtitle: 'Verificando sanidad, origen regional y estándares comunitarios',
+      defaultAiDiagnosis: {
+        estado: `${customTitle} Comunitario de Calidad Garantizada`,
+        calidadScore: 95,
+        humedadEstimada: 'Excelente condición y pureza',
+        defectosDetectados: '0% contaminantes, producto fresco y legítimo',
+        recomendacion: `Lote de ${customTitle.toLowerCase()} aprobado. Listo para Pasaporte Digital y venta directa sin intermediarios.`,
+        analysis:
+          `🌿 Dictamen del Instituto Tecnológico de Tlaxiaco:\n\n• Muestra evaluada correspondiente a ${customTitle.toUpperCase()} de la región Mixteca y Oaxaca.\n• Producto legítimo, cosechado/elaborado con métodos tradicionales sustentables.\n• Apto para registro en la red comunitaria con Pasaporte Digital inmutable.`
+      },
+      lotTags: [customTitle, 'Mixteca Alta', 'Comercio Justo', '100% Auténtico']
+    };
+  }
+
+  // 8. Default: Café Pergamino / Especialidad (Solo cuando explícitamente es Café)
   return {
     key: 'cafe',
     displayName: 'Café Pergamino de Altura',

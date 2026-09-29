@@ -95,6 +95,17 @@ export const RegisterCoffeeLotScreen: React.FC<RegisterCoffeeLotScreenProps> = (
     setEasyMode(elderMode);
   }, [elderMode]);
 
+  // Synchronize photo and fields whenever the selected product profile changes
+  useEffect(() => {
+    setPhotoOneUrl(profile.defaultPhotoOne);
+    setPhotoTwoUrl(null);
+    setPhotoCount(1);
+    setVariedad(profile.field1Default);
+    setAltitud(profile.field2Default);
+    setProceso(profile.field3Default);
+    setAiDiagnosis(null);
+  }, [cleanProductName, profile.defaultPhotoOne]);
+
   const [isSpeakingDiagnosis, setIsSpeakingDiagnosis] = useState<boolean>(false);
 
   const handleSpeakDiagnosis = (customText?: string) => {
@@ -132,6 +143,11 @@ export const RegisterCoffeeLotScreen: React.FC<RegisterCoffeeLotScreenProps> = (
     setIsSpeakingDiagnosis(true);
     window.speechSynthesis.speak(utterance);
   };
+
+  // Reset scroll to top on mount so user always starts at the beginning sequentially
+  useEffect(() => {
+    window.scrollTo({ top: 0, behavior: 'instant' });
+  }, []);
 
   // Stop camera and audio stream on unmount
   useEffect(() => {
@@ -517,6 +533,22 @@ export const RegisterCoffeeLotScreen: React.FC<RegisterCoffeeLotScreenProps> = (
           url: 'https://lh3.googleusercontent.com/aida-public/AB6AXuDVqal830zp_JFXZ3K1_Rr7bbte3jwc_lJwXPf-TxcAcEg2raHlxCK89btRwH4uwzhF2fLfO_VmIZsA4gTepWeTnnrV6vLEcToMhwFBkbarbh5uwCol3bpetHUY8kzwnxJxVdtmqGOZThqZnec77V9oKnLql4l29d8XAJan9Acm66pPUlaO6eAOQymtE0KneK_qV0L0sOeux4_wReZWm6lmbXiAdjKdpv5FSyJqzx_42kMz_U4T3L2q_g'
         }
       ]
+    : profile.key === 'otro'
+    ? [
+        ...profile.sampleChips.map((chip) => ({
+          emoji: chip.emoji,
+          label: chip.label,
+          title: chip.title,
+          url: chip.url
+        })),
+        {
+          emoji: '☕',
+          label: 'Café (Control)',
+          title: 'Muestra Control Café (No Corresponde)',
+          isControl: true,
+          url: 'https://lh3.googleusercontent.com/aida-public/AB6AXuDVqal830zp_JFXZ3K1_Rr7bbte3jwc_lJwXPf-TxcAcEg2raHlxCK89btRwH4uwzhF2fLfO_VmIZsA4gTepWeTnnrV6vLEcToMhwFBkbarbh5uwCol3bpetHUY8kzwnxJxVdtmqGOZThqZnec77V9oKnLql4l29d8XAJan9Acm66pPUlaO6eAOQymtE0KneK_qV0L0sOeux4_wReZWm6lmbXiAdjKdpv5FSyJqzx_42kMz_U4T3L2q_g'
+        }
+      ]
     : [
         {
           emoji: '🍒',
@@ -711,17 +743,26 @@ export const RegisterCoffeeLotScreen: React.FC<RegisterCoffeeLotScreenProps> = (
             notes: 'Pieza artesanal única tejida a mano en telar de cintura con hilos teñidos vegetalmente.'
           });
         } else if (isSombrero) {
+          const isTenateItem =
+            variedad?.toLowerCase().includes('tenate') ||
+            profile.displayName?.toLowerCase().includes('tenate') ||
+            selectedProductType?.toLowerCase().includes('tenate');
+
           onLotCreated({
-            title: 'Sombrero Costeño de Palma Fina',
-            productType: 'Tejido de Palma',
+            title: isTenateItem ? 'Tenate Ceremonial de Palma Dulce' : 'Sombrero Costeño de Palma Fina',
+            productType: isTenateItem ? 'Cestería & Tejido de Palma' : 'Tejido de Palma',
             variety: variedad,
             altitude: altitud,
             process: proceso,
             imageUrl: photoOneUrl,
-            tags: ['Palma dulce', 'Hecho a mano', 'Artesanía Certificada'],
-            pricePerKg: 350,
-            volumeKg: 1,
-            notes: 'Sombrero tradicional tejido a mano con palma dulce de la Mixteca.'
+            tags: isTenateItem
+              ? ['Tenate tradicional', 'Palma dulce', 'Doble nudo', 'Artesanía Certificada', 'Mixteca Alta']
+              : ['Palma dulce', 'Hecho a mano', 'Artesanía Certificada'],
+            pricePerKg: isTenateItem ? 380 : 350,
+            volumeKg: isTenateItem ? 3 : 1,
+            notes: isTenateItem
+              ? 'Tenate tradicional mixteco tejido a mano con palma dulce y tintes naturales.'
+              : 'Sombrero tradicional tejido a mano con palma dulce de la Mixteca.'
           });
         } else if (isHoney) {
           onLotCreated({
@@ -762,6 +803,19 @@ export const RegisterCoffeeLotScreen: React.FC<RegisterCoffeeLotScreenProps> = (
             volumeKg: 180,
             notes: 'Jitomate cultivado sin agroquímicos sintéticos en invernadero comunitario de la Mixteca.'
           });
+        } else if (profile.key === 'otro') {
+          onLotCreated({
+            title: `${profile.displayName} (${variedad})`,
+            productType: profile.displayName,
+            variety: variedad,
+            altitude: altitud,
+            process: proceso,
+            imageUrl: photoOneUrl,
+            tags: profile.lotTags,
+            pricePerKg: profile.defaultPrice,
+            volumeKg: profile.defaultVolume,
+            notes: `Lote registrado de ${profile.displayName} cosechado/elaborado por productores de la Mixteca.`
+          });
         } else {
           onLotCreated({
             title: `Café ${variedad}`,
@@ -797,19 +851,30 @@ export const RegisterCoffeeLotScreen: React.FC<RegisterCoffeeLotScreenProps> = (
         </div>
       )}
 
-      {/* Context Step Badge & Modo Fácil Toggle */}
+      {/* Navigation and Context Step Badge & Modo Fácil Toggle */}
       <div className="pt-1 flex items-center justify-between gap-2">
-        <div className="inline-flex items-center gap-2 bg-[#f0eee8] px-3 py-1.5 rounded-full border border-[#c1c8c2]/40">
-          <span className="w-2 h-2 rounded-full bg-[#a73918]"></span>
-          <span className="text-[13px] text-[#1c1c18] font-bold">
-            Paso 3 de 4 · Registrar {profile.displayName}
-          </span>
+        <div className="flex items-center gap-1.5">
+          <button
+            type="button"
+            onClick={() => onNavigateScreen('catalogo_producto')}
+            className="inline-flex items-center gap-1 font-bold text-[#032517] hover:text-[#a73918] bg-white rounded-full border border-[#c1c8c2]/50 shadow-2xs px-2.5 py-1 text-[12px] active:scale-95 transition-all cursor-pointer"
+            title="Cambiar de producto o volver al catálogo"
+          >
+            <span className="material-symbols-outlined text-[16px]">arrow_back</span>
+            <span>Cambiar</span>
+          </button>
+          <div className="inline-flex items-center gap-1.5 bg-[#f0eee8] px-2.5 py-1 rounded-full border border-[#c1c8c2]/40">
+            <span className="w-2 h-2 rounded-full bg-[#a73918]"></span>
+            <span className="text-[12px] text-[#1c1c18] font-bold truncate max-w-[130px] sm:max-w-none">
+              Paso 3 de 4 · {profile.displayName}
+            </span>
+          </div>
         </div>
 
         <button
           type="button"
           onClick={() => setEasyMode(!easyMode)}
-          className={`px-3 py-1.5 rounded-full text-[12px] font-extrabold flex items-center gap-1.5 border transition-all cursor-pointer ${
+          className={`px-2.5 py-1 rounded-full text-[11px] sm:text-[12px] font-extrabold flex items-center gap-1 border transition-all cursor-pointer ${
             easyMode
               ? 'bg-amber-100 text-amber-950 border-amber-300 shadow-2xs'
               : 'bg-white text-[#424843] border-[#c1c8c2]/60 hover:bg-[#f0eee8]'
@@ -852,9 +917,9 @@ export const RegisterCoffeeLotScreen: React.FC<RegisterCoffeeLotScreenProps> = (
       <section className="flex flex-col gap-1 items-start">
         <div className="flex items-center gap-2 mb-1">
           <div className="w-7 h-7 rounded-full bg-[#032517] flex items-center justify-center text-white">
-            <span className="material-symbols-outlined text-[16px]">smart_toy</span>
+            <span className="material-symbols-outlined text-[16px]">school</span>
           </div>
-          <span className="text-[13px] font-bold text-[#032517]">Asistente Comunitario</span>
+          <span className="text-[13px] font-bold text-[#032517]">TecNM Tlaxiaco • Guía Comunitario</span>
           <span className="text-[11px] text-[#424843]">Hoy 10:42 AM</span>
         </div>
 
@@ -1177,9 +1242,9 @@ export const RegisterCoffeeLotScreen: React.FC<RegisterCoffeeLotScreenProps> = (
       <section className="flex flex-col gap-2 items-start">
         <div className="flex items-center gap-2 mb-1">
           <div className="w-7 h-7 rounded-full bg-[#032517] flex items-center justify-center text-white">
-            <span className="material-symbols-outlined text-[16px]">smart_toy</span>
+            <span className="material-symbols-outlined text-[16px]">school</span>
           </div>
-          <span className="text-[13px] font-bold text-[#032517]">Asistente Comunitario</span>
+          <span className="text-[13px] font-bold text-[#032517]">TecNM Tlaxiaco • Guía Comunitario</span>
         </div>
 
         <div className="bg-[#f6f3ed] text-[#032517] rounded-2xl rounded-tl-xs p-4 shadow-xs w-full border border-[#c1c8c2]/30 flex flex-col gap-3">
@@ -1497,7 +1562,9 @@ export const RegisterCoffeeLotScreen: React.FC<RegisterCoffeeLotScreenProps> = (
                     ? '1. Muestra analizada (Maíz criollo nativo)'
                     : isTomato
                     ? '1. Muestra analizada (Jitomate agroecológico)'
-                    : '1. Muestra analizada (Café pergamino de altura)'}
+                    : isCoffee
+                    ? '1. Muestra analizada (Café pergamino de altura)'
+                    : `1. Muestra analizada (${profile.displayName} auténtico)`}
                 </span>
               </div>
 
@@ -1518,7 +1585,9 @@ export const RegisterCoffeeLotScreen: React.FC<RegisterCoffeeLotScreenProps> = (
                     ? '2. Grano sano, libre de gorgojo y sin OGM'
                     : isTomato
                     ? '2. Cosecha fresca, libre de pesticidas sintéticos'
-                    : '2. Conforme a NMX-F-083 (Humedad 11.4% y <2% defectos)'}
+                    : isCoffee
+                    ? '2. Conforme a NMX-F-083 (Humedad 11.4% y <2% defectos)'
+                    : `2. Calidad comprobada, 100% genuino de la Mixteca`}
                 </span>
               </div>
 
