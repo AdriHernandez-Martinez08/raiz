@@ -1,0 +1,425 @@
+import React, { useState } from 'react';
+import { RaizAIOracles, VoiceParsingResult, QualityAttestation, EUDRComplianceReport, SettlementRouteSolution } from '../core/ai/RaizAIOracles';
+import { RaizProtocolSDK } from '../core/sdk/RaizProtocolSDK';
+
+interface ProtocolInfrastructureModalProps {
+  isOpen: boolean;
+  onClose: () => void;
+}
+
+export const ProtocolInfrastructureModal: React.FC<ProtocolInfrastructureModalProps> = ({
+  isOpen,
+  onClose,
+}) => {
+  const [activeTab, setActiveTab] = useState<'oracles' | 'sdk' | 'metrics'>('oracles');
+  const [selectedOracle, setSelectedOracle] = useState<'voice' | 'quality' | 'eudr' | 'settlement'>('voice');
+
+  // Interactive Voice Oracle State
+  const [voiceInput, setVoiceInput] = useState('Kuni yu kiti 120 kilos café en la loma de San Pedro');
+  const [voiceResult, setVoiceResult] = useState<VoiceParsingResult | null>(null);
+
+  // Interactive Quality Oracle State
+  const [qualityDomain, setQualityDomain] = useState<'coffee' | 'textile'>('coffee');
+  const [qualityResult, setQualityResult] = useState<QualityAttestation | null>(null);
+
+  // Interactive EUDR Oracle State
+  const [eudrCommunity, setEudrCommunity] = useState('Heroica Ciudad de Tlaxiaco');
+  const [eudrResult, setEudrResult] = useState<EUDRComplianceReport | null>(null);
+
+  // Interactive Settlement Solver State
+  const [settlementAmount, setSettlementAmount] = useState(500);
+  const [settlementCountry, setSettlementCountry] = useState<'MX' | 'BO' | 'BR'>('MX');
+  const [settlementResult, setSettlementResult] = useState<SettlementRouteSolution | null>(null);
+
+  const sdk = new RaizProtocolSDK();
+  const metrics = sdk.getMetrics();
+
+  if (!isOpen) return null;
+
+  const handleRunVoiceOracle = () => {
+    const res = RaizAIOracles.parseAcousticVoiceInput(voiceInput);
+    setVoiceResult(res);
+  };
+
+  const handleRunQualityOracle = () => {
+    const res = RaizAIOracles.evaluateLotQuality({ productType: qualityDomain });
+    setQualityResult(res);
+  };
+
+  const handleRunEudrOracle = () => {
+    const res = RaizAIOracles.verifyEUDRCompliance({ community: eudrCommunity });
+    setEudrResult(res);
+  };
+
+  const handleRunSettlementSolver = () => {
+    const res = RaizAIOracles.solveOptimalSettlement({
+      amountUSDC: settlementAmount,
+      destinationCountry: settlementCountry,
+    });
+    setSettlementResult(res);
+  };
+
+  return (
+    <div className="fixed inset-0 z-50 flex items-center justify-center p-3 sm:p-5 bg-black/60 backdrop-blur-sm animate-fade-in">
+      <div className="bg-[#fbfcfa] w-full max-w-4xl max-h-[92vh] rounded-3xl shadow-2xl border border-[#c1c8c2]/50 flex flex-col overflow-hidden text-[#1c1c18]">
+        {/* Header */}
+        <div className="px-6 py-4 bg-[#1b3b2b] text-white flex items-center justify-between border-b border-emerald-900">
+          <div className="flex items-center gap-3">
+            <div className="w-10 h-10 rounded-2xl bg-[#a3f6c6] text-[#073822] flex items-center justify-center font-bold text-lg shadow-sm">
+              ⚡
+            </div>
+            <div>
+              <div className="flex items-center gap-2">
+                <h2 className="text-lg font-bold">Raíz Infrastructure Protocol</h2>
+                <span className="px-2 py-0.5 rounded-full text-[11px] font-bold bg-[#a3f6c6]/20 text-[#a3f6c6] border border-[#a3f6c6]/30">
+                  v1.2.0 • Stellar Soroban
+                </span>
+              </div>
+              <p className="text-xs text-white/70">
+                RWA Digital Passports, Multi-Anchor Settlement & Autonomous AI Oracles
+              </p>
+            </div>
+          </div>
+          <button
+            onClick={onClose}
+            className="w-9 h-9 rounded-full bg-white/10 hover:bg-white/20 flex items-center justify-center transition-colors text-white"
+          >
+            ✕
+          </button>
+        </div>
+
+        {/* Tab Navigation */}
+        <div className="flex border-b border-[#c1c8c2]/30 bg-white px-6">
+          <button
+            onClick={() => setActiveTab('oracles')}
+            className={`py-3 px-4 text-xs sm:text-sm font-bold border-b-2 transition-colors flex items-center gap-2 ${
+              activeTab === 'oracles'
+                ? 'border-[#1b3b2b] text-[#1b3b2b]'
+                : 'border-transparent text-[#414942] hover:text-[#1c1c18]'
+            }`}
+          >
+            <span>🤖</span> 4 Oráculos de IA Autónomos
+          </button>
+          <button
+            onClick={() => setActiveTab('sdk')}
+            className={`py-3 px-4 text-xs sm:text-sm font-bold border-b-2 transition-colors flex items-center gap-2 ${
+              activeTab === 'sdk'
+                ? 'border-[#1b3b2b] text-[#1b3b2b]'
+                : 'border-transparent text-[#414942] hover:text-[#1c1c18]'
+            }`}
+          >
+            <span>📦</span> Developer SDK & APIs
+          </button>
+          <button
+            onClick={() => setActiveTab('metrics')}
+            className={`py-3 px-4 text-xs sm:text-sm font-bold border-b-2 transition-colors flex items-center gap-2 ${
+              activeTab === 'metrics'
+                ? 'border-[#1b3b2b] text-[#1b3b2b]'
+                : 'border-transparent text-[#414942] hover:text-[#1c1c18]'
+            }`}
+          >
+            <span>📊</span> Métricas de Red & Smart Contracts
+          </button>
+        </div>
+
+        {/* Modal Body */}
+        <div className="flex-1 overflow-y-auto p-6 space-y-6">
+          {/* TAB 1: AI ORACLES */}
+          {activeTab === 'oracles' && (
+            <div className="space-y-5">
+              <div className="bg-emerald-50 border border-emerald-200 rounded-2xl p-4">
+                <p className="text-xs text-emerald-900 leading-relaxed font-medium">
+                  <strong>Arquitectura de Oráculos de IA:</strong> Automatizan la captura física, la certificación de calidad (SCAA y telar), el cumplimiento de la ley europea anti-deforestación (EUDR) y el ruteo de liquidez hacia Banxico SPEI o efectivo en báscula.
+                </p>
+              </div>
+
+              {/* Sub-selector of oracles */}
+              <div className="grid grid-cols-2 sm:grid-cols-4 gap-2">
+                {[
+                  { id: 'voice', icon: '🎙️', name: 'AIVoiceOracle', desc: 'Voz Mixteco / ES' },
+                  { id: 'quality', icon: '🔍', name: 'AIQualityOracle', desc: 'Visión SCAA & Telar' },
+                  { id: 'eudr', icon: '🛰️', name: 'AIEUDRSatellite', desc: 'Anti-Deforestación' },
+                  { id: 'settlement', icon: '⚡', name: 'AISettlementSolver', desc: 'Ruta SPEI / Cash' },
+                ].map((oracle) => (
+                  <button
+                    key={oracle.id}
+                    onClick={() => setSelectedOracle(oracle.id as any)}
+                    className={`p-3 rounded-2xl border text-left transition-all ${
+                      selectedOracle === oracle.id
+                        ? 'bg-[#1b3b2b] text-white border-[#1b3b2b] shadow-md'
+                        : 'bg-white border-[#c1c8c2]/50 text-[#1c1c18] hover:border-[#1b3b2b]/40'
+                    }`}
+                  >
+                    <div className="text-lg">{oracle.icon}</div>
+                    <div className="text-xs font-bold mt-1 truncate">{oracle.name}</div>
+                    <div className={`text-[10px] truncate ${selectedOracle === oracle.id ? 'text-white/70' : 'text-gray-500'}`}>
+                      {oracle.desc}
+                    </div>
+                  </button>
+                ))}
+              </div>
+
+              {/* ORACLE 1: VOICE */}
+              {selectedOracle === 'voice' && (
+                <div className="bg-white border border-[#c1c8c2]/40 rounded-2xl p-5 space-y-4">
+                  <div className="flex items-center justify-between">
+                    <div>
+                      <h4 className="text-sm font-bold text-[#1b3b2b]">1. AIVoiceOracle (Voz a Contrato Soroban)</h4>
+                      <p className="text-xs text-gray-500">Normalización acústica de Tu'un Savi / Español a esquema canónico Stellar.</p>
+                    </div>
+                    <button
+                      onClick={handleRunVoiceOracle}
+                      className="px-3 py-1.5 rounded-xl bg-[#1b3b2b] text-white text-xs font-bold hover:bg-[#284f3c] transition-colors shadow-xs"
+                    >
+                      Ejecutar Oráculo
+                    </button>
+                  </div>
+                  <div>
+                    <label className="text-xs font-medium text-gray-700 block mb-1">Transcripción de voz de la parcela:</label>
+                    <input
+                      type="text"
+                      value={voiceInput}
+                      onChange={(e) => setVoiceInput(e.target.value)}
+                      className="w-full text-xs p-2.5 rounded-xl border border-gray-300 bg-gray-50 focus:bg-white focus:outline-none focus:ring-1 focus:ring-emerald-700"
+                    />
+                  </div>
+                  {voiceResult && (
+                    <div className="bg-gray-900 text-emerald-400 p-4 rounded-xl text-xs font-mono space-y-2 overflow-x-auto">
+                      <div className="text-white/80 font-bold border-b border-gray-800 pb-1">Salida Canónica del Oráculo:</div>
+                      <div>Idioma Detectado: {voiceResult.detectedLanguage} (Confianza: {(voiceResult.confidenceScore * 100).toFixed(0)}%)</div>
+                      <div>Producto Extraído: {voiceResult.extractedFields.productType} ({voiceResult.extractedFields.quantity} {voiceResult.extractedFields.unit})</div>
+                      <div>Comunidad: {voiceResult.extractedFields.community}</div>
+                      <div className="text-amber-300">Stellar Payload Digest (SHA-256): {voiceResult.payloadDigest}</div>
+                    </div>
+                  )}
+                </div>
+              )}
+
+              {/* ORACLE 2: QUALITY */}
+              {selectedOracle === 'quality' && (
+                <div className="bg-white border border-[#c1c8c2]/40 rounded-2xl p-5 space-y-4">
+                  <div className="flex items-center justify-between">
+                    <div>
+                      <h4 className="text-sm font-bold text-[#1b3b2b]">2. AIQualityOracle (Proof-of-Quality RWA)</h4>
+                      <p className="text-xs text-gray-500">Evaluación de visión computacional y certificación SCAA / Telar indígena.</p>
+                    </div>
+                    <button
+                      onClick={handleRunQualityOracle}
+                      className="px-3 py-1.5 rounded-xl bg-[#1b3b2b] text-white text-xs font-bold hover:bg-[#284f3c] transition-colors shadow-xs"
+                    >
+                      Certificar Calidad
+                    </button>
+                  </div>
+                  <div className="flex gap-3">
+                    <button
+                      onClick={() => setQualityDomain('coffee')}
+                      className={`px-3 py-1.5 rounded-xl text-xs font-bold border ${
+                        qualityDomain === 'coffee' ? 'bg-[#1b3b2b] text-white' : 'bg-gray-100 text-gray-700'
+                      }`}
+                    >
+                      ☕ Café de Especialidad (SCAA)
+                    </button>
+                    <button
+                      onClick={() => setQualityDomain('textile')}
+                      className={`px-3 py-1.5 rounded-xl text-xs font-bold border ${
+                        qualityDomain === 'textile' ? 'bg-[#1b3b2b] text-white' : 'bg-gray-100 text-gray-700'
+                      }`}
+                    >
+                      🧵 Telar de Cintura (Tijaltepec)
+                    </button>
+                  </div>
+                  {qualityResult && (
+                    <div className="bg-gray-900 text-emerald-400 p-4 rounded-xl text-xs font-mono space-y-2 overflow-x-auto">
+                      <div className="text-white/80 font-bold border-b border-gray-800 pb-1">Atestación Criptográfica Firmada:</div>
+                      <div>Calificación Global: {qualityResult.overallScore} / 100 ({qualityResult.tier})</div>
+                      <div>Firma del Modelo AI: {qualityResult.aiModelSignature}</div>
+                      <div>Hash de Atestación Soroban: {qualityResult.attestationHash}</div>
+                      <div className="text-emerald-300">✅ Lote Aprobado para Exportación Directa</div>
+                    </div>
+                  )}
+                </div>
+              )}
+
+              {/* ORACLE 3: EUDR */}
+              {selectedOracle === 'eudr' && (
+                <div className="bg-white border border-[#c1c8c2]/40 rounded-2xl p-5 space-y-4">
+                  <div className="flex items-center justify-between">
+                    <div>
+                      <h4 className="text-sm font-bold text-[#1b3b2b]">3. AIEUDRSatelliteOracle (Regulación Europea)</h4>
+                      <p className="text-xs text-gray-500">Auditoría satelital temporal (2020-2026) contra deforestación.</p>
+                    </div>
+                    <button
+                      onClick={handleRunEudrOracle}
+                      className="px-3 py-1.5 rounded-xl bg-[#1b3b2b] text-white text-xs font-bold hover:bg-[#284f3c] transition-colors shadow-xs"
+                    >
+                      Auditar Satélite
+                    </button>
+                  </div>
+                  <div>
+                    <label className="text-xs font-medium text-gray-700 block mb-1">Comunidad / Polígono Parcela:</label>
+                    <input
+                      type="text"
+                      value={eudrCommunity}
+                      onChange={(e) => setEudrCommunity(e.target.value)}
+                      className="w-full text-xs p-2.5 rounded-xl border border-gray-300 bg-gray-50 focus:bg-white focus:outline-none"
+                    />
+                  </div>
+                  {eudrResult && (
+                    <div className="bg-gray-900 text-emerald-400 p-4 rounded-xl text-xs font-mono space-y-2 overflow-x-auto">
+                      <div className="text-white/80 font-bold border-b border-gray-800 pb-1">Reporte de Conformidad EUDR emitido:</div>
+                      <div>Folio Oficial: {eudrResult.complianceId}</div>
+                      <div>Deforestación Detectada: {eudrResult.forestCoverLossDetected ? 'SÍ' : 'NO (0.00% pérdida)'}</div>
+                      <div>Densidad de Dosel Forestal: {eudrResult.canopyDensityPercent}%</div>
+                      <div className="text-amber-300">Digest de Certificación: {eudrResult.certificationDigest}</div>
+                    </div>
+                  )}
+                </div>
+              )}
+
+              {/* ORACLE 4: SETTLEMENT */}
+              {selectedOracle === 'settlement' && (
+                <div className="bg-white border border-[#c1c8c2]/40 rounded-2xl p-5 space-y-4">
+                  <div className="flex items-center justify-between">
+                    <div>
+                      <h4 className="text-sm font-bold text-[#1b3b2b]">4. AISettlementSolver (Optimizador Multilateral)</h4>
+                      <p className="text-xs text-gray-500">Ruteo inteligente entre Stellar DEX, Etherfuse SPEI y MicoPay Cash.</p>
+                    </div>
+                    <button
+                      onClick={handleRunSettlementSolver}
+                      className="px-3 py-1.5 rounded-xl bg-[#1b3b2b] text-white text-xs font-bold hover:bg-[#284f3c] transition-colors shadow-xs"
+                    >
+                      Calcular Ruta Óptima
+                    </button>
+                  </div>
+                  <div className="grid grid-cols-2 gap-3">
+                    <div>
+                      <label className="text-xs font-medium text-gray-700 block mb-1">Monto en Depósito (USDC):</label>
+                      <input
+                        type="number"
+                        value={settlementAmount}
+                        onChange={(e) => setSettlementAmount(Number(e.target.value))}
+                        className="w-full text-xs p-2.5 rounded-xl border border-gray-300 bg-gray-50 focus:bg-white focus:outline-none"
+                      />
+                    </div>
+                    <div>
+                      <label className="text-xs font-medium text-gray-700 block mb-1">País Destino:</label>
+                      <select
+                        value={settlementCountry}
+                        onChange={(e) => setSettlementCountry(e.target.value as any)}
+                        className="w-full text-xs p-2.5 rounded-xl border border-gray-300 bg-gray-50 focus:bg-white focus:outline-none"
+                      >
+                        <option value="MX">🇲🇽 México (Etherfuse SPEI / MicoPay)</option>
+                        <option value="BO">🇧🇴 Bolivia (Polar ASFI QR)</option>
+                        <option value="BR">🇧🇷 Brasil (PIX Banco Central)</option>
+                      </select>
+                    </div>
+                  </div>
+                  {settlementResult && (
+                    <div className="bg-gray-900 text-emerald-400 p-4 rounded-xl text-xs font-mono space-y-2 overflow-x-auto">
+                      <div className="text-white/80 font-bold border-b border-gray-800 pb-1">Solución de Liquidación Seleccionada:</div>
+                      <div>Riel Seleccionado: {settlementResult.targetRail}</div>
+                      <div>Neto a Recibir por Productor: ${settlementResult.estimatedNetReceived.toLocaleString()} {settlementResult.localCurrencyCode}</div>
+                      <div>Gas Fee Stellar: {settlementResult.gasSponsorship.gasFeeXLM} XLM (100% Patrocinado por Raíz)</div>
+                      <div className="text-amber-300">Razón: {settlementResult.recommendedReason}</div>
+                    </div>
+                  )}
+                </div>
+              )}
+            </div>
+          )}
+
+          {/* TAB 2: DEVELOPER SDK */}
+          {activeTab === 'sdk' && (
+            <div className="space-y-4">
+              <div className="bg-white border border-[#c1c8c2]/40 rounded-2xl p-5 space-y-3">
+                <h4 className="text-sm font-bold text-[#1b3b2b]">Instalación del SDK para Terceros</h4>
+                <p className="text-xs text-gray-600">
+                  Cualquier cooperativa, tostador, fintech o exportador puede integrar Raíz en su aplicación:
+                </p>
+                <div className="bg-gray-950 text-gray-200 p-3 rounded-xl font-mono text-xs overflow-x-auto">
+                  npm install @raiz-protocol/sdk @raiz-protocol/core
+                </div>
+              </div>
+
+              <div className="bg-white border border-[#c1c8c2]/40 rounded-2xl p-5 space-y-3">
+                <h4 className="text-sm font-bold text-[#1b3b2b]">Código de Ejemplo: Registro y Liquidación RWA</h4>
+                <div className="bg-gray-950 text-emerald-400 p-4 rounded-xl font-mono text-xs overflow-x-auto leading-relaxed">
+                  <pre>{`import { RaizProtocolSDK } from '@raiz-protocol/sdk';
+
+// 1. Inicializar el cliente del protocolo
+const raiz = new RaizProtocolSDK({ network: 'stellar-mainnet', sponsorGas: true });
+
+// 2. Ejecutar el oráculo de IA para voz en Mixteco
+const voiceLot = raiz.ai.processVoiceLot(farmerAudioTranscript, 'tuun_savi');
+
+// 3. Certificar calidad con visión computacional
+const quality = raiz.ai.assessQuality({ productType: 'coffee' });
+
+// 4. Resolver ruta de liquidación híbrida directa a SPEI
+const route = raiz.ai.solveRoute(500, 'MX', 'banking_spei');
+
+console.log('Lote tokenizado en Soroban con hash:', voiceLot.payloadDigest);`}</pre>
+                </div>
+              </div>
+            </div>
+          )}
+
+          {/* TAB 3: NETWORK METRICS */}
+          {activeTab === 'metrics' && (
+            <div className="space-y-4">
+              <div className="grid grid-cols-2 sm:grid-cols-4 gap-3">
+                <div className="bg-white border border-[#c1c8c2]/50 p-4 rounded-2xl">
+                  <div className="text-xs text-gray-500">RWA Tokenizado</div>
+                  <div className="text-xl font-black text-[#1b3b2b] mt-1">{metrics.totalTokenizedRWAKg.toLocaleString()} kg</div>
+                  <div className="text-[10px] text-emerald-700 font-semibold mt-0.5">Café, Miel y Textil</div>
+                </div>
+                <div className="bg-white border border-[#c1c8c2]/50 p-4 rounded-2xl">
+                  <div className="text-xs text-gray-500">Liquidaciones Totales</div>
+                  <div className="text-xl font-black text-[#1b3b2b] mt-1">${metrics.totalSettledUSD.toLocaleString()} USD</div>
+                  <div className="text-[10px] text-emerald-700 font-semibold mt-0.5">Cero comisión a productor</div>
+                </div>
+                <div className="bg-white border border-[#c1c8c2]/50 p-4 rounded-2xl">
+                  <div className="text-xs text-gray-500">Comunidades Activas</div>
+                  <div className="text-xl font-black text-[#1b3b2b] mt-1">{metrics.activeCommunities}</div>
+                  <div className="text-[10px] text-emerald-700 font-semibold mt-0.5">Oaxaca, México</div>
+                </div>
+                <div className="bg-white border border-[#c1c8c2]/50 p-4 rounded-2xl">
+                  <div className="text-xs text-gray-500">Oráculos Autónomos</div>
+                  <div className="text-xl font-black text-[#1b3b2b] mt-1">{metrics.aiOraclesOnline} Activos</div>
+                  <div className="text-[10px] text-emerald-700 font-semibold mt-0.5">100% Uptime</div>
+                </div>
+              </div>
+
+              <div className="bg-white border border-[#c1c8c2]/40 rounded-2xl p-5 space-y-2">
+                <h4 className="text-sm font-bold text-[#1b3b2b]">Contratos Inteligentes en Soroban</h4>
+                <div className="space-y-2 text-xs font-mono">
+                  <div className="p-3 bg-gray-50 rounded-xl border border-gray-200">
+                    <span className="text-gray-500 block text-[10px]">LotPassport Smart Contract (RWA):</span>
+                    <span className="text-emerald-800 break-all">{metrics.smartContractLotPassportId}</span>
+                  </div>
+                  <div className="p-3 bg-gray-50 rounded-xl border border-gray-200">
+                    <span className="text-gray-500 block text-[10px]">FairEscrow & Perpetual Royalties Contract:</span>
+                    <span className="text-emerald-800 break-all">{metrics.smartContractFairEscrowId}</span>
+                  </div>
+                </div>
+              </div>
+            </div>
+          )}
+        </div>
+
+        {/* Modal Footer */}
+        <div className="px-6 py-3 bg-white border-t border-[#c1c8c2]/30 flex items-center justify-between">
+          <div className="text-[11px] text-gray-500">
+            Open Hub TecNM • Protocolo de Infraestructura Rural sobre Stellar
+          </div>
+          <button
+            onClick={onClose}
+            className="px-4 py-2 rounded-xl bg-[#1b3b2b] text-white text-xs font-bold hover:bg-[#284f3c] transition-colors"
+          >
+            Entendido / Cerrar
+          </button>
+        </div>
+      </div>
+    </div>
+  );
+};

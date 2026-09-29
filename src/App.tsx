@@ -20,6 +20,7 @@ import { MicrophoneDiagnosticModal } from './components/MicrophoneDiagnosticModa
 import { ExplainerVideoModal } from './components/ExplainerVideoModal';
 import { RaizAuthModal } from './components/RaizAuthModal';
 import { HybridArchitectureModal } from './components/HybridArchitectureModal';
+import { ProtocolInfrastructureModal } from './components/ProtocolInfrastructureModal';
 import { RaizAuthEngine, UserProfile } from './core/auth/RaizAuthEngine';
 import { RaizCore } from './core';
 
@@ -33,6 +34,7 @@ export default function App() {
   const [currentUser, setCurrentUser] = useState<UserProfile>(() => RaizAuthEngine.getActiveUser());
   const [isAuthModalOpen, setIsAuthModalOpen] = useState(false);
   const [isArchitectureModalOpen, setIsArchitectureModalOpen] = useState(false);
+  const [isProtocolModalOpen, setIsProtocolModalOpen] = useState(false);
 
   // Active data
   const [lots, setLots] = useState<DigitalPassportLot[]>(INITIAL_VERIFIED_LOTS);
@@ -483,6 +485,7 @@ export default function App() {
         onOpenCart={() => setIsCartModalOpen(true)}
         onOpenMicDiagnostic={() => setIsMicDiagnosticModalOpen(true)}
         onOpenExplainerVideo={() => setIsExplainerVideoOpen(true)}
+        onOpenProtocolModal={() => setIsProtocolModalOpen(true)}
         cartCount={totalCartCount}
         appLanguage={appLanguage}
         onToggleLanguage={() => setAppLanguage((prev) => (prev === 'es' ? 'mix' : 'es'))}
@@ -515,6 +518,7 @@ export default function App() {
           onOpenMap={() => setIsMapModalOpen(true)}
           onOpenMicDiagnostic={() => setIsMicDiagnosticModalOpen(true)}
           onOpenExplainerVideo={() => setIsExplainerVideoOpen(true)}
+          onOpenProtocolModal={() => setIsProtocolModalOpen(true)}
           currentUser={currentUser}
           appLanguage={appLanguage}
           elderMode={elderMode}
@@ -695,6 +699,12 @@ export default function App() {
         isOpen={isArchitectureModalOpen}
         onClose={() => setIsArchitectureModalOpen(false)}
         onOpenPayments={() => setIsPaymentsModalOpen(true)}
+      />
+
+      {/* Consola de Infraestructura Raíz & 4 Oráculos de IA Modal */}
+      <ProtocolInfrastructureModal
+        isOpen={isProtocolModalOpen}
+        onClose={() => setIsProtocolModalOpen(false)}
       />
     </div>
   );

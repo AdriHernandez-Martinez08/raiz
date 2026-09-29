@@ -9,6 +9,7 @@ interface TopAppBarProps {
   onOpenCart?: () => void;
   onOpenMicDiagnostic?: () => void;
   onOpenExplainerVideo?: () => void;
+  onOpenProtocolModal?: () => void;
   cartCount: number;
   appLanguage?: AppLanguage;
   onToggleLanguage?: () => void;
@@ -24,6 +25,7 @@ export const TopAppBar: React.FC<TopAppBarProps> = ({
   onOpenCart,
   onOpenMicDiagnostic,
   onOpenExplainerVideo,
+  onOpenProtocolModal,
   cartCount,
   appLanguage = 'es',
   onToggleLanguage,
@@ -148,6 +150,20 @@ export const TopAppBar: React.FC<TopAppBarProps> = ({
           >
             <span className="text-[13px]">🧓🏽</span>
             <span>{elderMode ? 'Grande' : 'Normal'}</span>
+          </button>
+        )}
+
+        {/* Protocol & AI Oracles Infrastructure Button */}
+        {onOpenProtocolModal && (
+          <button
+            type="button"
+            onClick={onOpenProtocolModal}
+            className="px-2.5 py-1 rounded-xl bg-[#1b3b2b] text-[#a3f6c6] font-extrabold text-[11px] hover:bg-[#284f3c] flex items-center gap-1 shadow-xs transition-all active:scale-95 cursor-pointer border border-[#a3f6c6]/30"
+            title="Consola de Infraestructura Raíz: Smart Contracts Soroban y 4 Oráculos de IA"
+            aria-label="Abrir Consola de Infraestructura Raíz y Oráculos de IA"
+          >
+            <span>⚡</span>
+            <span className="hidden sm:inline">Protocolo & IA</span>
           </button>
         )}
 
