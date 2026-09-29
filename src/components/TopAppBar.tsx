@@ -153,17 +153,17 @@ export const TopAppBar: React.FC<TopAppBarProps> = ({
           </button>
         )}
 
-        {/* Protocol & AI Oracles Infrastructure Button */}
+        {/* Protocol & AI Oracles Infrastructure Button in Header */}
         {onOpenProtocolModal && (
           <button
             type="button"
             onClick={onOpenProtocolModal}
-            className="px-2.5 py-1 rounded-xl bg-[#1b3b2b] text-[#a3f6c6] font-extrabold text-[11px] hover:bg-[#284f3c] flex items-center gap-1 shadow-xs transition-all active:scale-95 cursor-pointer border border-[#a3f6c6]/30"
+            className="px-2.5 py-1 rounded-xl bg-[#032517] text-[#a3f6c6] font-extrabold text-[11px] hover:bg-[#153f2c] flex items-center gap-1 shadow-xs transition-all active:scale-95 cursor-pointer border border-[#a3f6c6]/40 whitespace-nowrap"
             title="Consola de Infraestructura Raíz: Smart Contracts Soroban y 4 Oráculos de IA"
             aria-label="Abrir Consola de Infraestructura Raíz y Oráculos de IA"
           >
-            <span>⚡</span>
-            <span className="hidden sm:inline">Protocolo & IA</span>
+            <span className="text-[13px]">⚡</span>
+            <span>Infraestructura</span>
           </button>
         )}
 

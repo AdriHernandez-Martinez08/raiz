@@ -324,35 +324,6 @@ export const MainMenuScreen: React.FC<MainMenuScreenProps> = ({
         </div>
       </div>
 
-      {/* PROTOCOL & AI INFRASTRUCTURE QUICK BANNER */}
-      {onOpenProtocolModal && (
-        <div
-          onClick={onOpenProtocolModal}
-          className="bg-linear-to-r from-[#1b3b2b] to-[#284f3c] text-white p-3.5 rounded-2xl border border-emerald-500/40 shadow-sm cursor-pointer hover:brightness-105 active:scale-[0.99] transition-all flex items-center justify-between"
-        >
-          <div className="flex items-center gap-3">
-            <div className="w-10 h-10 rounded-xl bg-[#a3f6c6] text-[#073822] flex items-center justify-center font-bold text-lg shrink-0 shadow-xs">
-              ⚡
-            </div>
-            <div>
-              <div className="flex items-center gap-2">
-                <span className="font-bold text-xs sm:text-sm text-white">Infraestructura Raíz & 4 Oráculos IA</span>
-                <span className="px-1.5 py-0.5 rounded text-[10px] font-bold bg-[#a3f6c6]/20 text-[#a3f6c6] border border-[#a3f6c6]/30">
-                  Soroban
-                </span>
-              </div>
-              <p className="text-[11px] text-white/75 line-clamp-1">
-                Voz Tu'un Savi, Calidad SCAA, EUDR Anti-Deforestación y Ruteo SPEI/Efectivo
-              </p>
-            </div>
-          </div>
-          <div className="hidden sm:flex items-center gap-1 text-xs font-bold text-[#a3f6c6]">
-            <span>Consola</span>
-            <span>→</span>
-          </div>
-        </div>
-      )}
-
       {/* MENÚ NUMERADO DE 4 ACCIONES DE ALTO IMPACTO TÁCTIL (Mínimo 58px-72px por target) */}
       <div className={`flex flex-col ${elderMode ? 'gap-4 mt-2' : 'gap-3 mt-1'}`}>
         {/* OPCIÓN 1: Registrar cosecha o artesanía */}
