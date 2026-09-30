@@ -223,6 +223,12 @@ The project is executed by TecNM engineering teams targeting **Production Releas
 - **Gantt Roadmap View:** [https://github.com/orgs/Open-Hub-Tec/projects/1/views/2](https://github.com/orgs/Open-Hub-Tec/projects/1/views/2)
 - **Sprint Kanban:** [https://github.com/orgs/Open-Hub-Tec/projects/1/views/3](https://github.com/orgs/Open-Hub-Tec/projects/1/views/3)
 
+### ✅ Completed & Field-Verified Research Milestones (Drips Wave Eligible)
+- **[Hito 1.1: Field Pain & Economic Exploitation Validation](docs/research/HITO_1.1_VALIDACION_CAMPO.md)** (Resolved via PR #31, Issue #1)
+  - *Evidence:* San José Xochixtlán (Triqui loom huipil), Tlaxiaco/Yautepec (MezcalTrace), San Antonio Nduaxico (greenhouse tomato), San Pablo Tijaltepec (ceremonial embroidery). Signed PDF: [`docs/research/HITO_1.1_INVESTIGACION_CAMPO.pdf`](docs/research/HITO_1.1_INVESTIGACION_CAMPO.pdf).
+- **[Hito 1.2: Elder-Accessible Interactive Prototype Usability Testing](docs/ux-testing/HITO_1.2_AUDITORIA_FRICCION_UX.md)** (Resolved via PR #30, Issue #2)
+  - *Evidence:* Usability audit with Doña Reyna (56, Triqui weaver). 100% completion rate without external assistance, 9s physical QR adoption. Signed PDF: [`docs/ux-testing/HITO_1.2_PRUEBAS_USABILIDAD.pdf`](docs/ux-testing/HITO_1.2_PRUEBAS_USABILIDAD.pdf).
+
 ```
 [Sprint 1: Rural Identity & Invisible Web3]  Oct 5 - Oct 18, 2026
   ├── #18: DID Passwordless OTP Authentication (WhatsApp/SMS)
