@@ -38,6 +38,7 @@ Bienvenido al centro de documentación de **Raíz Protocol**. Para mantener el r
 ## 🔬 5. Investigación de Campo y Usabilidad en Tlaxiaco
 
 * [**`research/HITO_1.1_VALIDACION_CAMPO.md`**](./research/HITO_1.1_VALIDACION_CAMPO.md): Reporte de validación de campo con productores de café y artesanas de Oaxaca.
+* [**`research/entrevista_union_miel_san_juan_numi.md`**](./research/entrevista_union_miel_san_juan_numi.md): Entrevista de requerimientos de campo con la Unión de Productores de Miel "Flor de la Mixteca" de San Juan Ñumí, Oaxaca (Equipo UMIZOOMI / eduScrum).
 * [**`research/research_tijaltepec.md`**](./research/research_tijaltepec.md): Notas de campo en San Pablo Tijaltepec y Santa María Yucuhiti.
 * [**`research/CHAT_RURAL_KNOWLEDGE_BASE.md`**](./research/CHAT_RURAL_KNOWLEDGE_BASE.md): Base de conocimiento agronómico, normativo (NOM) y de lenguaje rural.
 * [**`ux-testing/HITO_1.2_AUDITORIA_FRICCION_UX.md`**](./ux-testing/HITO_1.2_AUDITORIA_FRICCION_UX.md): Auditoría de fricción cognitiva en adultos mayores y diseño del "Modo Abuelo" táctil de 112px.
