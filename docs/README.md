@@ -52,3 +52,13 @@ Welcome to the technical documentation hub for **Raíz Protocol**. To maintain a
 * [**`standards/SEP_RWA_ATTESTATION_DRAFT.md`**](./standards/SEP_RWA_ATTESTATION_DRAFT.md): Draft SEP proposal for Real-World Asset (RWA) attestations on Stellar.
 * [**`standards/MARKET_DYNAMICS_AND_INCENTIVES.md`**](./standards/MARKET_DYNAMICS_AND_INCENTIVES.md): Market incentive analysis, SMB buyer personas, and B2B2C economic model.
 * [**`standards/FOMENTA_2026_PRESENTACION.md`**](./standards/FOMENTA_2026_PRESENTACION.md): Academic presentation deck for technology innovation grants.
+
+---
+
+## 📽️ 7. Presentation Slide Decks
+
+* [**`STUDENT_RESEARCH_PITCH_DECK.md`**](./STUDENT_RESEARCH_PITCH_DECK.md): Official 14-slide presentation deck with student research brigades, field pain data, and UX audits (English).
+* [**`PRESENTACION_PITCH_DECK_ESTUDIANTES.md`**](./PRESENTACION_PITCH_DECK_ESTUDIANTES.md): Guía completa de diapositivas con datos duros de los estudiantes, testimonios y métricas de campo (Español).
+* **Descarga de archivos PowerPoint 16:9:**
+  * 🇬🇧 [Raiz_Protocol_Stellar_PitchDeck.pptx](../public/Raiz_Protocol_Stellar_PitchDeck.pptx)
+  * 🇪🇸 [Raiz_Protocol_Presentacion_Oficial.pptx](../public/Raiz_Protocol_Presentacion_Oficial.pptx)

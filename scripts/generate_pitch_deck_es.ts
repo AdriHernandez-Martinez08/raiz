@@ -486,6 +486,367 @@ const C_CARD_BORDER = 'E5E7EB';// Borde Suave
   );
 }
 
+// SLIDE 3B: Brigadas de Investigación Estudiantil y Casos de Dolor en Campo
+{
+  const slide = pptx.addSlide();
+  slide.background = { color: C_LIGHT_BG };
+
+  slide.addText('BRIGADAS ESTUDIANTILES: CASOS DE DOLOR REAL EN LA MIXTECA', {
+    x: 0.8,
+    y: 0.6,
+    w: 11.5,
+    h: 0.55,
+    fontSize: 24,
+    fontFace: 'Arial',
+    bold: true,
+    color: C_DARK_BG,
+  });
+
+  slide.addText('Estudiantes de Ing. en Sistemas del TecNM Tlaxiaco Levantando Datos en Territorio (Hito 1.1 · PRs #31, #38, #41)', {
+    x: 0.8,
+    y: 1.15,
+    w: 11.5,
+    h: 0.35,
+    fontSize: 14,
+    fontFace: 'Arial',
+    color: C_GOLD,
+    bold: true,
+  });
+
+  const studentCases = [
+    {
+      community: 'SAN JUAN MIXTEPEC',
+      team: 'Jazlynn Barrios, Isaías López, Rafael Ayala, Alex Victoria (7º Semestre)',
+      activity: 'Artesanías de Palma (Brahea dulcis)',
+      pain: '15 hrs de trabajo por pieza. El coyote paga $15 a $30 MXN ($1.00 a $2.00 MXN/hora).',
+      market: 'Reventa urbana en $150-$300 MXN (+1000% markup). Pérdida de vista y deformación articular.',
+      quote: '“Te dicen: Te la tomo a 20 pesos, si no, ahí se queda... al menos es para el kilo de tortilla.”',
+      tagColor: 'FEE2E2',
+      tagText: '991B1B'
+    },
+    {
+      community: 'SAN JOSÉ XOCHIXTLÁN',
+      team: 'Charlie Jared Castro, Dulce Maetzy Reyes, Brayan Pérez, José Manuel Hernández (5º Sem.)',
+      activity: 'Huipil Ceremonial en Telar de Cintura',
+      pain: '6 a 9 meses de tejido (180 hrs). La artesana invierte $2,500 MXN de hilos de su bolsillo.',
+      market: 'Retrasos de meses en cobro, regateo a $8,000 MXN y plagio masivo de maquilas industriales.',
+      quote: '“El cliente me encarga el huipil y tengo que esperar semanas o meses para recibir mi dinero.”',
+      tagColor: 'FEF3C7',
+      tagText: '92400E'
+    },
+    {
+      community: 'SAN JUAN ÑUMÍ',
+      team: 'Luis Alexis Morales & Equipo eduScrum / UMIZOOMI (Residencia TecNM)',
+      activity: 'Miel Virgen de Campanilla (Unión Flor de la Mixteca)',
+      pain: 'Registros a mano en libretas viejas y hojas sueltas. 3 días para transcribir listas a mano.',
+      market: 'Pérdida de hojas de cosecha; miel vendida 2 veces a clientes por falta de inventario digital.',
+      quote: 'Rogelio Martínez (Presidente): “A veces se ofrece miel y resulta que ya se había vendido a otro.”',
+      tagColor: 'DCFCE7',
+      tagText: '166534'
+    },
+    {
+      community: 'TIJALTEPEC Y YUCUHITI',
+      team: 'Nallely López García (Líder Estudiantil de Investigación)',
+      activity: 'Café de Altura (1,800 msnm) y Bordados Tradicionales',
+      pain: 'Coyotes en carretera capturan 82% del café; falsificación de bordados con ropa industrial china.',
+      market: 'Falta total de trazabilidad en parcela sin señal. Demanda urgente de blindaje de autenticidad.',
+      quote: 'Doña Francisca (64 años): “Si le colgamos el QR al huipil, ya no lo confundirán con ropa china barata.”',
+      tagColor: 'E0E7FF',
+      tagText: '3730A3'
+    }
+  ];
+
+  studentCases.forEach((c, idx) => {
+    const cardX = 0.8 + idx * 2.95;
+    const cardY = 1.7;
+    const cardW = 2.8;
+    const cardH = 5.1;
+
+    slide.addShape(pptx.shapes.ROUNDED_RECTANGLE, {
+      x: cardX,
+      y: cardY,
+      w: cardW,
+      h: cardH,
+      fill: { color: C_CARD_BG },
+      line: { color: C_CARD_BORDER, width: 1 },
+    });
+
+    slide.addShape(pptx.shapes.ROUNDED_RECTANGLE, {
+      x: cardX + 0.15,
+      y: cardY + 0.15,
+      w: cardW - 0.3,
+      h: 0.3,
+      fill: { color: c.tagColor },
+      line: { color: c.tagColor },
+    });
+
+    slide.addText(c.community, {
+      x: cardX + 0.15,
+      y: cardY + 0.15,
+      w: cardW - 0.3,
+      h: 0.3,
+      fontSize: 9.5,
+      fontFace: 'Arial',
+      bold: true,
+      color: c.tagText,
+      align: 'center',
+    });
+
+    slide.addText(c.activity, {
+      x: cardX + 0.15,
+      y: cardY + 0.55,
+      w: cardW - 0.3,
+      h: 0.45,
+      fontSize: 11,
+      fontFace: 'Arial',
+      bold: true,
+      color: C_DARK_BG,
+    });
+
+    slide.addText(`Equipo: ${c.team}`, {
+      x: cardX + 0.15,
+      y: cardY + 1.05,
+      w: cardW - 0.3,
+      h: 0.55,
+      fontSize: 8.5,
+      fontFace: 'Arial',
+      color: C_GRAY,
+      lineSpacing: 11,
+    });
+
+    slide.addShape(pptx.shapes.LINE, {
+      x: cardX + 0.15,
+      y: cardY + 1.65,
+      w: cardW - 0.3,
+      h: 0,
+      line: { color: C_CARD_BORDER, width: 1 },
+    });
+
+    slide.addText('🔴 El Abuso:', {
+      x: cardX + 0.15,
+      y: cardY + 1.75,
+      w: cardW - 0.3,
+      h: 0.22,
+      fontSize: 9,
+      fontFace: 'Arial',
+      bold: true,
+      color: '991B1B',
+    });
+
+    slide.addText(c.pain, {
+      x: cardX + 0.15,
+      y: cardY + 2.0,
+      w: cardW - 0.3,
+      h: 0.75,
+      fontSize: 8.5,
+      fontFace: 'Arial',
+      color: C_DARK_TEXT,
+      lineSpacing: 11,
+    });
+
+    slide.addText('⚠️ Mercado / Salud:', {
+      x: cardX + 0.15,
+      y: cardY + 2.8,
+      w: cardW - 0.3,
+      h: 0.22,
+      fontSize: 9,
+      fontFace: 'Arial',
+      bold: true,
+      color: 'D97706',
+    });
+
+    slide.addText(c.market, {
+      x: cardX + 0.15,
+      y: cardY + 3.05,
+      w: cardW - 0.3,
+      h: 0.75,
+      fontSize: 8.5,
+      fontFace: 'Arial',
+      color: C_DARK_TEXT,
+      lineSpacing: 11,
+    });
+
+    slide.addShape(pptx.shapes.ROUNDED_RECTANGLE, {
+      x: cardX + 0.15,
+      y: cardY + 3.9,
+      w: cardW - 0.3,
+      h: 1.05,
+      fill: { color: 'F9FAFB' },
+      line: { color: C_CARD_BORDER, width: 1 },
+    });
+
+    slide.addText(c.quote, {
+      x: cardX + 0.2,
+      y: cardY + 3.95,
+      w: cardW - 0.4,
+      h: 0.95,
+      fontSize: 8,
+      fontFace: 'Arial',
+      italic: true,
+      color: C_DARK_TEXT,
+      lineSpacing: 11,
+    });
+  });
+
+  slide.addNotes(
+    "Estas son las 4 brigadas reales de estudiantes del TecNM Tlaxiaco que fueron a la sierra. En San Juan Mixtepec documentaron que las artesanas ganan entre 1 y 2 pesos la hora mientras el coyote revende con 1000% de margen. En San José Xochixtlán un huipil tarda 9 meses. En San Juan Ñumí pierden cosechas en libretas viejas. Raíz fue diseñada a partir de estos testimonios reales."
+  );
+}
+
+// SLIDE 3C: Auditoría de Usabilidad UX en Adultos Mayores (Hito 1.2)
+{
+  const slide = pptx.addSlide();
+  slide.background = { color: C_LIGHT_BG };
+
+  slide.addText('AUDITORÍA DE USABILIDAD UX: ACCESIBILIDAD EN ADULTOS MAYORES', {
+    x: 0.8,
+    y: 0.6,
+    w: 11.5,
+    h: 0.55,
+    fontSize: 24,
+    fontFace: 'Arial',
+    bold: true,
+    color: C_DARK_BG,
+  });
+
+  slide.addText('Pruebas de Fricción Cognitiva en Campo con Doña Reyna (56) y Doña Francisca (64) en Patios Rurales (Hito 1.2)', {
+    x: 0.8,
+    y: 1.15,
+    w: 11.5,
+    h: 0.35,
+    fontSize: 14,
+    fontFace: 'Arial',
+    color: C_GOLD,
+    bold: true,
+  });
+
+  const uxColumns = [
+    {
+      title: '1. Los 3 Dolores de Fricción UX',
+      subtitle: 'Detectados por los alumnos en campo',
+      items: [
+        { label: 'Tecnofobia / Miedo al Error:', desc: 'Vacilación de >10 seg ante la pantalla: “¿Se va a desconfigurar el teléfono si le pico?”. Miedo a borrar fotos familiares.' },
+        { label: 'Brillo y Reflejo Exterior:', desc: 'En patios de la sierra la luz solar hace ilegibles textos delgados en gris o botones pequeños (<48px).' },
+        { label: 'Desconfianza Institucional:', desc: 'Sellos gubernamentales asustan: “¿Esto es para pagar impuestos en Hacienda?”. Requieren sellos de protección cultural.' }
+      ],
+      cardColor: 'FFFFFF',
+      headerBg: 'FEE2E2',
+      headerColor: '991B1B'
+    },
+    {
+      title: '2. Arquitectura de Solución Raíz',
+      subtitle: 'El "Modo Abuelo" táctil y por voz',
+      items: [
+        { label: 'Botones Táctiles Gigantes 112px:', desc: 'Touch-targets ampliados de fácil toque para dedos con callosidad agrícola o artritis artesanal.' },
+        { label: 'Voz Nativa en Tu’un Savi (Mixteco):', desc: 'Grabación a 24kbps Opus con Web Audio API. Cero teclado ni contraseñas escritas (Principio Zero-Typing).' },
+        { label: 'Buffer Offline-First IndexedDB:', desc: 'Garantía del 100% de datos guardados en la parcela aunque no exista cobertura celular ni señal 3G.' }
+      ],
+      cardColor: 'FFFFFF',
+      headerBg: 'DCFCE7',
+      headerColor: '166534'
+    },
+    {
+      title: '3. Resultados Validados en Campo',
+      subtitle: '100% tareas completadas sin ayuda',
+      items: [
+        { label: 'Adopción del QR en 6-9 Segundos:', desc: 'Doña Francisca entendió el Hang-Tag al instante: “Para que nadie confunda la blusa de venados con ropa china”.' },
+        { label: 'Registro Completo en <3 Minutos:', desc: 'Campesinos completan el registro oral de café o textil en menos de 180 segundos.' },
+        { label: 'Cero Fugas Criptográficas:', desc: 'Generación canónica SHA-256 local y firma Ed25519 automática sin exponer llaves privadas al usuario.' }
+      ],
+      cardColor: 'FFFFFF',
+      headerBg: 'FEF3C7',
+      headerColor: '92400E'
+    }
+  ];
+
+  uxColumns.forEach((col, idx) => {
+    const cardX = 0.8 + idx * 3.95;
+    const cardY = 1.7;
+    const cardW = 3.8;
+    const cardH = 5.1;
+
+    slide.addShape(pptx.shapes.ROUNDED_RECTANGLE, {
+      x: cardX,
+      y: cardY,
+      w: cardW,
+      h: cardH,
+      fill: { color: col.cardColor },
+      line: { color: C_CARD_BORDER, width: 1 },
+    });
+
+    slide.addShape(pptx.shapes.ROUNDED_RECTANGLE, {
+      x: cardX + 0.15,
+      y: cardY + 0.15,
+      w: cardW - 0.3,
+      h: 0.65,
+      fill: { color: col.headerBg },
+      line: { color: col.headerBg },
+    });
+
+    slide.addText(col.title, {
+      x: cardX + 0.2,
+      y: cardY + 0.18,
+      w: cardW - 0.4,
+      h: 0.32,
+      fontSize: 11,
+      fontFace: 'Arial',
+      bold: true,
+      color: col.headerColor,
+      align: 'center',
+    });
+
+    slide.addText(col.subtitle, {
+      x: cardX + 0.2,
+      y: cardY + 0.48,
+      w: cardW - 0.4,
+      h: 0.25,
+      fontSize: 8.5,
+      fontFace: 'Arial',
+      color: col.headerColor,
+      align: 'center',
+    });
+
+    col.items.forEach((item, itemIdx) => {
+      const itemY = cardY + 0.95 + itemIdx * 1.35;
+
+      slide.addShape(pptx.shapes.ROUNDED_RECTANGLE, {
+        x: cardX + 0.15,
+        y: itemY,
+        w: cardW - 0.3,
+        h: 1.25,
+        fill: { color: 'F9FAFB' },
+        line: { color: C_CARD_BORDER, width: 1 },
+      });
+
+      slide.addText(item.label, {
+        x: cardX + 0.25,
+        y: itemY + 0.08,
+        w: cardW - 0.5,
+        h: 0.25,
+        fontSize: 9.5,
+        fontFace: 'Arial',
+        bold: true,
+        color: C_DARK_BG,
+      });
+
+      slide.addText(item.desc, {
+        x: cardX + 0.25,
+        y: itemY + 0.33,
+        w: cardW - 0.5,
+        h: 0.85,
+        fontSize: 8.5,
+        fontFace: 'Arial',
+        color: C_DARK_TEXT,
+        lineSpacing: 12,
+      });
+    });
+  });
+
+  slide.addNotes(
+    "Esta lámina demuestra que la ingeniería de Raíz no es teórica. Los estudiantes llevaron celulares a las comunidades, midieron tiempos con cronómetro e identificaron el miedo al error de Doña Reyna y Doña Francisca. Gracias a ello se creó el Modo Abuelo de 112px, con voz en Mixteco y etiquetas QR físicas que reducen la fricción cognitiva a cero."
+  );
+}
+
 // SLIDE 4: La Pieza de Infraestructura que le Faltaba a Stellar
 {
   const slide = pptx.addSlide();
@@ -1270,6 +1631,146 @@ const C_CARD_BORDER = 'E5E7EB';// Borde Suave
 
   slide.addNotes(
     "No nos presentamos con una promesa teórica; tenemos código en producción y 52 pruebas automatizadas pasando al 100%. Además, al estar respaldados por el TecNM, aseguramos la formación permanente de talento joven en Rust y blockchain en el sur de México."
+  );
+}
+
+// SLIDE 10B: El Equipo Humano: Investigadores y Desarrolladores Estudiantiles
+{
+  const slide = pptx.addSlide();
+  slide.background = { color: C_LIGHT_BG };
+
+  slide.addText('EL EQUIPO HUMANO: TALENTO INDÍGENA E INGENIERÍA TECNM', {
+    x: 0.8,
+    y: 0.6,
+    w: 11.5,
+    h: 0.55,
+    fontSize: 24,
+    fontFace: 'Arial',
+    bold: true,
+    color: C_DARK_BG,
+  });
+
+  slide.addText('Estudiantes de Ing. en Sistemas del TecNM Tlaxiaco Construyendo Bienes Públicos Web3 (Drips Wave & SCF)', {
+    x: 0.8,
+    y: 1.15,
+    w: 11.5,
+    h: 0.35,
+    fontSize: 14,
+    fontFace: 'Arial',
+    color: C_GOLD,
+    bold: true,
+  });
+
+  const teamBlocks = [
+    {
+      title: 'Liderazgo y Coordinación Académica',
+      color: '032517',
+      bg: 'DCFCE7',
+      members: [
+        { role: 'Asesor Principal & Coordinador:', name: 'Ing. José Alfredo Román Cruz (TecNM)' },
+        { role: 'Líder Estudiantil del Proyecto:', name: 'Nallely López García (Residencia Profesional)' },
+        { role: 'Institución Sede:', name: 'Instituto Tecnológico de Tlaxiaco (Oaxaca, Mex.)' },
+        { role: 'Materia / Programa:', name: 'Gestión de Proyectos & Fundamentos de Ing. de Software' }
+      ]
+    },
+    {
+      title: 'Brigadas de Campo: Palma y Miel',
+      color: '991B1B',
+      bg: 'FEE2E2',
+      members: [
+        { role: 'Equipo Palma (San Juan Mixtepec):', name: 'Jazlynn Barrios Velasco (23620209)' },
+        { role: 'Investigador de Campo:', name: 'Isaías Brayan López Domínguez (23620031)' },
+        { role: 'Investigadores Asociados:', name: 'Rafael Ayala Coronel (23620203), Alex Victoria (23620281)' },
+        { role: 'Equipo Miel (San Juan Ñumí):', name: 'Luis Alexis Morales & Equipo UMIZOOMI (eduScrum)' }
+      ]
+    },
+    {
+      title: 'Brigadas de Campo: Textil y Mezcal',
+      color: '92400E',
+      bg: 'FEF3C7',
+      members: [
+        { role: 'Equipo Textil (San José Xochixtlán):', name: 'Charlie Jared Castro Rodríguez (5º Semestre)' },
+        { role: 'Equipo UX Accesibilidad:', name: 'Dulce Maetzy Reyes Hernández, Brayan Pérez González' },
+        { role: 'Investigador de Fricción:', name: 'José Manuel Hernández Paz (5º Semestre)' },
+        { role: 'Equipo Mezcal (Yavi Tech):', name: 'Lewis Noé Hernández, Nelson Macario Martínez, Luis García' }
+      ]
+    },
+    {
+      title: 'Desarrollo Core & Smart Contracts',
+      color: '3730A3',
+      bg: 'E0E7FF',
+      members: [
+        { role: 'Rust / Soroban & Escrow:', name: 'Integración Trustless Work Escrow & LotPassport' },
+        { role: 'Frontend & PWA Offline:', name: 'React 19, IndexedDB Outbox y Modo Abuelo 112px' },
+        { role: 'Oráculos de IA Multimodales:', name: 'Normalización Tu’un Savi, Calidad SCAA y Satélite EUDR' },
+        { role: 'Gobernanza & Drips Splits:', name: 'Open Hub TecNM – 100% Código Abierto con Licencia MIT' }
+      ]
+    }
+  ];
+
+  teamBlocks.forEach((tb, idx) => {
+    const cardX = 0.8 + (idx % 2) * 5.9;
+    const cardY = 1.7 + Math.floor(idx / 2) * 2.55;
+    const cardW = 5.6;
+    const cardH = 2.35;
+
+    slide.addShape(pptx.shapes.ROUNDED_RECTANGLE, {
+      x: cardX,
+      y: cardY,
+      w: cardW,
+      h: cardH,
+      fill: { color: C_CARD_BG },
+      line: { color: C_CARD_BORDER, width: 1 },
+    });
+
+    slide.addShape(pptx.shapes.ROUNDED_RECTANGLE, {
+      x: cardX + 0.15,
+      y: cardY + 0.15,
+      w: cardW - 0.3,
+      h: 0.32,
+      fill: { color: tb.bg },
+      line: { color: tb.bg },
+    });
+
+    slide.addText(tb.title, {
+      x: cardX + 0.2,
+      y: cardY + 0.17,
+      w: cardW - 0.4,
+      h: 0.28,
+      fontSize: 11,
+      fontFace: 'Arial',
+      bold: true,
+      color: tb.color,
+    });
+
+    tb.members.forEach((m, mIdx) => {
+      const lineY = cardY + 0.6 + mIdx * 0.42;
+
+      slide.addText(m.role, {
+        x: cardX + 0.2,
+        y: lineY,
+        w: 2.3,
+        h: 0.35,
+        fontSize: 9,
+        fontFace: 'Arial',
+        bold: true,
+        color: C_DARK_BG,
+      });
+
+      slide.addText(m.name, {
+        x: cardX + 2.5,
+        y: lineY,
+        w: cardW - 2.7,
+        h: 0.35,
+        fontSize: 9,
+        fontFace: 'Arial',
+        color: C_DARK_TEXT,
+      });
+    });
+  });
+
+  slide.addNotes(
+    "Este proyecto no es anónimo ni tercerizado: es el trabajo de más de 12 estudiantes de ingeniería en sistemas del TecNM Campus Tlaxiaco. Ellos fueron a las comunidades, levantaron los requerimientos, entrevistaron a los presidentes de las cooperativas y están programando los smart contracts en Soroban. Financiar a Raíz a través de Drips y Stellar es financiar directamente a la próxima generación de ingenieros indígenas de México."
   );
 }
 
