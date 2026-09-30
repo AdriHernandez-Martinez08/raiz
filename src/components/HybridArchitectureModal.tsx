@@ -444,7 +444,7 @@ export const HybridArchitectureModal: React.FC<HybridArchitectureModalProps> = (
                     <span>¿Por qué MicoPay en la Parcela?</span>
                   </h5>
                   <p className="text-emerald-900">
-                    MicoPay opera en la <strong>última milla rural</strong>: permite a los transportistas y camioneros locales actuar como cajeros móviles en efectivo cuando no hay señal de internet, liquidando contra la báscula física comunitaria.
+                    MicoPay opera en la <strong>última milla rural</strong>: permite a los transportistas y camioneros locales actuar como cajeros móviles en efectivo cuando no hay señal de internet, liquidando mediante código QR seguro sin trámites bancarios.
                   </p>
                 </div>
               </div>

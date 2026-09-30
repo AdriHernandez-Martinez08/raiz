@@ -77,11 +77,11 @@ Raíz is architected as an **RWA Attestation & AI Oracle Protocol on Stellar & S
 * **Estimated Effort:** 450 USDC / Drips Tier 3 (4–6 days)
 * **Goal:** Converts international buyer USDC into Mexican Pesos (MXN) via Etherfuse and issues direct Banxico SPEI wire transfers to Banco del Bienestar debit cards.
 
-### 📌 Issue #25: `[US-302]` Decentralized Cash-Out Rail: MicoPay Weighing Scale Liquidity Gateway for Unbanked Producers
-* **Target Component:** `src/core/payments/PaymentOrchestrator.ts` & Weighing Scale Terminal
+### 📌 Issue #25: `[US-302]` Decentralized Cash-Out Rail: MicoPay Rural Cash Liquidity Gateway for Unbanked Producers
+* **Target Component:** `src/core/payments/PaymentOrchestrator.ts` & `src/components/MyPaymentsModal.tsx`
 * **Labels:** `drips-eligible`, `payments`, `cash-out`, `micopay`, `rural`, `phase-3`
 * **Estimated Effort:** 400 USDC / Drips Tier 3 (3–5 days)
-* **Goal:** Enables unbanked producers to receive instant cash vouchers at the physical cooperative scale upon verified crop weigh-in.
+* **Goal:** Enables unbanked producers to receive instant physical cash payouts in their local community/parcel via MicoPay's mobile carrier network upon verified delivery.
 
 ---
 

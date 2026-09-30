@@ -10,7 +10,7 @@ Este manual rápido explica en lenguaje claro y directo los términos y herramie
 Una red blockchain (como una gran libreta contable mundial compartida) diseñada para mover dinero en segundos por centavos de dólar. En vez de pagar comisiones bancarias del 7%, una transferencia cuesta fracciones de centavo.
 
 ### ¿Qué es Soroban?
-El motor de **Smart Contracts** (contratos inteligentes) de Stellar. Está programado en **Rust**. Es código que se ejecuta en la blockchain y que nadie puede alterar ni apagar. Por ejemplo: *"Si el comprador deposita el dinero, no se lo entregues al vendedor hasta que la báscula confirme que entregó los 100 kilos de café"*.
+El motor de **Smart Contracts** (contratos inteligentes) de Stellar. Está programado en **Rust**. Es código que se ejecuta en la blockchain y que nadie puede alterar ni apagar. Por ejemplo: *"Si el comprador deposita el dinero, no se lo entregues al vendedor hasta que el líder comunal y el oráculo confirmen que entregó la cosecha con calidad acordada"*.
 
 ### ¿Qué es una Atestación (*Attestation*)?
 Es un **"sello o acta notarial digital"** firmado con criptografía. En vez de que un inspector viaje 8 horas a la sierra a firmar un papel que se puede mojar o falsificar, el Oráculo de Inteligencia Artificial analiza la foto o el satélite y estampa una atestación matemática en la blockchain.
@@ -22,7 +22,7 @@ Un programa que conecta el mundo real con la blockchain.
 - **AIEUDRSatelliteOracle:** Revisa las fotos del satélite de la Unión Europea y confirma que no se taló selva.
 
 ### ¿Qué es MicoPay?
-El sistema que permite entregar **efectivo en mano** al campesino en la báscula comunal cuando no tiene tarjeta de banco ni cuenta bancaria.
+La red comunitaria de pagos y cajeros móviles (transportistas locales y comercios aliados) que permite entregar **efectivo en mano** al campesino en su propia parcela o pueblo mediante un código QR en el celular, cuando no tiene tarjeta de banco ni cuenta bancaria.
 
 ### ¿Qué es Etherfuse?
 La empresa aliada que conecta Stellar con **Banxico (SPEI)** en México, permitiendo mandar pesos directo a las tarjetas del Banco del Bienestar.

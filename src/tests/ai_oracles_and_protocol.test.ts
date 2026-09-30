@@ -78,7 +78,7 @@ const routeMexicoCash = RaizAIOracles.solveOptimalSettlement({
   destinationCountry: 'MX',
   preferredCashOut: 'cash_parcel',
 });
-assert(routeMexicoCash.targetRail === 'MICOPAY_CASH', 'Rutea a efectivo MicoPay en báscula de pesaje');
+assert(routeMexicoCash.targetRail === 'MICOPAY_CASH', 'Rutea a efectivo MicoPay en parcela con transportistas locales');
 
 // 5. Universal SDK Test
 console.log('\n📍 5. SDK UNIVERSAL DEL PROTOCOLO RAÍZ (@raiz-protocol/sdk)');

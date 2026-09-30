@@ -28,7 +28,7 @@ This SEP defines:
 1. A canonical **Schema Registry** interface.
 2. A deterministic **Attestation Issuance & Verification** interface.
 3. Native integration with **Soroban State TTL & Rent Management**.
-4. Interoperability with **Physical Scales (e.g., MicoPay)** and **Fiat Banking Anchors (e.g., Etherfuse SPEI)**.
+4. Interoperability with **Physical Delivery Nodes (e.g., MicoPay Cash Network)** and **Fiat Banking Anchors (e.g., Etherfuse SPEI)**.
 
 ---
 
@@ -101,7 +101,7 @@ pub trait AttestationRegistryTrait {
 1. **`0x01_SCAA` (`SCAAQualityAttestation`):** Verifies coffee cup scores (>80 specialty, >85 export grade), humidity, and defect counts.
 2. **`0x02_EUDR` (`EUDRDeforestationAttestation`):** Proves parcel polygon compliance with the European Union Deforestation Regulation cutoff baseline (post-2020).
 3. **`0x03_ORIG` (`IndigenousProvenanceAttestation`):** Protects ancestral cultural heritage and guarantees 10% perpetual secondary royalties to master artisans.
-4. **`0x04_WGHT` (`PhysicalDeliveryAttestation`):** Binds physical crop weighing at scale terminals (e.g. MicoPay) to unlock decentralized escrow liquidity.
+4. **`0x04_WGHT` (`PhysicalDeliveryAttestation`):** Binds physical crop delivery reception at verified community nodes (e.g. MicoPay cash network) to unlock decentralized escrow liquidity.
 
 ---
 

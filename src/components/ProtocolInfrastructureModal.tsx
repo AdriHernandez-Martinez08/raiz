@@ -153,7 +153,7 @@ export const ProtocolInfrastructureModal: React.FC<ProtocolInfrastructureModalPr
                   </span>
                 </div>
                 <p className="text-xs text-purple-900 leading-relaxed font-medium">
-                  Raíz estandariza la certificación de hechos físicos del mundo real (calidad de café, anti-deforestación satelital, origen indígena y pesaje en báscula) mediante esquemas on-chain inmutables firmados con llaves Ed25519 en Soroban.
+                  Raíz estandariza la certificación de hechos físicos del mundo real (calidad de café, anti-deforestación satelital, origen indígena y entrega verificada de cosecha) mediante esquemas on-chain inmutables firmados con llaves Ed25519 en Soroban.
                 </p>
               </div>
 
@@ -451,7 +451,7 @@ export const ProtocolInfrastructureModal: React.FC<ProtocolInfrastructureModalPr
             <div className="space-y-5">
               <div className="bg-emerald-50 border border-emerald-200 rounded-2xl p-4">
                 <p className="text-xs text-emerald-900 leading-relaxed font-medium">
-                  <strong>Arquitectura de Oráculos de IA:</strong> Automatizan la captura física, la certificación de calidad (SCAA y telar), el cumplimiento de la ley europea anti-deforestación (EUDR) y el ruteo de liquidez hacia Banxico SPEI o efectivo en báscula.
+                  <strong>Arquitectura de Oráculos de IA:</strong> Automatizan la captura física, la certificación de calidad (SCAA y telar), el cumplimiento de la ley europea anti-deforestación (EUDR) y el ruteo de liquidez hacia Banxico SPEI o retiro de efectivo en parcela (MicoPay).
                 </p>
               </div>
 

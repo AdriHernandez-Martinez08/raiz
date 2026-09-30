@@ -297,7 +297,7 @@ export class RaizAIOracles {
             sponsoredBy: 'GBRAIZ_PROTOCOL_SPONSOR_RELAY',
             gasFeeXLM: 0,
           },
-          recommendedReason: 'Optimized for remote village without bank branches. Cash instant payout at weighing scale.',
+          recommendedReason: 'Optimized for remote village without bank branches. Instant cash payout via local MicoPay carrier network.',
           executionTtlSeconds: 1200,
         };
       }

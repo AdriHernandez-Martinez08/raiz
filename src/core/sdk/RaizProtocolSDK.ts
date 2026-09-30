@@ -133,9 +133,9 @@ export class RaizProtocolSDK {
         {
           uid: '0x04_WGHT',
           name: 'PhysicalDeliveryAttestation',
-          description: 'Physical weighing confirmation at MicoPay cooperative scale; triggers FairEscrow liquidity release',
+          description: 'Physical harvest delivery confirmation at MicoPay local reception node; triggers FairEscrow liquidity release',
           revocable: false,
-          issuer: 'MicoPay Scale Terminal + Certified Weighmaster',
+          issuer: 'MicoPay Reception Authority + Community Verifier',
         },
       ],
       verifyAttestation: (attestationUid: string) => {

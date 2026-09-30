@@ -4,7 +4,7 @@
  * Arquitectura Híbrida Trilateral:
  * 1. MÉXICO:
  *    - Etherfuse (MXNe tokenizado, CETES de rendimiento para cooperativas, SPEI directo Banxico)
- *    - MicoPay (Micro-pagos en parcela, escrow físico en báscula, cajeros móviles con transportistas)
+ *    - MicoPay (Micro-pagos en parcela, liquidación en efectivo con transportistas y comercios aliados)
  * 2. BOLIVIA:
  *    - Polar (Ancla nativa de Stellar en Bolivia, conexión con QR Simple ASFI / Banco Central de Bolivia, BOB <-> USDC)
  * 3. BRASIL:

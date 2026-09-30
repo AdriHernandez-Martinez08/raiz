@@ -36,7 +36,7 @@ pub enum OrderStatus {
 #[derive(Copy, Clone, Debug, Eq, PartialEq)]
 #[repr(u32)]
 pub enum PayoutRail {
-    MicoPayScaleCash = 1,  // Instant physical cash handout at cooperative weighing scale
+    MicoPayScaleCash = 1,  // Instant physical cash payout via MicoPay local carrier/node network
     EtherfuseSpeiBanxico = 2, // Direct SPEI wire transfer to Banco del Bienestar debit card
     PolarBoliviaQr = 3,    // ASFI QR Simple for Bolivian producers
     PixBrazil = 4,         // Banco Central do Brasil PIX instant settlement
@@ -160,7 +160,7 @@ impl FairEscrowContract {
         Ok(())
     }
 
-    /// Release funds upon verified PhysicalDeliveryAttestation (MicoPay weighing scale confirmation)
+    /// Release funds upon verified PhysicalDeliveryAttestation (MicoPay reception confirmation)
     pub fn release_with_attestation(
         env: Env,
         order_id: BytesN<32>,
@@ -191,7 +191,7 @@ impl FairEscrowContract {
         match order.payout_rail {
             PayoutRail::MicoPayScaleCash => {
                 // If MicoPay Cash: funds are credited to MicoPay liquidity pool,
-                // and the producer collects physical banknotes at the weighing scale
+                // and the producer collects physical banknotes via MicoPay cash network
                 let micopay_authority: Address = env
                     .storage()
                     .instance()
