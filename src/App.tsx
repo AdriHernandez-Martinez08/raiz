@@ -21,7 +21,6 @@ import { ExplainerVideoModal } from './components/ExplainerVideoModal';
 import { RaizAuthModal } from './components/RaizAuthModal';
 import { HybridArchitectureModal } from './components/HybridArchitectureModal';
 import { ProtocolInfrastructureModal } from './components/ProtocolInfrastructureModal';
-import { MicoPayScaleTerminalModal } from './components/MicoPayScaleTerminalModal';
 import { RaizAuthEngine, UserProfile } from './core/auth/RaizAuthEngine';
 import { RaizCore } from './core';
 
@@ -54,7 +53,6 @@ export default function App() {
   const [isMapModalOpen, setIsMapModalOpen] = useState(false);
   const [isMicDiagnosticModalOpen, setIsMicDiagnosticModalOpen] = useState(false);
   const [isExplainerVideoOpen, setIsExplainerVideoOpen] = useState(false);
-  const [isMicoPayTerminalOpen, setIsMicoPayTerminalOpen] = useState(false);
   const [targetChatProducer, setTargetChatProducer] = useState<string | null>(null);
   const [chatInitialMessage, setChatInitialMessage] = useState<string | null>(null);
   const [isOnline, setIsOnline] = useState<boolean>(typeof navigator !== 'undefined' ? navigator.onLine : true);
@@ -488,7 +486,6 @@ export default function App() {
         onOpenMicDiagnostic={() => setIsMicDiagnosticModalOpen(true)}
         onOpenExplainerVideo={() => setIsExplainerVideoOpen(true)}
         onOpenProtocolModal={() => setIsProtocolModalOpen(true)}
-        onOpenMicoPayTerminal={() => setIsMicoPayTerminalOpen(true)}
         cartCount={totalCartCount}
         appLanguage={appLanguage}
         onToggleLanguage={() => setAppLanguage((prev) => (prev === 'es' ? 'mix' : 'es'))}
@@ -522,7 +519,6 @@ export default function App() {
           onOpenMicDiagnostic={() => setIsMicDiagnosticModalOpen(true)}
           onOpenExplainerVideo={() => setIsExplainerVideoOpen(true)}
           onOpenProtocolModal={() => setIsProtocolModalOpen(true)}
-          onOpenMicoPayTerminal={() => setIsMicoPayTerminalOpen(true)}
           currentUser={currentUser}
           appLanguage={appLanguage}
           elderMode={elderMode}
@@ -617,7 +613,6 @@ export default function App() {
         isOpen={isPaymentsModalOpen}
         onClose={() => setIsPaymentsModalOpen(false)}
         initialCountry={currentUser.country}
-        onOpenMicoPayTerminal={() => setIsMicoPayTerminalOpen(true)}
         onRequestWithdrawal={(amount) => {
           setTargetChatProducer('Raíz - Tesorería');
           setChatInitialMessage(
@@ -710,13 +705,6 @@ export default function App() {
       <ProtocolInfrastructureModal
         isOpen={isProtocolModalOpen}
         onClose={() => setIsProtocolModalOpen(false)}
-      />
-
-      {/* Terminal de Báscula y Cajero en Parcela MicoPay Modal */}
-      <MicoPayScaleTerminalModal
-        isOpen={isMicoPayTerminalOpen}
-        onClose={() => setIsMicoPayTerminalOpen(false)}
-        elderMode={elderMode}
       />
     </div>
   );

@@ -12,7 +12,6 @@ interface MainMenuScreenProps {
   onOpenMicDiagnostic?: () => void;
   onOpenExplainerVideo?: () => void;
   onOpenProtocolModal?: () => void;
-  onOpenMicoPayTerminal?: () => void;
   currentUser?: UserProfile;
   appLanguage?: AppLanguage;
   elderMode?: boolean;
@@ -28,7 +27,6 @@ export const MainMenuScreen: React.FC<MainMenuScreenProps> = ({
   onOpenMicDiagnostic,
   onOpenExplainerVideo,
   onOpenProtocolModal,
-  onOpenMicoPayTerminal,
   currentUser,
   appLanguage = 'es',
   elderMode = false,
@@ -56,7 +54,7 @@ export const MainMenuScreen: React.FC<MainMenuScreenProps> = ({
     };
   }, []);
 
-  const matchMainMenuOption = (text: string): 1 | 2 | 3 | 4 | 5 | 6 | null => {
+  const matchMainMenuOption = (text: string): 1 | 2 | 3 | 4 | 5 | null => {
     const clean = text
       .toLowerCase()
       .normalize('NFD')
@@ -64,20 +62,6 @@ export const MainMenuScreen: React.FC<MainMenuScreenProps> = ({
       .trim();
 
     if (!clean) return null;
-
-    // Check Option 6: Terminal Báscula MicoPay
-    if (
-      /\b(6|seis|sexta)\b/i.test(clean) ||
-      /(opcion|numero|num|no\.?)\s*(6|seis)/i.test(clean) ||
-      clean.includes('bascula') ||
-      clean.includes('pesaje') ||
-      clean.includes('pesar') ||
-      clean.includes('kilos') ||
-      clean.includes('cajero') ||
-      clean.includes('efectivo')
-    ) {
-      return 6;
-    }
 
     // Check Option 5: Video Explicativo / Open Hub / MicoPay / Raíz
     if (
@@ -163,7 +147,7 @@ export const MainMenuScreen: React.FC<MainMenuScreenProps> = ({
     return null;
   };
 
-  const executeMenuOption = (option: 1 | 2 | 3 | 4 | 5 | 6) => {
+  const executeMenuOption = (option: 1 | 2 | 3 | 4 | 5) => {
     if (option === 1) {
       setRecognizedOptionToast('🎯 Opción 1: Registrar cosecha o artesanía');
       setTimeout(() => onNavigateScreen('catalogo_producto'), 500);
@@ -181,13 +165,6 @@ export const MainMenuScreen: React.FC<MainMenuScreenProps> = ({
       setTimeout(() => {
         if (onOpenExplainerVideo) {
           onOpenExplainerVideo();
-        }
-      }, 500);
-    } else if (option === 6) {
-      setRecognizedOptionToast('⚖️ Opción 6: Abriendo Terminal de Báscula MicoPay...');
-      setTimeout(() => {
-        if (onOpenMicoPayTerminal) {
-          onOpenMicoPayTerminal();
         }
       }, 500);
     }
@@ -506,43 +483,6 @@ export const MainMenuScreen: React.FC<MainMenuScreenProps> = ({
             </div>
           </button>
         )}
-
-        {/* OPCIÓN 6: Terminal de Báscula MicoPay */}
-        {onOpenMicoPayTerminal && (
-          <button
-            type="button"
-            onClick={onOpenMicoPayTerminal}
-            className={`touch-ripple w-full bg-linear-to-r from-emerald-950 via-[#0a261a] to-neutral-900 hover:brightness-110 active:scale-[0.98] transition-all duration-200 border-2 border-emerald-500/60 rounded-2xl flex items-center justify-between text-left shadow-md cursor-pointer group ${
-              elderMode ? 'min-h-[78px] p-4.5' : 'min-h-[62px] p-3.5'
-            }`}
-          >
-            <div className="flex items-center gap-3.5">
-              <div className={`rounded-full bg-emerald-500 text-neutral-950 flex items-center justify-center font-black shrink-0 shadow-xs group-hover:scale-105 transition-transform ${
-                elderMode ? 'w-14 h-14 text-[24px]' : 'w-12 h-12 text-[20px]'
-              }`}>
-                6
-              </div>
-              <div className="flex flex-col">
-                <div className="flex items-center gap-2">
-                  <span className={`text-white font-extrabold ${elderMode ? 'text-[20px]' : 'text-[16px]'}`}>
-                    6. Báscula MicoPay™
-                  </span>
-                  <span className="bg-emerald-400 text-neutral-950 text-[9px] font-black uppercase px-2 py-0.5 rounded-full">
-                    Efectivo en Mano
-                  </span>
-                </div>
-                <span className={`text-emerald-200 ${elderMode ? 'text-[15px] font-medium' : 'text-[12.5px]'}`}>
-                  Pesaje digital en acopio y retiro en parcela sin bancos
-                </span>
-              </div>
-            </div>
-            <div className={`rounded-full bg-emerald-500/20 flex items-center justify-center text-emerald-300 shrink-0 group-hover:bg-emerald-400 group-hover:text-neutral-950 transition-colors ${
-              elderMode ? 'w-12 h-12' : 'w-10 h-10'
-            }`}>
-              <span className={`material-symbols-outlined ${elderMode ? 'text-[28px]' : 'text-[24px]'}`}>scale</span>
-            </div>
-          </button>
-        )}
       </div>
 
       {/* TARJETA DE NAVEGACIÓN POR VOZ (Reconocimiento en vivo para campo) */}
@@ -552,7 +492,7 @@ export const MainMenuScreen: React.FC<MainMenuScreenProps> = ({
             <span className="material-symbols-outlined text-[#1b3b2b] text-[22px]">mic</span>
             <div>
               <span className="text-[14px] font-bold text-[#032517] block">Navegación por Voz</span>
-              <span className="text-[12px] text-[#424843]">Diga "1", "2", "3", "4", "5", "6" o "Báscula"</span>
+              <span className="text-[12px] text-[#424843]">Diga "1", "2", "3", "4", "5" o "Video"</span>
             </div>
           </div>
           <button

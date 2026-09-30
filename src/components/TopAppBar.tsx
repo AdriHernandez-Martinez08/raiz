@@ -10,7 +10,6 @@ interface TopAppBarProps {
   onOpenMicDiagnostic?: () => void;
   onOpenExplainerVideo?: () => void;
   onOpenProtocolModal?: () => void;
-  onOpenMicoPayTerminal?: () => void;
   cartCount: number;
   appLanguage?: AppLanguage;
   onToggleLanguage?: () => void;
@@ -27,7 +26,6 @@ export const TopAppBar: React.FC<TopAppBarProps> = ({
   onOpenMicDiagnostic,
   onOpenExplainerVideo,
   onOpenProtocolModal,
-  onOpenMicoPayTerminal,
   cartCount,
   appLanguage = 'es',
   onToggleLanguage,
@@ -166,20 +164,6 @@ export const TopAppBar: React.FC<TopAppBarProps> = ({
           >
             <span className="text-[13px]">⚡</span>
             <span>Infraestructura</span>
-          </button>
-        )}
-
-        {/* MicoPay Weighing Scale & Cash Terminal Button in Header */}
-        {onOpenMicoPayTerminal && (
-          <button
-            type="button"
-            onClick={onOpenMicoPayTerminal}
-            className="px-2.5 py-1 rounded-xl bg-linear-to-r from-emerald-900 to-[#032517] text-amber-300 font-extrabold text-[11px] hover:brightness-110 flex items-center gap-1 shadow-xs transition-all active:scale-95 cursor-pointer border border-amber-400/40 whitespace-nowrap"
-            title="Terminal Báscula MicoPay: Pesaje digital y retiro de efectivo en mano en parcela"
-            aria-label="Abrir Terminal de Báscula MicoPay"
-          >
-            <span className="text-[13px]">⚖️</span>
-            <span>Báscula MicoPay</span>
           </button>
         )}
 
