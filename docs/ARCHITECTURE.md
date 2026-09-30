@@ -1,172 +1,173 @@
-# 🏛️ Especificación de Arquitectura de Raíz Protocol
-### *Arquitectura de Software y Protocolo Descentralizado en Stellar & Soroban*
+# 🏛️ Raíz Protocol Architecture Specification
+### *Software Architecture & Decentralized Protocol on Stellar & Soroban*
 
-* **Ecosistema:** Stellar Network / Soroban / Drips Network / TecNM Campus Tlaxiaco
-* **Diseño Arquitectónico:** Offline-First, Event-Driven, Decoupled Adapter Pattern
-* **Documentos de Decisión Asociados:** [ADR-001 (Trustless Work)](./adr/ADR-001-TRUSTLESS-WORK-ESCROW.md), [ADR-002 (Canales Rurales)](./adr/ADR-002-COMMUNICATION-CHANNELS-AND-WHATSAPP-ALTERNATIVES.md)
+* **Ecosystem:** Stellar Network / Soroban / Drips Network / TecNM Campus Tlaxiaco
+* **Architectural Pattern:** Offline-First, Event-Driven, Decoupled Adapter Pattern
+* **Associated ADRs:** [ADR-001 (Trustless Work Escrow)](./adr/ADR-001-TRUSTLESS-WORK-ESCROW.md), [ADR-002 (Rural Channels & WhatsApp Decoupling)](./adr/ADR-002-COMMUNICATION-CHANNELS-AND-WHATSAPP-ALTERNATIVES.md)
 
 ---
 
-## 📐 1. Diagrama General de Capas del Sistema
+## 📐 1. System Layers Architecture Diagram
 
 ```
 ┌────────────────────────────────────────────────────────────────────────────────────────┐
-│                        CAPA 1: CLIENTE MÓVIL Y ACCESIBILIDAD                           │
+│                        LAYER 1: MOBILE CLIENT & ACCESSIBILITY                          │
 │  - Progressive Web App (PWA) Offline-First (React 19 + Tailwind CSS)                   │
-│  - Interfaz "Modo Abuelo": Botones táctiles gigantes (112px) y cero texto complejo     │
-│  - Web Audio API: Grabación y normalización acústica (24kbps Opus)                     │
-│  - Autenticación Zero-Seed: Carnet QR Físico Comunitario y OTP SMS                     │
+│  - "Elder-Friendly / Modo Abuelo" UI: 112px ergonomic touch targets, zero complex text│
+│  - Web Audio API: 24kbps Opus recording and acoustic normalization                     │
+│  - Zero-Seed IAM: Physical Community QR Cards and SMS OTP authentication               │
 └───────────────────────────────────────────┬────────────────────────────────────────────┘
                                             │
                                             ▼
 ┌────────────────────────────────────────────────────────────────────────────────────────┐
-│                      CAPA 2: NÚCLEO DE DOMINIO Y RESILIENCIA OFFLINE                   │
-│  - Offline Storage Outbox: IndexedDB (ACID transaccional sin internet)                 │
-│  - SyncEngine: Sincronización criptográfica reactiva al detectar conectividad          │
-│  - CryptoEngine: Cálculo de Community Digest SHA-256 canónico y llaves Ed25519         │
-│  - QR Engine: Generación vectorial SVG ISO/IEC 18004 para etiquetas Hang-Tag           │
+│                   LAYER 2: DOMAIN CORE & OFFLINE RESILIENCE ENGINE                     │
+│  - Offline Storage Outbox: IndexedDB (ACID transactional offline-first storage)        │
+│  - SyncEngine: Reactive cryptographic synchronization upon connectivity detection      │
+│  - CryptoEngine: Canonical SHA-256 Community Digest calculation and Ed25519 signing    │
+│  - QR Engine: Vectorized SVG ISO/IEC 18004 generation for physical Hang-Tag labels     │
 └───────────────────────────────────────────┬────────────────────────────────────────────┘
                                             │
                                             ▼
 ┌────────────────────────────────────────────────────────────────────────────────────────┐
-│                      CAPA 3: ORÁCULOS DE IA Y ATESTACIONES (RWA)                       │
-│  - AIVoiceOracle: Normalización acústica y extracción semántica (Mixteco / Español)    │
-│  - AIQualityOracle: Evaluación sensorial SCAA (>85 pts) y patrimonio artesanal maestro │
-│  - AIEUDRSatelliteOracle: Geocercado Sentinel-2 para cumplimiento anti-deforestación   │
-│  - Attestation Registry: Emisión de credenciales verificables tipo EAS para Stellar    │
+│                     LAYER 3: AUTONOMOUS AI ORACLES & RWA ATTESTATIONS                  │
+│  - AIVoiceOracle: Acoustic normalization & semantic parsing (*Tu'un Savi* / Spanish)   │
+│  - AIQualityOracle: SCAA defect scoring (>85 specialty grade) & ancestral craft audit  │
+│  - AIEUDRSatelliteOracle: Sentinel-2 multispectral geofence anti-deforestation proof   │
+│  - Attestation Registry: EAS-equivalent verifiable credentials anchored on Stellar     │
 └───────────────────────────────────────────┬────────────────────────────────────────────┘
                                             │
                                             ▼
 ┌────────────────────────────────────────────────────────────────────────────────────────┐
-│                   CAPA 4: CONTRATOS INTELIGENTES EN SOROBAN (STELLAR)                  │
+│                    LAYER 4: SOROBAN SMART CONTRACTS (STELLAR)                          │
 │  ┌─────────────────────────┐ ┌─────────────────────────┐ ┌──────────────────────────┐ │
 │  │   lot_passport (Rust)   │ │ attestation_registry(RS)│ │  TRUSTLESS WORK ESCROW   │ │
-│  │ Identidad inmutable del │ │ Esquemas y validación   │ │ Custodia y liberación por│ │
-│  │ lote y origen Tlaxiaco  │ │ descentralizada on-chain│ │ hitos verificables       │ │
+│  │ Immutable lot identity  │ │ On-chain schema registry│ │ Milestone-based Soroban  │ │
+│  │ & Tlaxiaco origin proof │ │ & decentralized claims  │ │ custody & disbursement   │ │
 │  └─────────────────────────┘ └─────────────────────────┘ └──────────────────────────┘ │
 └───────────────────────────────────────────┬────────────────────────────────────────────┘
                                             │
                                             ▼
 ┌────────────────────────────────────────────────────────────────────────────────────────┐
-│                       CAPA 5: RIELES DE LIQUIDACIÓN Y ÚLTIMA MILLA                     │
-│  - Etherfuse Anchor: Conversión atómica USDC -> MXNe -> Transferencias SPEI Banxico    │
-│  - Cuentas de Inclusión: Banco del Bienestar, Finabien y Cajas Populares de la Mixteca  │
-│  - Red de transporte y nodos locales de efectivo para campesinos no bancarizados       │
+│                     LAYER 5: SETTLEMENT RAILS & LAST-MILE PAYOUT                       │
+│  - Etherfuse Anchor: Atomic swap USDC -> MXNe -> Banxico SPEI interbank transfers     │
+│  - Financial Inclusion Accounts: Banco del Bienestar, Finabien & Oaxaca Credit Unions  │
+│  - Rural cooperative cash distribution network for unbanked smallholders               │
 └────────────────────────────────────────────────────────────────────────────────────────┘
 ```
 
 ---
 
-## 🔄 2. Diagrama de Secuencia de Interacción de Usuario y del Sistema (End-to-End)
+## 🔄 2. End-to-End User and System Interaction Sequence Diagram
 
-El siguiente diagrama detalla la secuencia completa de eventos e interacciones de los tres actores humanos (**Productor**, **Comprador Institucional** y **Cooperativa de Tlaxiaco**) con el software cliente, el almacenamiento offline, el anclaje en Stellar y el contrato de custodia de **Trustless Work**:
+The following sequence diagram details the complete flow of events and interactions among the three human actors (**Producer**, **Institutional Buyer**, and **Tlaxiaco Cooperative Validator**) with the client software, offline storage, Stellar ledger anchoring, and the **Trustless Work** smart contract escrow:
 
 ```mermaid
 sequenceDiagram
     autonumber
-    actor Productor as 🌾 Productor / Artesana<br/>(Don Juan - Yucuhiti)
+    actor Producer as 🌾 Producer / Artisan<br/>(Don Juan - Yucuhiti)
     participant PWA as 📱 Raíz PWA Client<br/>(Offline-First)
-    participant Storage as 💾 IndexedDB Outbox<br/>(Almacenamiento Local)
+    participant Storage as 💾 IndexedDB Outbox<br/>(Local Storage)
     participant Sync as 🔄 Sync & Crypto Engine<br/>(SHA-256 / Ed25519)
     participant Soroban as ⛓️ Stellar / Soroban<br/>(LotPassport & Attestation)
-    actor Comprador as ☕ Comprador B2B / Tostador<br/>(Specialty Coffee SMB)
+    actor Buyer as ☕ B2B Buyer / Roaster<br/>(Specialty Coffee SMB)
     participant TW as 🤝 Trustless Work Escrow<br/>(Milestone-based Soroban)
-    actor Coop as 🏛️ Cooperativa Tlaxiaco<br/>(Árbitro / Validador)
-    participant Payout as 💳 Rieles de Pago<br/>(Etherfuse SPEI / Efectivo)
+    actor Coop as 🏛️ Tlaxiaco Cooperative<br/>(Arbitrator / Validator)
+    participant Payout as 💳 Settlement Rails<br/>(Etherfuse SPEI / Cash)
 
-    %% FASE 1: REGISTRO OFFLINE EN PARCELA
-    Note over Productor,Storage: FASE 1: Registro en Parcela (100% Offline en Tlaxiaco)
-    Productor->>PWA: 1. Presiona botón gigante de micrófono y habla en Mixteco o Español
-    PWA->>PWA: 2. Web Audio API graba Opus a 24kbps y extrae datos de cosecha (kilos, variedad)
-    PWA->>Storage: 3. Guarda lote y audio de voz en IndexedDB (cero pérdida de datos sin señal)
-    PWA-->>Productor: 4. Muestra confirmación visual amigable y folio provisional (MX-2026-CAFE-01)
+    %% PHASE 1: OFFLINE PARCEL REGISTRATION
+    Note over Producer,Storage: PHASE 1: Parcel Registration (100% Offline in Tlaxiaco)
+    Producer->>PWA: 1. Presses giant 112px mic button and speaks in Mixteco or Spanish
+    PWA->>PWA: 2. Web Audio API records 24kbps Opus & extracts harvest metadata (kg, variety)
+    PWA->>Storage: 3. Saves lot & voice audio in local IndexedDB (zero data loss in offline mountain)
+    PWA-->>Producer: 4. Shows friendly visual confirmation & provisional ID (MX-2026-CAFE-01)
 
-    %% FASE 2: SINCRONIZACIÓN AL DETECTAR RED
-    Note over Storage,Soroban: FASE 2: Sincronización y Anclaje Criptográfico en Stellar
-    PWA->>Sync: 5. Detecta conexión a Internet (WiFi comunitaria o datos al volver al pueblo)
-    Sync->>Storage: 6. Lee lote pendiente de la Outbox local
-    Sync->>Sync: 7. Genera Community Digest SHA-256 canónico y firma Ed25519
-    Sync->>Soroban: 8. Invoca lot_passport::register_lot(digest, productor, coords)
-    Soroban-->>Sync: 9. Emite comprobante inmutable (Tx Hash y Ledger Number en Stellar)
-    Sync->>Storage: 10. Actualiza estado local del lote a 'ANCLADO_ON_CHAIN'
-    PWA-->>Productor: 11. Genera etiqueta Hang-Tag física con código QR (ISO/IEC 18004)
+    %% PHASE 2: SYNCHRONIZATION ON NETWORK DETECTION
+    Note over Storage,Soroban: PHASE 2: Network Sync & Cryptographic Anchoring on Stellar
+    PWA->>Sync: 5. Detects internet connection (community WiFi or mobile data upon town arrival)
+    Sync->>Storage: 6. Reads pending lot outbox from local storage
+    Sync->>Sync: 7. Computes canonical SHA-256 Community Digest and signs with Ed25519 key
+    Sync->>Soroban: 8. Invokes lot_passport::register_lot(digest, producer_id, coordinates)
+    Soroban-->>Sync: 9. Emits immutable receipt (Tx Hash and Stellar Ledger Number)
+    Sync->>Storage: 10. Updates lot status locally to 'ANCHORED_ON_CHAIN'
+    PWA-->>Producer: 11. Generates printable Hang-Tag label with ISO/IEC 18004 QR code
 
-    %% FASE 3: FONDEO EN TRUSTLESS WORK ESCROW
-    Note over Comprador,TW: FASE 3: Negociación y Fondeo en Escrow (Trustless Work)
-    Comprador->>PWA: 12. Escanea código QR y visualiza Pasaporte Digital del Lote
-    Comprador->>TW: 13. initialize_escrow(buyer, producer, coop_tlaxiaco, 1500 USDC)
-    Comprador->>TW: 14. deposit_funds(1500 USDC en custodia inteligente Soroban)
-    TW-->>TW: 15. Contrato bloquea fondos (30% Hito 1: Origen / 70% Hito 2: Entrega)
+    %% PHASE 3: ESCROW FUNDING VIA TRUSTLESS WORK
+    Note over Buyer,TW: PHASE 3: B2B Purchase & Escrow Funding (Trustless Work)
+    Buyer->>PWA: 12. Scans physical QR code & inspects digital lot passport
+    Buyer->>TW: 13. initialize_escrow(buyer, producer, coop_tlaxiaco, 1500 USDC)
+    Buyer->>TW: 14. deposit_funds(1500 USDC locked in audited Soroban smart contract)
+    TW-->>TW: 15. Contract locks funds (30% Milestone 1: Origin / 70% Milestone 2: Delivery)
 
-    %% FASE 4: LIBERACIÓN DE HITOS Y ENTREGA FÍSICA
-    Note over TW,Payout: FASE 4: Verificación de Hitos y Liquidación de Fondos
-    Sync->>TW: 16. submit_milestone_proof(Hito 1: Atestación de Origen Raíz verificada)
-    TW->>Payout: 17. Libera 30% de anticipo ($450 USDC) directamente al Productor
-    Productor->>Coop: 18. Entrega sacos de café físicos en el Centro de Acopio de Tlaxiaco
-    Coop->>PWA: 19. Escanea QR del saco y coteja calidad física y número de costales
-    Coop->>TW: 20. submit_milestone_proof(Hito 2: Recepción Física Aprobada)
-    TW->>Payout: 21. Libera 70% de liquidación final ($1,050 USDC)
-    Payout-->>Productor: 22. Depósito en Banco del Bienestar (SPEI MXN) o red de efectivo local
-    TW-->>Comprador: 23. Transfiere la propiedad digital inmutable del lote certificado
+    %% PHASE 4: MILESTONE RELEASE & LAST-MILE SETTLEMENT
+    Note over TW,Payout: PHASE 4: Milestone Verification & Fund Disbursement
+    Sync->>TW: 16. submit_milestone_proof(Milestone 1: Raíz Origin Attestation Verified)
+    TW->>Payout: 17. Releases 30% advance ($450 USDC) directly to Producer
+    Producer->>Coop: 18. Delivers physical coffee bags to Tlaxiaco Municipal Warehouse
+    Coop->>PWA: 19. Scans bag QR tag, validates physical weight & moisture grade
+    Coop->>TW: 20. submit_milestone_proof(Milestone 2: Physical Delivery Approved)
+    TW->>Payout: 21. Releases remaining 70% final settlement ($1,050 USDC)
+    Payout-->>Producer: 22. SPEI deposit to Banco del Bienestar card or local cash network
+    TW-->>Buyer: 23. Transfers certified on-chain ownership of verified lot
 ```
 
-### Desglose de Fases de la Secuencia:
+### Breakdown of Sequence Phases:
 
-1. **Fase 1 (Parcela 100% Offline):** Don Juan se encuentra en las montañas de Santa María Yucuhiti sin cobertura celular. Abre la PWA de Raíz, presiona el botón gigante de micrófono (112px ergonómico), habla en *Tu'un Savi* (Mixteco) y la app almacena localmente el audio y los metadatos en IndexedDB.
-2. **Fase 2 (Anclaje en Stellar al volver al pueblo):** Al llegar a un punto con señal o WiFi en Tlaxiaco, el `SyncEngine` procesa la outbox, calcula el digest SHA-256 e interactúa con los contratos Soroban de Stellar, emitiendo la etiqueta física con código QR para el saco de café.
-3. **Fase 3 (Fondeo B2B con Trustless Work):** El comprador institucional en Europa o CDMX escanea el QR, revisa la prueba de origen y calidad, y deposita 1,500 USDC en el contrato de custodia de **Trustless Work** sobre Soroban.
-4. **Fase 4 (Liquidación por Hitos y Entrega):** El productor recibe un anticipo del 30% ($450 USDC) garantizado por la atestación de origen. Al entregar los sacos en la cooperativa de Tlaxiaco, el árbitro comunal confirma la recepción física y el contrato de Trustless Work libera automáticamente el 70% restante ($1,050 USDC) vía SPEI hacia su tarjeta del Banco del Bienestar.
+1. **Phase 1 (Parcel Offline Edge):** Don Juan is in the remote mountains of Santa María Yucuhiti without cellular coverage. He opens the Raíz PWA, taps the 112px ergonomic microphone button, and speaks in *Tu'un Savi* (Mixteco). The application captures the audio and harvest metadata locally in IndexedDB with zero dependence on active internet.
+2. **Phase 2 (Stellar Ledger Anchoring):** Upon arriving at a connected zone or community WiFi hotspot in Tlaxiaco, the `SyncEngine` processes the outbox, computes the canonical SHA-256 Community Digest, and interacts with Soroban smart contracts, generating the physical QR Hang-Tag label for the coffee sacks.
+3. **Phase 3 (B2B Escrow with Trustless Work):** An ethical buyer or roaster in Europe, the US, or Mexico City scans the QR code, reviews verifiable proof of origin and quality, and locks 1,500 USDC in **Trustless Work**'s audited Soroban escrow contract.
+4. **Phase 4 (Milestone Disbursement & Delivery):** The farmer immediately receives an automated 30% advance payment ($450 USDC) backed by the certified origin attestation. When physical coffee bags arrive at the Tlaxiaco cooperative, the local validator confirms physical reception, triggering the release of the remaining 70% ($1,050 USDC) via SPEI directly to the farmer's Banco del Bienestar debit card.
 
 ---
 
-## 📂 3. Estructura de Directorios del Repositorio (Mapeo Técnico)
+## 📂 3. Repository Directory Structure (Technical Mapping)
 
-Para facilitar la incorporación de colaboradores y estudiantes del TecNM, el monorepo organiza sus responsabilidades de forma modular:
+To facilitate onboarding for student-researchers, maintainers, and open-source contributors:
 
 ```text
 raiz/
-├── contracts/                     # Contratos inteligentes en Rust para Soroban
-│   ├── attestation_registry/      # Registro de esquemas y atestaciones de origen
-│   ├── lot_passport/              # Pasaporte digital inmutable de cosechas
-│   ├── perpetual_royalties/       # Motor de regalías para artesanas (8% / 2%)
-│   └── fair_escrow/               # Implementación base de custodia comunitaria
-├── docs/                          # Documentación arquitectónica y de campo
+├── contracts/                     # Rust smart contracts for Soroban (Stellar)
+│   ├── attestation_registry/      # Schema registry & on-chain provenance claims
+│   ├── lot_passport/              # Immutable digital passport for agricultural lots
+│   ├── perpetual_royalties/       # Secondary market royalty engine for female artisans
+│   └── fair_escrow/               # Baseline community escrow implementation
+├── docs/                          # Architectural, technical, and field research docs
 │   ├── adr/                       # Architecture Decision Records (ADR-001, ADR-002)
-│   ├── MVP_SPECIFICATION.md       # Especificación estricta del MVP para Tlaxiaco
-│   ├── ARCHITECTURE.md            # Este documento de arquitectura
-│   └── research/                  # Reportes de investigación de campo en Tlaxiaco
+│   ├── MVP_SPECIFICATION.md       # Strict MVP specification for Tlaxiaco pilot
+│   ├── ARCHITECTURE.md            # This system architecture document
+│   ├── PROTOCOL_SPECIFICATION.md  # Cryptographic & smart contract protocol spec
+│   └── research/                  # Field research reports & usability interviews in Oaxaca
 ├── src/
-│   ├── components/                # Componentes React de UI (PWA / Modo Abuelo)
-│   │   ├── ChatScreen.tsx         # Interfaz conversacional y registro por voz
-│   │   ├── DigitalPassportScreen.tsx # Visualizador público del Pasaporte Digital
-│   │   ├── ArtisanQrTagModal.tsx  # Generador de etiquetas físicas QR (Hang-Tag)
-│   │   └── TopAppBar.tsx          # Cabecera principal con selector de roles
-│   ├── core/                      # Lógica de dominio pura (desacoplada de UI)
-│   │   ├── ai/                    # Oráculos de IA (Voz, Calidad SCAA, Satélite EUDR)
-│   │   ├── auth/                  # Motor de identidad Zero-Seed y carnet QR
-│   │   ├── blockchain/            # Adaptadores Soroban y Trustless Work Escrow
-│   │   ├── crypto/                # Generación de SHA-256 canónico y firmas
-│   │   ├── settlement/            # Orquestador de liquidación híbrida (Etherfuse/SPEI)
-│   │   └── sync/                  # Motor de sincronización offline (IndexedDB)
-│   └── tests/                     # Suite completa de pruebas unitarias y de sistema
-└── drips.config.json              # Configuración de splits para financiamiento Drips
+│   ├── components/                # React UI components (PWA / Elder-Friendly Mode)
+│   │   ├── ChatScreen.tsx         # Voice registration & conversational interface
+│   │   ├── DigitalPassportScreen.tsx # Public verified lot passport viewer
+│   │   ├── ArtisanQrTagModal.tsx  # Physical QR Hang-Tag label generator
+│   │   └── TopAppBar.tsx          # Main header & role switcher
+│   ├── core/                      # Pure domain core (isolated from UI framework)
+│   │   ├── ai/                    # AI Oracles (Voice STT, SCAA Quality, EUDR Satellite)
+│   │   ├── auth/                  # Zero-Seed identity & Community QR card engine
+│   │   ├── blockchain/            # Soroban RPC adapter & Trustless Work Escrow adapter
+│   │   ├── crypto/                # Canonical SHA-256 digest & Ed25519 signing
+│   │   ├── settlement/            # Hybrid multi-anchor settlement orchestrator (Etherfuse)
+│   │   └── sync/                  # Offline outbox & synchronization engine (IndexedDB)
+│   └── tests/                     # Automated unit and system test suites
+└── drips.config.json              # Drips Network funding configuration & splits
 ```
 
 ---
 
-## 🔒 3. Integración con Trustless Work
+## 🔒 4. Trustless Work Escrow Integration
 
-Siguiendo el estándar fijado en el [ADR-001](./adr/ADR-001-TRUSTLESS-WORK-ESCROW.md), el protocolo no reinventa contratos de custodia de fondos, sino que consume la infraestructura de **Trustless Work** a través de la clase `TrustlessWorkEscrowAdapter`:
+In alignment with [ADR-001](./adr/ADR-001-TRUSTLESS-WORK-ESCROW.md), Raíz Protocol utilizes **Trustless Work**'s audited smart contract infrastructure via the `TrustlessWorkEscrowAdapter`:
 
-1. **Depósito:** El comprador institucional deposita USDC o MXNe en el contrato de Trustless Work.
-2. **Hito 1 (Anticipo de Cosecha - 30%):** Se libera automáticamente cuando el smart contract verifica la atestación de origen emitida por Raíz en Tlaxiaco (`0x01_ORIGIN`).
-3. **Hito 2 (Liquidación Final - 70%):** Se libera cuando la cooperativa de Tlaxiaco emite la atestación física de recepción (`0x04_DELIVERY`).
-4. **Arbitraje:** Si el café presenta discrepancia de humedad o peso, la cooperativa comunitaria actúa como árbitro predefinido en Trustless Work para mediar.
+1. **Funding:** The institutional buyer deposits USDC or MXNe into the Trustless Work contract.
+2. **Milestone 1 (Harvest Advance - 30%):** Automatically released when the smart contract verifies the origin attestation issued by Raíz in Tlaxiaco (`0x01_ORIGIN`).
+3. **Milestone 2 (Final Settlement - 70%):** Released when the Tlaxiaco cooperative issues the physical delivery attestation (`0x04_DELIVERY`).
+4. **Arbitration:** If discrepancies arise in weight, humidity, or defect score, the municipal cooperative acts as the designated arbitrator within Trustless Work to achieve resolution.
 
 ---
 
-## 📡 4. Política de Canales y Resiliencia Offline
+## 📡 5. Channel Policy & Offline Resilience
 
-Siguiendo el [ADR-002](./adr/ADR-002-COMMUNICATION-CHANNELS-AND-WHATSAPP-ALTERNATIVES.md):
-* El canal primario es una **Progressive Web App (PWA)** estándar W3C, eliminando la dependencia de WhatsApp, los costos de la API de Meta y las restricciones de conectividad en montaña.
-* Los datos se persisten en **IndexedDB** localmente y se transfieren a Stellar en lotes atómicos criptográficos cuando el dispositivo detecta conexión.
+In alignment with [ADR-002](./adr/ADR-002-COMMUNICATION-CHANNELS-AND-WHATSAPP-ALTERNATIVES.md):
+* The primary interaction channel is an open **Progressive Web App (PWA)** adhering to W3C standards, completely eliminating dependency on proprietary platforms like WhatsApp, avoiding per-message API fees, and eliminating the risk of arbitrary account bans.
+* All data is persisted locally in **IndexedDB** at the edge, synchronizing with the Stellar ledger in atomic batches when connectivity is available.

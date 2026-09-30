@@ -1,40 +1,34 @@
 # 📋 GitHub Repository "About" Configuration Guide
 **Repository:** `Open-Hub-Tec/raiz`  
-**Institución:** Tecnológico Nacional de México - Campus Tlaxiaco  
-**Programa:** Stellar Wave Program / Drips Network / Tech Rebel  
+**Institution:** Tecnológico Nacional de México - Campus Tlaxiaco  
+**Program:** Stellar Wave Program / Drips Network / Tech Rebel  
 
 ---
 
-### ⚙️ Datos para la sección "About" en la barra lateral de GitHub:
+### ⚙️ Fields for the "About" Section in the GitHub Sidebar:
 
-Para actualizar la sección **About** en [github.com/Open-Hub-Tec/raiz](https://github.com/Open-Hub-Tec/raiz):
-1. En la página principal del repositorio en GitHub, ve a la columna derecha (Sidebar).
-2. Arriba a la derecha de la caja **About**, haz clic en el ícono de **⚙️ (Engranaje / Edit repository details)**.
-3. Copia y pega los siguientes campos:
+To update the **About** section on [github.com/Open-Hub-Tec/raiz](https://github.com/Open-Hub-Tec/raiz):
+1. Navigate to the repository home page on GitHub and locate the right sidebar.
+2. At the top-right of the **About** card, click the **⚙️ (Gear / Edit repository details)** icon.
+3. Paste the following standardized configuration:
 
 ---
 
-#### 1. Description (Descripción)
-> **Opción Oficial en Inglés (Recomendada para Drips, Stellar Community Fund y evaluadores internacionales):**  
+#### 1. Description
 > `Decentralized RWA Attestation & AI Oracle Infrastructure on Stellar & Soroban for Fair Trade, EUDR Compliance, and Indigenous Agricultural Communities in Oaxaca.`  
-> *(165 caracteres)*
-
-> **Opción en Español:**  
-> `Infraestructura descentralizada de atestaciones RWA y oráculos de IA en Stellar y Soroban para comercio justo, cumplimiento EUDR y comunidades indígenas de Oaxaca.`  
-> *(164 caracteres)*
+> *(165 characters)*
 
 ---
 
-#### 2. Website (Sitio Web)
+#### 2. Website
 ```text
 https://ais-pre-oz33zstal3h64mvd2dn5ng-283290758794.us-east1.run.app
 ```
-*(O si prefieren el enlace al Readme: `https://github.com/Open-Hub-Tec/raiz#readme`)*
 
 ---
 
-#### 3. Topics (Etiquetas / Tags de descubrimiento)
-Escribe o pega cada una de las siguientes etiquetas en el campo de **Topics**:
+#### 3. Topics (Discovery Tags)
+Type or paste each tag into the **Topics** field:
 ```text
 stellar
 soroban
@@ -55,6 +49,8 @@ financial-inclusion
 
 ---
 
-#### 4. Include in home page (Casillas de verificación)
+#### 4. Include on Home Page (Checkboxes)
 - [x] **Releases**
 - [x] **Packages**
+
+Click the green **"Save changes"** button to apply.

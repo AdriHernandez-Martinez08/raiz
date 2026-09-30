@@ -1,52 +1,52 @@
 # Architecture Decision Record (ADR-002)
-## Evaluación de Canales de Interacción Rural y Desacoplamiento de WhatsApp
+## Evaluation of Rural Interaction Channels and Decoupling from WhatsApp
 
-* **Estado:** Aprobado / Implementado
-* **Fecha:** Septiembre 2026
-* **Decisores:** Equipo de Arquitectura Raíz Protocol, TecNM Campus Tlaxiaco
-* **Contexto:** Observaciones críticas de la reunión con Alberto Chaves y Brandon sobre la dependencia de plataformas propietarias.
-
----
-
-### 1. Contexto y Problema
-En las etapas iniciales de ideación se propuso utilizar WhatsApp como la interfaz conversacional principal para los campesinos y artesanas de Tlaxiaco, basándose en su ubicuidad aparente.
-
-Sin embargo, tras el análisis técnico y la retroalimentación de los mentores, se identificaron **cuatro fallas estructurales críticas** al depender de WhatsApp:
-1. **Falta Total de Resiliencia Offline:** WhatsApp no puede operar en las parcelas cafetaleras de la Mixteca Alta (Yucuhiti, Amoltepec) donde no existe cobertura celular ni señal de datos 3G/4G.
-2. **Costos y Restricciones de la API de Meta (WhatsApp Business Cloud API):** Cada conversación con un productor cuesta dinero en comisiones por mensaje cobradas por Meta. Además, requiere procesos corporativos de verificación que excluyen a colectivos indígenas no constituidos formalmente.
-3. **Riesgo Operativo de Suspensión (Vendor Lock-in):** Los algoritmos automáticos de Meta pueden suspender o bloquear números comunitarios sin derecho a réplica, deteniendo las operaciones de cosecha.
-4. **Incapacidad Criptográfica del Cliente:** WhatsApp no permite generar, almacenar ni firmar hashes criptográficos de Stellar (`ed25519` / SHA-256) de manera local y soberana en el teléfono del usuario.
+* **Status:** Accepted / Implemented
+* **Date:** September 2026
+* **Deciders:** Raíz Protocol Architecture Team, TecNM Campus Tlaxiaco
+* **Context:** Critical architectural review with Alberto Chaves and Brandon regarding proprietary platform dependencies.
 
 ---
 
-### 2. Matriz de Evaluación de Alternativas
+### 1. Context & Problem Statement
+Early conceptual drafts proposed using WhatsApp as the primary conversational interface for farmers and artisans in Tlaxiaco, assuming broad ubiquity.
 
-| Criterio | 1. WhatsApp Bot | 2. PWA Offline-First (Web) | 3. Carnet QR Físico | 4. Telegram WebApp |
+However, field audits and architectural analysis identified **four critical structural flaws** with WhatsApp:
+1. **Zero Offline Capability:** WhatsApp cannot function in high-altitude mountain plots across the Mixteca Highlands (Santa María Yucuhiti, San Cristóbal Amoltepec) where cellular signal and mobile data do not exist.
+2. **Meta Cloud API Fees & Restrictions:** Every farmer interaction incurs conversation fees charged by Meta. Furthermore, enterprise verification processes exclude unincorporated indigenous producer associations.
+3. **Operational Suspension Risk (Vendor Lock-in):** Meta automated algorithms can suspend or ban community phone numbers without recourse, abruptly halting harvest operations.
+4. **Lack of Local Cryptographic Capabilities:** WhatsApp client cannot locally generate, store, or sign Stellar cryptographic hashes (`ed25519` / SHA-256) at the device edge.
+
+---
+
+### 2. Channel Evaluation Matrix
+
+| Criterion | 1. WhatsApp Bot | 2. Offline-First PWA | 3. Physical Community QR Card | 4. Telegram WebApp |
 | :--- | :---: | :---: | :---: | :---: |
-| **Funciona 100% sin internet** | ❌ Imposible | ✅ Sí (IndexedDB + Service Worker) | ✅ Sí (Soporte físico) | ❌ Requiere conexión |
-| **Costo por mensaje / uso** | ❌ Tarifa por conversación Meta | ✅ **$0.00 (Estándares web abiertos)** | ✅ Costo único de impresión ($5 MXN) | ✅ **$0.00 (API abierta)** |
-| **Soberanía y Código Abierto** | ❌ Código cerrado y propietario | ✅ **100% Código Abierto (W3C)** | ✅ Soberanía comunitaria | ⚠️ Plataforma externa |
-| **Inclusión para Adultos Mayores** | ⚠️ Requiere escribir en teclado | ✅ **Voz nativa gigante (112px) y botones táctiles** | ✅ **Máxima (Cero tecnología personal)** | ⚠️ Requiere app instalada |
-| **Firma Criptográfica Local** | ❌ No | ✅ **Sí (Web Crypto API + Ed25519)** | ✅ Sí (Clave delegada en cooperativa) | ⚠️ Limitada |
+| **Operates 100% Offline** | ❌ Impossible | ✅ **Yes (IndexedDB + Service Worker)** | ✅ **Yes (Physical Card)** | ❌ Requires connection |
+| **Per-Message / Usage Cost** | ❌ Meta per-conversation fee | ✅ **$0.00 (Open W3C Web Standards)** | ✅ One-time print cost (~$0.25 USD) | ✅ **$0.00 (Open API)** |
+| **Sovereignty & Open Source** | ❌ Proprietary closed ecosystem | ✅ **100% Open Source** | ✅ Community sovereignty | ⚠️ External platform |
+| **Elder Accessibility** | ⚠️ Complex keyboard typing | ✅ **112px ergonomic tactile & voice** | ✅ **Maximum (Zero personal tech)** | ⚠️ App installation required |
+| **Local Cryptographic Signing** | ❌ No | ✅ **Yes (Web Crypto API + Ed25519)** | ✅ Yes (Delegated coop key) | ⚠️ Limited |
 
 ---
 
-### 3. Decisión de Arquitectura para el MVP
+### 3. Architecture Decision for the MVP
 
-1. **Canal Primario del MVP:** **Progressive Web App (PWA) Offline-First**.
-   * Opera en cualquier navegador web moderno de smartphones económicos (Android).
-   * Almacena datos localmente con IndexedDB cuando el productor está en la parcela sin señal.
-   * Graba y procesa audio de voz (en lengua Mixteca *Tu'un Savi* y Español) con la API estándar `MediaRecorder` a 24kbps.
-   * Sincroniza automáticamente en segundo plano cuando el productor llega a un punto con WiFi comunitario o datos.
-2. **Mecanismo Inclusivo Zero-Tech:** **Carnet QR Físico Comunitario**.
-   * Para campesinos y artesanas de la tercera edad que no cuentan con smartphone.
-   * El promotor de la cooperativa o estudiante del TecNM escanea el carnet para autenticar el lote sin exigir contraseñas ni frases semilla de 24 palabras.
-3. **Canal de Notificación Secundario (Opcional):** **Telegram WebApp / Bot abierto**.
-   * Para compradores institucionales y tostadurías que deseen recibir alertas de nuevos lotes certificados sin incurrir en costos de licencias comerciales.
+1. **Primary MVP Channel:** **Progressive Web App (PWA) Offline-First**.
+   * Runs in any modern mobile browser on low-cost Android smartphones.
+   * Stores records locally in IndexedDB when the farmer is offline on parcel.
+   * Records and compresses voice audio (*Tu'un Savi* Mixteco and Spanish) using the standard `MediaRecorder` API at 24kbps Opus.
+   * Automatically synchronizes in the background when reconnecting to community WiFi or mobile data in town.
+2. **Zero-Tech Inclusive Mechanism:** **Physical Community QR Card**.
+   * Tailored for elderly farmers and weavers who do not own smartphones.
+   * Community cooperative promoters scan the physical card to authenticate lots without requiring passwords or 24-word seed phrases.
+3. **Secondary Notification Channel (Optional):** **Open Telegram WebApp / Bot**.
+   * For institutional buyers and roasters wishing to receive real-time alerts of newly certified lots without licensing fees.
 
 ---
 
-### 4. Consecuencias
-* **Soberanía Tecnológica:** El proyecto es 100% independiente de Meta y de cualquier proveedor de mensajería de pago.
-* **Cero Costos Recurrentes para la Comunidad:** No hay tarifas por mensaje ni cobros por API.
-* **Verificación Real en Campo:** La app funciona en lo alto de la montaña donde se corta el café, resolviendo el problema real de Tlaxiaco.
+### 4. Consequences & Benefits
+* **Technological Sovereignty:** Completely independent of Meta and commercial messaging APIs.
+* **Zero Recurring Communication Costs:** No per-message fees for indigenous cooperatives.
+* **Proven Field Resilience:** Operates at 2,000 meters altitude where coffee is harvested, solving the genuine reality of Tlaxiaco.

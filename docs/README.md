@@ -1,52 +1,53 @@
-# 📚 Índice de Documentación Técnica: Raíz Protocol
+# 📚 Technical Documentation Index: Raíz Protocol
 ### *Instituto Tecnológico de Tlaxiaco (TecNM) • Stellar & Soroban • Drips Network*
 
-Bienvenido al centro de documentación de **Raíz Protocol**. Para mantener el repositorio limpio, profesional y accesible tanto para estudiantes investigadores como para mentores y evaluadores internacionales, la documentación se organiza en las siguientes secciones:
+Welcome to the technical documentation hub for **Raíz Protocol**. To maintain a clean, organized, and accessible codebase for student-researchers, maintainers, and international evaluators, documentation is structured across the following sections:
 
 ---
 
-## 🏛️ 1. Arquitectura y Especificación del MVP
+## 🏛️ 1. Architecture & MVP Specifications
 
-* [**`ARCHITECTURE.md`**](./ARCHITECTURE.md): Especificación integral de arquitectura de software, diagrama de capas (1 a 5), adaptador de Trustless Work y diagrama de secuencia de usuario.
-* [**`MVP_SPECIFICATION.md`**](./MVP_SPECIFICATION.md): Definición estricta del MVP validable para Tlaxiaco, Oaxaca (Trazabilidad, Visibilidad y Origen Verificable).
-* [**`PROTOCOL_SPECIFICATION.md`**](./PROTOCOL_SPECIFICATION.md): Especificación formal del protocolo criptográfico sobre Soroban (esquemas de atestaciones, hashing canónico, llaves Ed25519).
-
----
-
-## 📝 2. Registros de Decisiones de Arquitectura (ADRs)
-
-* [**`adr/ADR-001-TRUSTLESS-WORK-ESCROW.md`**](./adr/ADR-001-TRUSTLESS-WORK-ESCROW.md): Justificación y diseño de adopción de Trustless Work como motor oficial de custodia por hitos en Soroban.
-* [**`adr/ADR-002-COMMUNICATION-CHANNELS-AND-WHATSAPP-ALTERNATIVES.md`**](./adr/ADR-002-COMMUNICATION-CHANNELS-AND-WHATSAPP-ALTERNATIVES.md): Desacoplamiento de WhatsApp en favor de PWA Offline-First y Carnet QR físico sin costos de API ni bloqueo de cuentas.
+* [**`ARCHITECTURE.md`**](./ARCHITECTURE.md): Comprehensive system architecture, 5-layer diagram, Trustless Work escrow adapter, and end-to-end user sequence diagram.
+* [**`MVP_SPECIFICATION.md`**](./MVP_SPECIFICATION.md): Strict MVP scope definition for Tlaxiaco, Oaxaca (Traceability, Visibility, and Verifiable Provenance).
+* [**`PROTOCOL_SPECIFICATION.md`**](./PROTOCOL_SPECIFICATION.md): Formal cryptographic protocol specification on Soroban (schema registry, canonical hashing, Ed25519 keys).
 
 ---
 
-## 💧 3. Drips Network, Financiamiento y Gobernanza
+## 📝 2. Architecture Decision Records (ADRs)
 
-* [**`drips/APELACION_DRIPS_STELLAR.md`**](./drips/APELACION_DRIPS_STELLAR.md): Documento de apelación y fundamentación para el programa Drips Wave y Stellar Community Fund.
-* [**`drips/BACKLOG_DRIPS_STELLAR.md`**](./drips/BACKLOG_DRIPS_STELLAR.md): Desglose de tareas e issues elegibles para fondos de investigación estudiantil.
-* [**`drips/DRIPS_ISSUES_ROADMAP.md`**](./drips/DRIPS_ISSUES_ROADMAP.md): Hoja de ruta de issues y entregables técnicos.
-
----
-
-## 🎓 4. Guías para Estudiantes y Contribuidores TecNM
-
-* [**`guides/GUIA_ESTUDIANTES_TECNM.md`**](./guides/GUIA_ESTUDIANTES_TECNM.md): Introducción pedagógica a Stellar, Soroban y Web3 para alumnos del TecNM Campus Tlaxiaco.
-* [**`guides/EJEMPLO_ISSUES_GITHUB.md`**](./guides/EJEMPLO_ISSUES_GITHUB.md): Estándar de creación de issues y solicitudes de extracción (PRs) con recompensas Drips.
+* [**`adr/ADR-001-TRUSTLESS-WORK-ESCROW.md`**](./adr/ADR-001-TRUSTLESS-WORK-ESCROW.md): Rationale and architecture for adopting Trustless Work as the milestone escrow engine on Soroban.
+* [**`adr/ADR-002-COMMUNICATION-CHANNELS-AND-WHATSAPP-ALTERNATIVES.md`**](./adr/ADR-002-COMMUNICATION-CHANNELS-AND-WHATSAPP-ALTERNATIVES.md): Decoupling from WhatsApp in favor of an Offline-First PWA and Physical Community QR Cards.
 
 ---
 
-## 🔬 5. Investigación de Campo y Usabilidad en Tlaxiaco
+## 💧 3. Drips Network Funding & Governance
 
-* [**`research/HITO_1.1_VALIDACION_CAMPO.md`**](./research/HITO_1.1_VALIDACION_CAMPO.md): Reporte de validación de campo con productores de café y artesanas de Oaxaca.
-* [**`research/entrevista_union_miel_san_juan_numi.md`**](./research/entrevista_union_miel_san_juan_numi.md): Entrevista de requerimientos de campo con la Unión de Productores de Miel "Flor de la Mixteca" de San Juan Ñumí, Oaxaca (Equipo UMIZOOMI / eduScrum).
-* [**`research/research_tijaltepec.md`**](./research/research_tijaltepec.md): Notas de campo en San Pablo Tijaltepec y Santa María Yucuhiti.
-* [**`research/CHAT_RURAL_KNOWLEDGE_BASE.md`**](./research/CHAT_RURAL_KNOWLEDGE_BASE.md): Base de conocimiento agronómico, normativo (NOM) y de lenguaje rural.
-* [**`ux-testing/HITO_1.2_AUDITORIA_FRICCION_UX.md`**](./ux-testing/HITO_1.2_AUDITORIA_FRICCION_UX.md): Auditoría de fricción cognitiva en adultos mayores y diseño del "Modo Abuelo" táctil de 112px.
+* [**`drips/APELACION_DRIPS_STELLAR.md`**](./drips/APELACION_DRIPS_STELLAR.md): Technical appeal and research rationale for Drips Wave and Stellar Community Fund.
+* [**`drips/BACKLOG_DRIPS_STELLAR.md`**](./drips/BACKLOG_DRIPS_STELLAR.md): Task backlog and issues eligible for student-researcher funding splits.
+* [**`drips/DRIPS_ISSUES_ROADMAP.md`**](./drips/DRIPS_ISSUES_ROADMAP.md): Deliverables roadmap and technical milestone schedule.
 
 ---
 
-## 📜 6. Estándares y Presentaciones
+## 🎓 4. Contributor & Student Guides
 
-* [**`standards/SEP_RWA_ATTESTATION_DRAFT.md`**](./standards/SEP_RWA_ATTESTATION_DRAFT.md): Borrador de propuesta SEP para atestaciones de Real-World Assets (RWA) en Stellar.
-* [**`standards/MARKET_DYNAMICS_AND_INCENTIVES.md`**](./standards/MARKET_DYNAMICS_AND_INCENTIVES.md): Análisis de incentivos de mercado, compradores SMBs y modelo B2B2C.
-* [**`standards/FOMENTA_2026_PRESENTACION.md`**](./standards/FOMENTA_2026_PRESENTACION.md): Presentación institucional para convocatorias académicas de innovación.
+* [**`../CONTRIBUTING.md`**](../CONTRIBUTING.md): Main contributor guide, Git workflow, coding conventions, and PR checklist.
+* [**`guides/GUIA_ESTUDIANTES_TECNM.md`**](./guides/GUIA_ESTUDIANTES_TECNM.md): Pedagogical introduction to Stellar, Soroban, and Web3 development for TecNM undergraduates.
+* [**`guides/EJEMPLO_ISSUES_GITHUB.md`**](./guides/EJEMPLO_ISSUES_GITHUB.md): Standard formatting guide for creating issues and Pull Requests with Drips funding attribution.
+
+---
+
+## 🔬 5. Field Research & Usability in Tlaxiaco
+
+* [**`research/HITO_1.1_VALIDACION_CAMPO.md`**](./research/HITO_1.1_VALIDACION_CAMPO.md): Field validation report with coffee farmers and indigenous weavers in Oaxaca.
+* [**`research/entrevista_union_miel_san_juan_numi.md`**](./research/entrevista_union_miel_san_juan_numi.md): Field interview with the "Flor de la Mixteca" Honey Producers Union in San Juan Ñumí, Oaxaca (UMIZOOMI / eduScrum).
+* [**`research/research_tijaltepec.md`**](./research/research_tijaltepec.md): Field notes from San Pablo Tijaltepec and Santa María Yucuhiti.
+* [**`research/CHAT_RURAL_KNOWLEDGE_BASE.md`**](./research/CHAT_RURAL_KNOWLEDGE_BASE.md): Rural agronomy knowledge base and indigenous dialect mappings.
+* [**`ux-testing/HITO_1.2_AUDITORIA_FRICCION_UX.md`**](./ux-testing/HITO_1.2_AUDITORIA_FRICCION_UX.md): Cognitive friction audit and design of the 112px elder-friendly tactile interface.
+
+---
+
+## 📜 6. Standards & Specifications
+
+* [**`standards/SEP_RWA_ATTESTATION_DRAFT.md`**](./standards/SEP_RWA_ATTESTATION_DRAFT.md): Draft SEP proposal for Real-World Asset (RWA) attestations on Stellar.
+* [**`standards/MARKET_DYNAMICS_AND_INCENTIVES.md`**](./standards/MARKET_DYNAMICS_AND_INCENTIVES.md): Market incentive analysis, SMB buyer personas, and B2B2C economic model.
+* [**`standards/FOMENTA_2026_PRESENTACION.md`**](./standards/FOMENTA_2026_PRESENTACION.md): Academic presentation deck for technology innovation grants.

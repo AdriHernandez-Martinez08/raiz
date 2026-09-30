@@ -1,46 +1,46 @@
 # Architecture Decision Record (ADR-001)
-## Adopción de Trustless Work como Infraestructura Estándar de Escrow en Soroban
+## Adoption of Trustless Work as Standard Escrow Infrastructure on Soroban
 
-* **Estado:** Aprobado / Implementado
-* **Fecha:** Septiembre 2026
-* **Decisores:** Equipo de Arquitectura Raíz Protocol, TecNM Campus Tlaxiaco
-* **Contexto:** Validación con Alberto Chaves (Tech Rebel / Trustless Work) y Brandon (Stellar Ecosystem)
-
----
-
-### 1. Contexto y Problema
-En el modelo comercial de Raíz para productores agrícolas y artesanas de Tlaxiaco (Oaxaca), los compradores institucionales (tostadurías de café de especialidad, boutiques de moda ética, cooperativas) necesitan depositar fondos en garantía antes del envío de la cosecha o de las piezas textiles. El pago debe liberarse únicamente cuando se cumplan hitos verificables del mundo real:
-1. Certificación de origen y calidad (atestación criptográfica).
-2. Entrega física del lote verificada por la cooperativa o nodo local.
-
-Inicialmente se contempló escribir un contrato de *FairEscrow* propio desde cero. Sin embargo, desarrollar, auditar formalmente y mantener un contrato de custodia de fondos propio incrementa drásticamente el riesgo de vulnerabilidades de seguridad, duplica esfuerzos en el ecosistema Stellar y distrae al equipo del verdadero valor del MVP: **la trazabilidad, visibilidad y origen verificable de las cosechas**.
+* **Status:** Accepted / Implemented
+* **Date:** September 2026
+* **Deciders:** Raíz Protocol Architecture Team, TecNM Campus Tlaxiaco
+* **Context:** Architectural review with Alberto Chaves (Tech Rebel / Trustless Work) and Brandon (Stellar Ecosystem)
 
 ---
 
-### 2. Decisión
-**Adoptar la infraestructura de contratos inteligentes de Trustless Work sobre Soroban (`@trustlesswork/sdk`) como el motor oficial de escrow condicionado de Raíz Protocol.**
+### 1. Context & Problem Statement
+In Raíz's commercial model for smallholder coffee farmers and artisans in Tlaxiaco (Oaxaca), institutional buyers (specialty coffee roasters, ethical fashion boutiques, import cooperatives) require guaranteed escrow before crop harvesting or batch dispatch. Funds must only disburse when verified real-world milestones are fulfilled:
+1. Proof of origin and quality grading (cryptographic attestation).
+2. Physical delivery of the batch verified by the community warehouse/cooperative.
 
-Trustless Work proporciona:
-* Contratos inteligentes de escrow auditados y probados en producción en la red Stellar / Soroban.
-* Arquitectura basada en tres partes:
-  * **Client (Comprador):** Deposita los fondos (USDC, EURC o activos Stellar).
-  * **Service Provider / Producer (Productor/Artesana de Tlaxiaco):** Ejecuta la producción y entrega del lote.
-  * **Approver / Arbitrator (Árbitro / Cooperativa Comunitaria):** Valida los hitos en caso de controversia o firma la liberación con base en la atestación de Raíz.
-* Modelo de hitos (*milestones*): Los fondos se desbloquean paso a paso contra atestaciones digitales inmutables (`LotPassport` + `AttestationRegistry`).
+Developing, auditing, and maintaining a proprietary custom escrow contract from scratch introduces substantial security risks, duplicates existing ecosystem infrastructure on Stellar, and diverts core engineering focus away from the primary value of the MVP: **harvest traceability, commercial visibility, and verifiable provenance**.
 
 ---
 
-### 3. Diagrama de Integración
+### 2. Decision
+**Adopt Trustless Work's audited smart contract infrastructure on Soroban (`@trustlesswork/sdk`) as the official conditioned escrow engine for Raíz Protocol.**
+
+Trustless Work provides:
+* Battle-tested, audited escrow smart contracts deployed on the Stellar / Soroban network.
+* A robust tripartite role architecture:
+  * **Client (Buyer):** Deposits funds (USDC, EURC, or Stellar assets).
+  * **Service Provider / Producer (Farmer/Artisan):** Fulfills production and physical delivery.
+  * **Approver / Arbitrator (Tlaxiaco Cooperative):** Validates milestones and acts as local arbiter in the event of quality or delivery disputes.
+* Milestone-based milestone structure: Funds unlock incrementally against tamper-proof digital attestations (`LotPassport` + `AttestationRegistry`).
+
+---
+
+### 3. Integration Architecture Diagram
 
 ```
 ┌────────────────────────────────────────────────────────────────────────────────────────┐
 │                                   RAÍZ PROTOCOL                                        │
-│  - Captura en parcela (Tlaxiaco, Oaxaca)                                               │
-│  - Atestación de Origen & Calidad (Community Digest SHA-256)                           │
-│  - Pasaporte Digital del Lote (QR Code)                                                │
+│  - On-parcel harvest registration (Tlaxiaco, Oaxaca)                                   │
+│  - Provenance & Quality Attestation (Canonical SHA-256 Community Digest)               │
+│  - Public Digital Lot Passport (Hang-Tag QR Code)                                      │
 └───────────────────────────────────────────┬────────────────────────────────────────────┘
                                             │
-                             Evento: Atestación de Hito Válida
+                             Event: Valid Milestone Attestation
                                             │
                                             ▼
 ┌────────────────────────────────────────────────────────────────────────────────────────┐
@@ -49,28 +49,30 @@ Trustless Work proporciona:
 │  │ 1. initialize_escrow(buyer, producer, approver, amount, milestones)             │  │
 │  │ 2. deposit_funds(asset: USDC/MXNe)                                               │  │
 │  │ 3. submit_milestone_proof(milestone_id, raiz_attestation_uid)                    │  │
-│  │ 4. release_milestone_payment(milestone_id) -> Transferencia al Productor         │  │
+│  │ 4. release_milestone_payment(milestone_id) -> Transfer to Producer               │  │
 │  └──────────────────────────────────────────────────────────────────────────────────┘  │
 └───────────────────────────────────────────┬────────────────────────────────────────────┘
                                             │
                                             ▼
 ┌────────────────────────────────────────────────────────────────────────────────────────┐
-│                         LIQUIDACIÓN FIAT DE ÚLTIMA MILLA                               │
-│  - Etherfuse SPEI (Banco del Bienestar / Cajas Populares de Oaxaca)                    │
-│  - Red de transporte y liquidez comunitaria local                                      │
+│                        LAST-MILE FIAT SETTLEMENT RAILS                                 │
+│  - Etherfuse SPEI (Banco del Bienestar / Oaxaca Credit Unions)                         │
+│  - Local cooperative cash distribution network                                         │
 └────────────────────────────────────────────────────────────────────────────────────────┘
 ```
 
 ---
 
-### 4. Consecuencias
+### 4. Milestone Schedule for Tlaxiaco Lots
 
-#### Positivas:
-* **Seguridad y Auditoría:** Se delega la custodia financiera en contratos estandarizados y auditados del ecosistema Stellar.
-* **Velocidad de Salida al Mercado:** El MVP se enfoca al 100% en la captura de campo, trazabilidad y visibilidad en Tlaxiaco.
-* **Interoperabilidad:** Cualquier cliente o marketplace que ya use Trustless Work puede liquidar órdenes de café y artesanías de Tlaxiaco sin fricción.
-* **Resolución Descentralizada de Conflictos:** Si un saco de café sufre merma en el transporte, la cooperativa comunitaria actúa como árbitro legítimo preconfigurado en el escrow.
+| Milestone | Condition | Release % | Verification Source |
+| :--- | :--- | :--- | :--- |
+| **Milestone 1: Origin Attestation** | Lot registered with valid harvest parameters, coordinates, and canonical SHA-256 digest on Stellar. | **30% Advance** | `AttestationRegistry.rs` (`0x01_ORIGIN`) |
+| **Milestone 2: Physical Reception** | Physical coffee sacks delivered to the Tlaxiaco Municipal Warehouse with verified weight and moisture. | **70% Final** | Local cooperative signature (`0x04_DELIVERY`) |
 
-#### Negativas / Mitigaciones:
-* **Dependencia de Interfaz:** Si el contrato de Trustless Work actualiza sus interfaces Soroban, Raíz debe mantener actualizado el adaptador (`TrustlessWorkEscrowAdapter.ts`).
-  * *Mitigación:* Se implementa un patrón adaptador desacoplado con pruebas automatizadas continuas.
+---
+
+### 5. Consequences & Trade-offs
+* **Positive:** Drastically reduced audit overhead, instant interoperability with Stellar ecosystem tools, and battle-tested escrow logic.
+* **Positive:** Built-in dispute mediation through the local cooperative without custom court contracts.
+* **Neutral:** Protocol relies on Trustless Work contract interfaces; changes in their Soroban contract APIs are isolated inside `TrustlessWorkEscrowAdapter.ts`.

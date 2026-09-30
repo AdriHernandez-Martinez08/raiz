@@ -1,7 +1,7 @@
 <div align="center">
 
 # 🌿 Raíz Protocol
-### *Trazabilidad, Visibilidad y Origen Verificable en Stellar & Soroban para Comunidades Indígenas de Oaxaca*
+### *Decentralized Attestation & AI Oracle Infrastructure for Agricultural Provenance, Fair Escrow & Real-World Assets (RWA) on Stellar & Soroban*
 
 [![License: MIT](https://img.shields.io/badge/License-MIT-emerald.svg)](./LICENSE)
 [![Stellar: Built on Soroban](https://img.shields.io/badge/Stellar-Soroban%20%7C%20Horizon-black.svg?logo=stellar)](https://stellar.org)
@@ -10,115 +10,116 @@
 [![Status: MVP v1.2.0](https://img.shields.io/badge/Status-Validated%20MVP%20v1.2.0-success.svg)]()
 
 <p align="center">
-  <b>Infraestructura descentralizada de bienes públicos en Stellar: conectando a pequeños cafeticultores y artesanas de Tlaxiaco con mercados éticos mediante atestaciones criptográficas inmutables.</b>
+  <b>Open-source decentralized public goods infrastructure on Stellar: Connecting unbanked smallholder coffee growers and indigenous artisans from Tlaxiaco, Oaxaca with global ethical buyers through verifiable on-chain attestations.</b>
   <br>
-  <i>Diseñado y programado por estudiantes investigadores de Ingeniería en Sistemas Computacionales del <b>Instituto Tecnológico de Tlaxiaco (Oaxaca, México)</b></i>
+  <i>Designed and engineered by indigenous Computer Systems Engineering student-researchers at <b>Instituto Tecnológico de Tlaxiaco (Oaxaca, Mexico)</b></i>
 </p>
 
-[Visión General](#-visión-general) • [Los 3 Dolores que Resuelve](#-los-3-dolores-que-resuelve-en-tlaxiaco) • [Mapa de Usuario](#-mapa-de-experiencia-de-usuario-user-journey) • [Ecosistema](#-stack-del-ecosistema-stellar-dividir-y-conquistar) • [Inicio Rápido](#-inicio-rápido-quickstart) • [Documentación](#-centro-de-documentación)
+[Overview](#-overview) • [The 3 Core Pains Solved](#-the-3-core-pains-solved-in-tlaxiaco) • [User Journey](#-user-journey-map) • [Ecosystem Stack](#-stellar-ecosystem-stack-divide-and-conquer) • [Quickstart](#-quickstart) • [Documentation Center](#-documentation-center)
 
 ---
 
 </div>
 
-## 📌 Visión General
+## 📌 Overview
 
-**Raíz** es una plataforma descentralizada de **Trazabilidad, Visibilidad y Origen Verificable (RWA)** construida sobre la red **Stellar** y contratos inteligentes de **Soroban**. 
+**Raíz** is a decentralized protocol for **Traceability, Visibility, and Verifiable Provenance (RWA)** built on the **Stellar Network** and **Soroban Smart Contracts**.
 
-El proyecto nace en la **Mixteca Alta de Oaxaca (Heroica Ciudad de Tlaxiaco, Santa María Yucuhiti y San Cristóbal Amoltepec)** para resolver la exclusión digital de productores de café de especialidad y artesanas de telar de cintura mediante una interfaz **PWA Offline-First** con reconocimiento de voz en lengua originaria (*Tu'un Savi* / Mixteco).
+Born in the mountainous Mixteca Highlands of Oaxaca (**Heroica Ciudad de Tlaxiaco, Santa María Yucuhiti, and San Cristóbal Amoltepec**), Raíz solves the digital and economic exclusion of specialty coffee smallholders and backstrap-loom textile artisans through an **Offline-First PWA** powered by voice recognition in their native language (*Tu'un Savi* / Mixteco).
 
-> **Enfoque Territorial del MVP:**  
-> La Fase 1 del proyecto está **100% acotada y validada en Tlaxiaco, Oaxaca**. Los planes de expansión transfronteriza hacia otros países forman parte de la Fase 2 del roadmap.
-
----
-
-## 🎯 Los 3 Dolores que Resuelve en Tlaxiaco
-
-Validado en campo por los estudiantes investigadores del TecNM con más de 50 productores y artesanas:
-
-1. **Falta de Visibilidad Comercial:** Los artesanos y cafeticultores no tienen canales directos para exhibir y comercializar sus productos fuera de su localidad o municipio.
-2. **Explotación por Intermediarios ("Coyotes"):** Los revendedores compran a precios muy bajos (hasta 70% por debajo del valor real) y no existen regalías para los productores originales cuando sus obras se revenden con alta plusvalía.
-3. **Piratería y Falta de Certificación:** No existe un registro verificable del proceso artesanal o de la calidad del café, propiciando que personas externas plagien los diseños textiles ancestrales o vendan café genérico como café de especialidad.
+> **Territorial Scope of the MVP:**  
+> Phase 1 is **strictly focused and validated in Tlaxiaco, Oaxaca**. Cross-border regional expansion across Latin America represents Phase 2 of our research roadmap.
 
 ---
 
-## 🗺️ Mapa de Experiencia de Usuario (User Journey)
+## 🎯 The 3 Core Pains Solved in Tlaxiaco
 
-¿Cómo interactúa Don Juan (campesino de 65 años) y una tostaduría internacional en Raíz?
+Directly validated through field research by TecNM student teams with 50+ local producers and artisans:
+
+1. **Commercial Invisibility:** Smallholders and artisans lack direct channels to showcase and sell their harvests and ancestral textiles outside their remote villages.
+2. **Intermediary Exploitation (*Coyotaje*):** Predatory middlemen purchase crops at up to 70% below market value. Original creators receive zero royalties when their lots are resold with substantial margins.
+3. **Counterfeiting & Lack of Certified Provenance:** The lack of a tamper-proof audit trail for specialty coffee cup scores and handcrafted weaving processes allows industrial counterfeiters to misappropriate indigenous designs and commercial coffee to be masqueraded as single-origin specialty microlots.
+
+---
+
+## 🗺️ User Journey Map
+
+How do Don Juan (a 65-year-old coffee farmer) and an ethical international roaster interact through Raíz?
 
 ```text
 ┌───────────────────────────┐       ┌───────────────────────────┐       ┌───────────────────────────┐
-│   1. PARCELA (SIN SEÑAL)  │       │  2. ACOPIO EN TLAXIACO    │       │   3. MERCADO Y CUSTODIA   │
-│  - Don Juan presiona voz  │ ────> │  - SyncEngine ancla hash  │ ────> │  - Tostador escanea QR    │
-│  - Habla en Mixteco/Esp.  │       │    SHA-256 en Soroban     │       │  - Deposita en Escrow de  │
-│  - Guarda en IndexedDB    │       │  - Imprime etiqueta Hang- │       │    Trustless Work (USDC)  │
-│  - Cero contraseñas       │       │    Tag con QR físico      │       │  - Retiro SPEI a Bienestar│
+│  1. PARCEL (OFFLINE EDGE) │       │  2. MUNICIPAL DISPATCH    │       │   3. BUYER SETTLEMENT     │
+│  - Don Juan presses voice │ ────> │  - SyncEngine anchors     │ ────> │  - Roaster scans QR label │
+│  - Speaks Mixteco/Spanish │       │    SHA-256 hash on Soroban│       │  - Locks USDC in          │
+│  - Stored in IndexedDB    │       │  - Prints physical Hang-  │       │    Trustless Work Escrow  │
+│  - Zero seed phrases      │       │    Tag QR label           │       │  - SPEI off-ramp to farmer│
 └───────────────────────────┘       └───────────────────────────┘       └───────────────────────────┘
 ```
 
-> **Ver el Diagrama de Secuencia Técnico Completo (Mermaid):**  
-> 👉 [Diagrama de Secuencia End-to-End en docs/ARCHITECTURE.md](./docs/ARCHITECTURE.md#-2-diagrama-de-secuencia-de-interacci%C3%B3n-de-usuario-y-del-sistema-end-to-end)
+> **Detailed Technical Sequence Diagram (Mermaid):**  
+> 👉 [View the End-to-End Sequence Diagram in docs/ARCHITECTURE.md](./docs/ARCHITECTURE.md#-2-end-to-end-user-and-system-interaction-sequence-diagram)
 
 ---
 
-## 🤝 Stack del Ecosistema Stellar ("Dividir y Conquistar")
+## 🤝 Stellar Ecosystem Stack ("Divide and Conquer")
 
-Siguiendo el principio de arquitectura de integrar componentes auditados del ecosistema en vez de reinventar la rueda:
+Following the engineering principle of integrating audited ecosystem building blocks rather than reinventing the wheel:
 
-* **🤝 [Trustless Work](https://trustlesswork.com):** Custodia descentralizada de fondos (Escrow) basada en hitos (*milestones*) sobre Soroban. Libera 30% con atestación de origen y 70% con entrega física comprobada en la cooperativa ([ADR-001](./docs/adr/ADR-001-TRUSTLESS-WORK-ESCROW.md)).
-* **⛓️ [Stellar Network & Soroban](https://stellar.org):** Registro inmutable del lote (`LotPassport.rs`), atestaciones de origen (`AttestationRegistry.rs`) y liquidación con tarifas insignificantes ($0.00001 USD).
-* **🎙️ [PWA Web Audio & Gemini AI](https://ai.google.dev):** Interfaz sin teclado con reconocimiento de voz en *Tu'un Savi* y español rural sin dependencia de APIs de mensajería de pago como WhatsApp ([ADR-002](./docs/adr/ADR-002-COMMUNICATION-CHANNELS-AND-WHATSAPP-ALTERNATIVES.md)).
-* **💳 [Etherfuse](https://etherfuse.com):** Rampa fiduciaria SPEI directa a cuentas de inclusión social (Banco del Bienestar / Finabien / Cajas Populares).
+* **🤝 [Trustless Work](https://trustlesswork.com):** Multi-milestone decentralized smart contract escrow on Soroban. Releases a 30% advance payment upon origin attestation and the remaining 70% upon physical cooperative delivery ([ADR-001](./docs/adr/ADR-001-TRUSTLESS-WORK-ESCROW.md)).
+* **⛓️ [Stellar Network & Soroban](https://stellar.org):** Immutable lot passports (`LotPassport.rs`), tamper-proof provenance schemas (`AttestationRegistry.rs`), and sub-cent transaction finality ($0.00001 USD).
+* **🎙️ [PWA Web Audio & Gemini AI](https://ai.google.dev):** Keyboardless interface with speech-to-text for *Tu'un Savi* and rural Spanish—decoupling the protocol from paid third-party messaging services such as WhatsApp ([ADR-002](./docs/adr/ADR-002-COMMUNICATION-CHANNELS-AND-WHATSAPP-ALTERNATIVES.md)).
+* **💳 [Etherfuse](https://etherfuse.com):** Direct fiat off-ramping (MXNe / SPEI) to financial inclusion debit cards (Banco del Bienestar / Finabien).
 
 ---
 
-## 🚀 Inicio Rápido (Quickstart)
+## 🚀 Quickstart
 
-Para clonar, instalar y levantar la aplicación localmente en 3 comandos:
+Clone, install, and launch Raíz locally in 3 commands:
 
 ```bash
-# 1. Clonar el repositorio
+# 1. Clone the repository
 git clone https://github.com/Open-Hub-Tec/raiz.git
 cd raiz
 
-# 2. Instalar dependencias
+# 2. Install dependencies
 npm install
 
-# 3. Iniciar el entorno de desarrollo
+# 3. Launch local development server
 npm run dev
 ```
 
-Abre tu navegador en `http://localhost:3000`.
+Open your browser at `http://localhost:3000`.
 
-### Verificación de Calidad y Pruebas:
+### Quality Assurance & Automated Verification:
 ```bash
-# Ejecutar la suite completa de 34+ pruebas automatizadas
+# Run the complete test suite (34+ automated tests)
 npm run test
 
-# Compilación y empaquetado para producción
+# Compile production bundle
 npm run build
 ```
 
 ---
 
-## 📚 Centro de Documentación
+## 📚 Documentation Center
 
-Toda la documentación técnica profunda está organizada de forma modular en [`docs/`](./docs/README.md):
+In-depth technical architecture and research documentation are organized modularly in [`docs/`](./docs/README.md):
 
-* **[Especificación Oficial del MVP (Tlaxiaco)](./docs/MVP_SPECIFICATION.md):** Definición detallada de los 3 pilares, métricas de éxito y protocolo de campo.
-* **[Especificación de Arquitectura de Software](./docs/ARCHITECTURE.md):** Diagrama de capas 1 a 5, patrones de diseño y flujo de datos.
-* **[Registros de Decisiones de Arquitectura (ADRs)](./docs/adr/):**
-  * [ADR-001: Adopción de Trustless Work Escrow](./docs/adr/ADR-001-TRUSTLESS-WORK-ESCROW.md)
-  * [ADR-002: Desacoplamiento de WhatsApp y PWA Offline-First](./docs/adr/ADR-002-COMMUNICATION-CHANNELS-AND-WHATSAPP-ALTERNATIVES.md)
-* **[Guía para Estudiantes y Contribuidores](./CONTRIBUTING.md):** Cómo tomar issues, abrir Pull Requests y colaborar en el proyecto.
-* **[Índice Completo de Documentación](./docs/README.md):** Reportes de investigación de campo, estándares SEP y carpetas de Drips.
+* **[Validated MVP Specification (Tlaxiaco)](./docs/MVP_SPECIFICATION.md):** 3 core pillars, field acceptance criteria, and operational metrics.
+* **[System Architecture Document](./docs/ARCHITECTURE.md):** 5-layer architectural diagram, design patterns, and cryptographic flow.
+* **[Architecture Decision Records (ADRs)](./docs/adr/):**
+  * [ADR-001: Trustless Work Escrow Adoption](./docs/adr/ADR-001-TRUSTLESS-WORK-ESCROW.md)
+  * [ADR-002: Offline PWA & WhatsApp Decoupling](./docs/adr/ADR-002-COMMUNICATION-CHANNELS-AND-WHATSAPP-ALTERNATIVES.md)
+* **[Contributor & Student Guide](./CONTRIBUTING.md):** Step-by-step workflow for claiming issues, submitting Pull Requests, and earning Drips funding.
+* **[Field Research & Usability](./docs/research/):** Interviews and usability audit reports from San Pablo Tijaltepec, Santa María Yucuhiti, and San Juan Ñumí.
+* **[Full Documentation Index](./docs/README.md):** Table of contents for all technical and academic resources.
 
 ---
 
-## 👥 Equipo y Gobernanza Académica
+## 👥 Academic Governance & Team
 
-* **Institución:** Instituto Tecnológico de Tlaxiaco (TecNM - Oaxaca, México).
-* **Carrera:** Ingeniería en Sistemas Computacionales.
-* **Liderazgo del Proyecto:** Profe Jose Alfredo Roman Cruz y Nayeli (Líder Estudiantil).
-* **Comunidad:** Estudiantes investigadores de Open Hub TecNM Campus Tlaxiaco.
-* **Licencia:** [MIT Open Source](./LICENSE).
+* **Institution:** Instituto Tecnológico de Tlaxiaco (TecNM - Oaxaca, Mexico).
+* **Department:** Computer Systems Engineering.
+* **Project Leadership:** Prof. Jose Alfredo Roman Cruz & Nayeli (Student Lead).
+* **Community:** Student-researchers at Open Hub TecNM Campus Tlaxiaco.
+* **License:** [MIT Open Source](./LICENSE).
