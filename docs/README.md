@@ -39,6 +39,8 @@ Welcome to the technical documentation hub for **Raíz Protocol**. To maintain a
 ## 🔬 5. Field Research & Usability in Tlaxiaco
 
 * [**`research/HITO_1.1_VALIDACION_CAMPO.md`**](./research/HITO_1.1_VALIDACION_CAMPO.md): Field validation report with coffee farmers and indigenous weavers in Oaxaca.
+* [**`research/field-interviews/entrevista-01-mercedes-cruz/README.md`**](./research/field-interviews/entrevista-01-mercedes-cruz/README.md): Field interview with artisanal chocolate producer Mercedes Cruz (Includes [Direct Video Testimony MP4](https://github.com/user-attachments/assets/70d81a55-c3d1-48fd-a277-d099d70585d3)).
+* [**`research/costuras_tijaltepec_entrevista.md`**](./research/costuras_tijaltepec_entrevista.md): Field pain validation sheet for traditional embroidery and waist loom artisans in San Pablo Tijaltepec.
 * [**`research/entrevista_union_miel_san_juan_numi.md`**](./research/entrevista_union_miel_san_juan_numi.md): Field interview with the "Flor de la Mixteca" Honey Producers Union in San Juan Ñumí, Oaxaca (UMIZOOMI / eduScrum).
 * [**`research/research_tijaltepec.md`**](./research/research_tijaltepec.md): Field notes from San Pablo Tijaltepec and Santa María Yucuhiti.
 * [**`research/CHAT_RURAL_KNOWLEDGE_BASE.md`**](./research/CHAT_RURAL_KNOWLEDGE_BASE.md): Rural agronomy knowledge base and indigenous dialect mappings.
@@ -46,6 +48,8 @@ Welcome to the technical documentation hub for **Raíz Protocol**. To maintain a
 * [**`ux-testing/TIJALTEPEC_FRICTION_AUDIT.md`**](./ux-testing/TIJALTEPEC_FRICTION_AUDIT.md): Test #01 – Usability and friction field test sheet from San Pablo Tijaltepec (Doña Francisca, 64).
 * [**`ux-testing/TEST_02_MIXTEPEC_PALMA_UX.md`**](./ux-testing/TEST_02_MIXTEPEC_PALMA_UX.md): Test #02 – Field usability and friction test sheet from San Juan Mixtepec (Doña Juana, 68).
 * [**`ux-testing/TEST_03_NUMI_MIEL_UX.md`**](./ux-testing/TEST_03_NUMI_MIEL_UX.md): Test #03 – Field usability and friction test sheet from San Juan Ñumí (Honey Union beekeepers).
+* [**`ux-testing/FICHA_PRUEBAS_USABILIDAD_NUMI_MIEL.md`**](./ux-testing/FICHA_PRUEBAS_USABILIDAD_NUMI_MIEL.md): Detailed usability task sheet for honey production control in San Juan Ñumí.
+* [**`ux-testing/USABILIDAD_COSTURAS_TIJALTEPEC.md`**](./ux-testing/USABILIDAD_COSTURAS_TIJALTEPEC.md): Usability evaluation for San Pablo Tijaltepec traditional garment makers.
 
 ---
 

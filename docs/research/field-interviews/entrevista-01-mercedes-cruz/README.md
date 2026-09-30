@@ -40,24 +40,23 @@
 
 ---
 
-## 5. Audio Testimony
-- **Audio File 1:** `audio_testimonies/ENT-01-mercedes-cruz-presentacion.mp4`
+## 5. Audio & Video Testimony
+- **Video File (MP4):** [`ENT-01-mercedes-cruz-presentacion.mp4`](https://github.com/user-attachments/assets/70d81a55-c3d1-48fd-a277-d099d70585d3)
+  - *Direct Video Link:* [Watch Interview Video (GitHub User Attachment)](https://github.com/user-attachments/assets/70d81a55-c3d1-48fd-a277-d099d70585d3)
   - *Content: Mercedes introduces herself, explains her family trajectory and the origin of cacao and varieties she elaborates*
-  
-- **Audio File 2:** `audio_testimonies/ENT-01-mercedes-cruz-additional.mp4`
-  - *[To be documented]*
 
 ---
 
 ## 6. Key Findings & Insights
-✅ **Positive:** Mercedes has established a direct sales model without predatory intermediaries
-✅ **Strong:** 30+ years of experience and multigenerational expertise
-⚠️ **Data Gap:** Complete economic breakdown needed to validate against market exploitation
+✅ **Positive:** Mercedes has established a direct sales model without predatory intermediaries  
+✅ **Strong:** 30+ years of experience and multigenerational expertise  
+⚠️ **Data Gap:** Complete economic breakdown needed to validate against market exploitation  
 
 ---
 
 ## 7. Supporting Documents
-- **Interview Sheet (PDF):** `ficha-entrevista-mercedes-cruz.pdf`
+- **Interview Sheet (PDF):** [Download Interview Sheet (PDF)](https://github.com/user-attachments/files/32833838/ficha.de.entrevista.pdf)
+- **Video Attachment:** [Download / View MP4](https://github.com/user-attachments/assets/70d81a55-c3d1-48fd-a277-d099d70585d3)
 - **Audio Testimonies:** See section 5
 
 ---
