@@ -1,116 +1,150 @@
-# 💧 Raíz Protocol: Decentralized Attestation & AI Oracle Roadmap
+# 💧 Raíz Protocol: Decentralized Attestation, AI Oracle & Trustless Work Escrow Roadmap
+### *Engineering Tasks & Milestones for Open-Source Contributors, Drips Network & Stellar Community Fund*
 
-This document outlines the modular engineering tasks for developers, open-source contributors, and TecNM engineering students funded through the **Stellar Community Fund & Drips Network**.
-
-Raíz is architected as an **RWA Attestation & AI Oracle Protocol on Stellar & Soroban**, decoupling rural edge capture, autonomous verification, smart contract escrow, and multi-anchor financial settlement.
+* **Repository:** `Open-Hub-Tec/raiz`  
+* **Academic Institution:** Instituto Tecnológico de Tlaxiaco (TecNM - Oaxaca, Mexico)  
+* **Territorial Scope:** Heroica Ciudad de Tlaxiaco, Santa María Yucuhiti, San Cristóbal Amoltepec, San Juan Mixtepec, San Juan Ñumí  
+* **Associated ADRs:** [ADR-001 (Trustless Work Escrow)](../adr/ADR-001-TRUSTLESS-WORK-ESCROW.md), [ADR-002 (Offline PWA & WhatsApp Decoupling)](../adr/ADR-002-COMMUNICATION-CHANNELS-AND-WHATSAPP-ALTERNATIVES.md)  
+* **Official Specifications:** [MVP Specification](../MVP_SPECIFICATION.md) • [Architecture Specification](../ARCHITECTURE.md) • [Protocol Specification](../PROTOCOL_SPECIFICATION.md)
 
 ---
+
+## 🗺️ Architectural Dependency Graph
 
 ```
 ┌────────────────────────────────────────────────────────────────────────────────────────┐
 │                        RAÍZ ATTESTATION PROTOCOL DEPENDENCY GRAPH                      │
 ├─────────────────────────┬──────────────────────────┬───────────────────────────────────┤
-│ LAYER 1: DID & IAM      │ LAYER 2: AI ORACLES      │ LAYER 4: SOROBAN ATTESTATIONS     │
+│ LAYER 1: DID & IAM      │ LAYER 2: OFFLINE & AI    │ LAYER 4: SOROBAN & ESCROW         │
 ├─────────────────────────┼──────────────────────────┼───────────────────────────────────┤
 │ [US-101] #18            │ [US-201] #21             │ [US-401] #26                      │
-│ Passwordless OTP DID    │ Offline ACID Buffer      │ FairEscrow Attestation Gate       │
+│ Zero-Seed SMS OTP & PWA │ Offline ACID IndexedDB   │ Trustless Work Milestone Escrow   │
 │                         │                          │                                   │
 │ [US-102] #19            │ [US-202] #22             │ [US-402] #27                      │
-│ Physical QR Identity    │ Acoustic Voice Oracle    │ Perpetual Royalties & Tequio      │
+│ Physical QR Card (Elder)│ Acoustic Voice Oracle    │ Perpetual Royalties & Tequio      │
 │                         │                          │                                   │
 │ [US-103] #20            │ [US-203] #23             │ [US-403] #28                      │
-│ Gasless Account Relayer │ RWA Vector QR Hang-Tag   │ Verifiable Registry Showcase      │
+│ Gasless Fee-Bump Relay  │ ISO/IEC 18004 Vector QR  │ Consumer SDK & B2B Showcase       │
 └─────────────────────────┴──────────────────────────┴───────────────────────────────────┘
+                                       │
+                                       ▼
+┌────────────────────────────────────────────────────────────────────────────────────────┐
+│               LAYER 5: PRODUCTION VALIDATION & FIELD PILOT (TLAXIACO)                  │
+├────────────────────────────────────────────────────────────────────────────────────────┤
+│ [US-501] #29: 50-Producer Validated Pilot in Tlaxiaco (Coffee, Honey, Textiles, Palma) │
+└────────────────────────────────────────────────────────────────────────────────────────┘
 ```
 
 ---
 
-## 🟢 SPRINT 1: RURAL IDENTITY & INVISIBLE WEB3 WALLET (OCT 5 – OCT 18, 2026)
+## 🏆 COMPLETED MILESTONES (Phase 0: Field Research & Usability Audit)
 
-### 📌 Issue #18: `[US-101]` Decentralized Identity (DID): Passwordless Producer Authentication & Session Attestation via WhatsApp/SMS OTP
+### ✅ Milestone 1.1 / Issue #1: Field Pain & Middlemen Exploitation Validation
+* **Status:** Resolved & Merged via PR #31
+* **Evidence:** [`docs/research/HITO_1.1_INVESTIGACION_CAMPO.pdf`](../research/HITO_1.1_INVESTIGACION_CAMPO.pdf) & [`docs/research/HITO_1.1_VALIDACION_CAMPO.md`](../research/HITO_1.1_VALIDACION_CAMPO.md)
+* **Outcomes:** 5 student brigades audited 79+ indigenous producers across 4 mountain communities in Oaxaca (Mixtepec, Xochixtlán, Ñumí, Tijaltepec). Documented +1000% markups by coyotes and wages of $1.00-$2.00 MXN/hr.
+
+### ✅ Milestone 1.2 / Issue #2: Elder-Accessibility & Cognitive Friction Audit
+* **Status:** Resolved & Merged via PR #30, PR #39 & PR #42
+* **Evidence:** [`docs/ux-testing/HITO_1.2_AUDITORIA_FRICCION_UX.md`](../ux-testing/HITO_1.2_AUDITORIA_FRICCION_UX.md)
+* **Outcomes:** Multi-community field usability testing with Doña Reyna (56), Doña Juana (68), and Doña Francisca (64). Proven that 112px touch targets, single-tap voice recording in *Tu'un Savi*, and physical Hang-Tag QR codes achieve 100% task completion with 0% data loss.
+
+---
+
+## 🟢 SPRINT 1: RURAL ZERO-SEED IDENTITY & ACCOUNT ABSTRACTION
+
+### 📌 Issue #18: `[US-101]` Zero-Seed Rural Identity: Passwordless SMS OTP & Offline PWA Session Attestation
 * **Target Component:** `src/core/auth/RaizAuthEngine.ts` & `src/components/RaizAuthModal.tsx`
-* **Labels:** `drips-eligible`, `identity`, `authentication`, `phase-1`
-* **Estimated Effort:** 200 USDC / Drips Tier 1 (1–2 days)
-* **Goal:** Enables rural farmers to access the protocol via standard Mexican mobile numbers (+52) with zero seed phrases or passwords, generating a verifiable session attestation.
+* **Labels:** `drips-eligible`, `identity`, `authentication`, `pwa`, `phase-1`
+* **Estimated Bounty:** 200 USDC / Drips Tier 1 (1–2 days)
+* **Architecture Alignment (ADR-002):** Decoupled from WhatsApp Cloud API fees. Allows smallholders to authenticate via standard Mexican mobile numbers (+52) or community profiles with zero seed phrases or complex passwords, issuing verifiable session tokens.
 
 ### 📌 Issue #19: `[US-102]` Physical Attestation Credential: NFC & QR Community Identity Cards for Elderly Producers
 * **Target Component:** `src/core/auth/RaizAuthEngine.ts` (Method: `qr_card`)
 * **Labels:** `drips-eligible`, `hardware`, `identity`, `elder-mode`, `phase-1`
-* **Estimated Effort:** 250 USDC / Drips Tier 1 (2–3 days)
-* **Goal:** Provides physical cryptographic laminated identity cards for illiterate and elder producers (60+ years old) in the Mixteca Highlands.
+* **Estimated Bounty:** 250 USDC / Drips Tier 1 (2–3 days)
+* **Goal:** Provides physical cryptographic identity cards for illiterate and elder producers (50–85 years old) in Tlaxiaco. Promoters scan the card to authenticate lots without requiring personal smartphones.
 
 ### 📌 Issue #20: `[US-103]` Account Abstraction & Fee-Bump Relay: Autonomous Keypair Management & Gas Sponsorship on Stellar
 * **Target Component:** `src/core/crypto/CryptoEngine.ts` & Fee-Bump Relay
 * **Labels:** `drips-eligible`, `stellar`, `account-abstraction`, `soroban`, `phase-1`
-* **Estimated Effort:** 350 USDC / Drips Tier 2 (3–4 days)
-* **Goal:** Automatically derives Stellar Ed25519 keypairs and sponsors 100% of network fees using Stellar CAP-0015 Fee-Bump transactions.
+* **Estimated Bounty:** 350 USDC / Drips Tier 2 (3–4 days)
+* **Goal:** Derives deterministic Stellar Ed25519 keypairs and sponsors 100% of network fees using Stellar CAP-0015 Fee-Bump transactions, ensuring zero transaction costs for rural producers.
 
 ---
 
-## 🟡 SPRINT 2: OFFLINE ATTESTATIONS & INDIGENOUS VOICE AI (OCT 19 – NOV 01, 2026)
+## 🟡 SPRINT 2: OFFLINE-FIRST ENGINE & INDIGENOUS VOICE AI ORACLES
 
 ### 📌 Issue #21: `[US-201]` Offline-First Attestation Buffer: ACID IndexedDB Persistence & Cryptographic Batch Sync for Mountain Fields
 * **Target Component:** `src/utils/offlineStorage.ts` & `src/core/sync/SyncEngine.ts`
 * **Labels:** `drips-eligible`, `offline-first`, `indexeddb`, `sync`, `phase-2`
-* **Estimated Effort:** 350 USDC / Drips Tier 2 (3–5 days)
-* **Goal:** Guarantees zero data loss in disconnected mountain microclimates through an ACID transactional outbox in IndexedDB with auto-sync on network reconnect.
+* **Estimated Bounty:** 350 USDC / Drips Tier 2 (3–5 days)
+* **Goal:** Guarantees zero data loss in disconnected mountain plots (Yucuhiti, Mixtepec) through an ACID transactional outbox in IndexedDB with automatic cryptographic synchronization upon network reconnection.
 
 ### 📌 Issue #22: `[US-202]` AI Voice Oracle: Acoustic Indigenous Speech-to-Attestation in Tu'un Savi (Mixtec) & Rural Spanish
-* **Target Component:** `src/core/ai/RaizAIOracles.ts` (`AIVoiceOracle`)
+* **Target Component:** `src/core/ai/RaizAIOracles.ts` (`AIVoiceOracle`) & `src/utils/audioRecorder.ts`
 * **Labels:** `drips-eligible`, `ai-oracle`, `tuun-savi`, `multimodal-ai`, `phase-2`
-* **Estimated Effort:** 400 USDC / Drips Tier 3 (4–5 days)
-* **Goal:** Uses acoustic machine learning and 24kbps Opus compression to parse oral harvest registrations in Mixtec (*Tu'un Savi*) and Spanish into on-chain cryptographic manifests.
+* **Estimated Bounty:** 400 USDC / Drips Tier 3 (4–5 days)
+* **Goal:** Leverages 24kbps Opus compression and Google Gemini multimodal audio to parse oral harvest registrations in Mixtec (*Tu'un Savi*) and rural Spanish into structured cryptographic lot payloads.
 
 ### 📌 Issue #23: `[US-203]` Cryptographic Physical-to-Digital Twin: ISO/IEC 18004 Vector Hang-Tag QR Anchor for Agricultural Lots
-* **Target Component:** `src/components/ArtisanQrTagModal.tsx` & `src/utils/qrCodeGenerator.ts`
+* **Target Component:** `src/components/ArtisanQrTagModal.tsx` & `src/utils/qrCode.ts`
 * **Labels:** `drips-eligible`, `qr-tag`, `rwa`, `traceability`, `phase-2`
-* **Estimated Effort:** 250 USDC / Drips Tier 1 (2–3 days)
-* **Goal:** Generates pure SVG high-contrast vector hang-tags for physical coffee sacks and artisan garments, linking physical commodities to the Stellar ledger.
+* **Estimated Bounty:** 250 USDC / Drips Tier 1 (2–3 days)
+* **Goal:** Generates pure SVG high-contrast vector hang-tags for physical coffee bags, honey drums, and textiles, linking physical commodities to the public Digital Passport without requiring external libraries.
 
 ---
 
-## 🟣 SPRINT 3: DUAL PAYMENT ORCHESTRATION IN MEXICO (NOV 02 – NOV 15, 2026)
+## 🟣 SPRINT 3: HYBRID SETTLEMENT & LAST-MILE FIAT DISBURSEMENT
 
 ### 📌 Issue #24: `[US-301]` Multi-Anchor Settlement Rail: Direct SPEI Fiat Payout via Etherfuse & MXNe Banxico Integration
-* **Target Component:** `src/core/payments/PaymentOrchestrator.ts` & `src/components/MyPaymentsModal.tsx`
+* **Target Component:** `src/core/settlement/HybridSettlementOrchestrator.ts` & `src/components/MyPaymentsModal.tsx`
 * **Labels:** `drips-eligible`, `payments`, `spei`, `etherfuse`, `mexico`, `phase-3`
-* **Estimated Effort:** 450 USDC / Drips Tier 3 (4–6 days)
-* **Goal:** Converts international buyer USDC into Mexican Pesos (MXN) via Etherfuse and issues direct Banxico SPEI wire transfers to Banco del Bienestar debit cards.
+* **Estimated Bounty:** 450 USDC / Drips Tier 3 (4–6 days)
+* **Goal:** Converts international buyer USDC into Mexican Pesos (MXNe) via Etherfuse and issues direct Banxico SPEI wire transfers to Banco del Bienestar and local credit union debit cards.
 
 ### 📌 Issue #25: `[US-302]` Decentralized Cash-Out Rail: MicoPay Rural Cash Liquidity Gateway for Unbanked Producers
-* **Target Component:** `src/core/payments/PaymentOrchestrator.ts` & `src/components/MyPaymentsModal.tsx`
+* **Target Component:** `src/core/settlement/HybridSettlementOrchestrator.ts` & `src/components/MyPaymentsModal.tsx`
 * **Labels:** `drips-eligible`, `payments`, `cash-out`, `micopay`, `rural`, `phase-3`
-* **Estimated Effort:** 400 USDC / Drips Tier 3 (3–5 days)
-* **Goal:** Enables unbanked producers to receive instant physical cash payouts in their local community/parcel via MicoPay's mobile carrier network upon verified delivery.
+* **Estimated Bounty:** 400 USDC / Drips Tier 3 (3–5 days)
+* **Goal:** Enables unbanked elderly smallholders to receive instant physical cash payouts in their local community or cooperative warehouse upon verified lot delivery.
 
 ---
 
-## 🔵 SPRINT 4: SOROBAN SMART CONTRACTS & ATTESTATION ENGINE (NOV 16 – NOV 22, 2026)
+## 🔵 SPRINT 4: SOROBAN SMART CONTRACTS & TRUSTLESS WORK ESCROW
 
-### 📌 Issue #26: `[US-401]` Soroban Smart Contract: FairEscrow with On-Chain Attestation Verification (Quality & EUDR Gates)
-* **Target Component:** `contracts/fair_escrow/src/lib.rs`
-* **Labels:** `drips-eligible`, `soroban`, `smart-contracts`, `escrow`, `attestations`, `phase-4`
-* **Estimated Effort:** 500 USDC / Drips Tier 4 (5–7 days)
-* **Goal:** Implements a trustless Soroban escrow contract that verifies SCAA Quality (>85 pts) and EUDR Zero-Deforestation attestations before releasing purchase funds.
+### 📌 Issue #26: `[US-401]` Soroban Smart Contract Escrow: Milestone-Based Trustless Work Integration (ADR-001)
+* **Target Component:** `src/core/blockchain/TrustlessWorkEscrowAdapter.ts` & `contracts/lot_passport/src/lib.rs`
+* **Labels:** `drips-eligible`, `soroban`, `smart-contracts`, `trustless-work`, `escrow`, `phase-4`
+* **Estimated Bounty:** 500 USDC / Drips Tier 4 (5–7 days)
+* **Architecture Alignment (ADR-001):** Integrates **Trustless Work**'s audited Soroban escrow architecture with a 2-stage milestone schedule:
+  * **Milestone 1 (30% Harvest Advance):** Automatically disbursed upon Raíz origin attestation verification (`0x01_ORIGIN`).
+  * **Milestone 2 (70% Final Settlement):** Disbursed upon physical delivery verification at the Tlaxiaco municipal warehouse (`0x04_DELIVERY`).
+  * **Arbitration:** Tlaxiaco Municipal Cooperative configured as designated arbiter for weight/moisture disputes.
 
-### 📌 Issue #27: `[US-402]` Soroban Smart Contract: Perpetual Royalties & Tequio Fund (Automated 10% Secondary Resale Distribution)
+### 📌 Issue #27: `[US-402]` Soroban Smart Contract: Perpetual Royalties & Tequio Fund (Automated 10% Resale Distribution)
 * **Target Component:** `contracts/perpetual_royalties/src/lib.rs`
 * **Labels:** `drips-eligible`, `soroban`, `royalties`, `textiles`, `governance`, `phase-4`
-* **Estimated Effort:** 450 USDC / Drips Tier 3 (4–5 days)
-* **Goal:** Enforces a perpetual 10% resale royalty to female artisans on secondary market trades and routes 2% to municipal infrastructure funds (*Tequio Comunal*).
+* **Estimated Bounty:** 450 USDC / Drips Tier 3 (4–5 days)
+* **Goal:** Enforces automated 8% secondary market resale royalties to female artisans and routes 2% to the collective community infrastructure fund (*Tequio Comunal*).
 
 ### 📌 Issue #28: `[US-403]` Protocol Registry & Consumer SDK: Verifiable Credential Showcase & B2B Buyer Settlement Portal
 * **Target Component:** `src/components/BuyerShowcaseScreen.tsx` & `@raiz-protocol/sdk`
 * **Labels:** `drips-eligible`, `sdk`, `b2b-portal`, `showcase`, `phase-4`
-* **Estimated Effort:** 350 USDC / Drips Tier 2 (3–4 days)
-* **Goal:** Connects specialty roasters, European importers, and ethical restaurants directly with certified communities through verifiable on-chain audits.
+* **Estimated Bounty:** 350 USDC / Drips Tier 2 (3–4 days)
+* **Goal:** Connects specialty coffee roasters, European importers, and ethical fashion boutiques directly with certified Tlaxiaco communities through verifiable on-chain audits.
 
 ---
 
-## 🔴 FINAL PHASE: PRODUCTION FIELD PILOT & RELEASE (NOV 23 – DEC 01, 2026)
+## 🔴 SPRINT 5: PRODUCTION VALIDATION PILOT (TLAXIACO, OAXACA)
 
-### 📌 Issue #29: `[US-501]` Production Validation: 15-Producer Field Test in the Mixteca Highlands & Protocol v1.0.0 Genesis Release
-* **Target Communities:** Tlaxiaco, San Pablo Tijaltepec, Santa María Yucuhiti, San Mateo Peñasco
+### 📌 Issue #29: `[US-501]` Production Field Validation: 50-Producer MVP Pilot in Tlaxiaco, Oaxaca & Protocol v1.2.0 Release
+* **Target Territory:** Tlaxiaco, Santa María Yucuhiti, San Cristóbal Amoltepec, San Juan Mixtepec, San Juan Ñumí
 * **Labels:** `drips-eligible`, `field-test`, `community-validation`, `production-release`, `phase-5`
-* **Estimated Effort:** 600 USDC / Drips Tier 4 (7–10 days)
-* **Goal:** Validates the end-to-end Attestation Protocol in real field conditions with 15 live indigenous producers across coffee, honey, and textiles, publishing the official Production Release v1.0.0.
+* **Estimated Bounty:** 600 USDC / Drips Tier 4 (7–10 days)
+* **Goal:** Validates the end-to-end Attestation Protocol in real field conditions with **at least 50 active indigenous producers** across specialty coffee, wild honey, palm crafts, and backstrap loom textiles, fulfilling the official field metrics defined in `docs/MVP_SPECIFICATION.md`:
+  1. 50 active producers onboarding live lots on Soroban.
+  2. 0% data loss under offline parcel conditions.
+  3. Total registration time under 180 seconds via voice.
+  4. Zero seed-phrase friction for elderly farmers.
+  5. 100% of validated lots anchored with verified SHA-256 hashes on Stellar.

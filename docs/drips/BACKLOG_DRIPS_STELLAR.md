@@ -1,6 +1,10 @@
-# 💧 Raíz Mixteca: Modular Drips & Stellar Grant Issues Backlog
-**Repository:** Open-Hub-Tec/raiz  
-**Grant Program:** Stellar Community Fund / Drips Network  
+# 💧 Raíz Protocol: Modular Drips & Stellar Grant Issues Backlog
+### *Technical Issue Specifications for Student-Researchers & Open-Source Contributors*
+
+* **Repository:** `Open-Hub-Tec/raiz`  
+* **Institution:** Instituto Tecnológico de Tlaxiaco (TecNM - Oaxaca, Mexico)  
+* **Associated Decisions:** [ADR-001 (Trustless Work)](../adr/ADR-001-TRUSTLESS-WORK-ESCROW.md) • [ADR-002 (Offline PWA)](../adr/ADR-002-COMMUNICATION-CHANNELS-AND-WHATSAPP-ALTERNATIVES.md)  
+* **Roadmap Overview:** [DRIPS_ISSUES_ROADMAP.md](./DRIPS_ISSUES_ROADMAP.md)
 
 ---
 
@@ -11,24 +15,18 @@
 - **Estimated Bounty:** 150 USDC / Drips Tier 1 (1–2 days)
 
 ### 🎯 Problem Statement
-To create an immutable provenance passport for an indigenous micro-lot (coffee, honey, or backstrap loom textiles), we must compute a deterministic cryptographic digest combining:
-1. Producer identification and parcel location.
-2. The authentic oral audio testimonial in an indigenous variant (Tu'un Savi, Zapotec, or Spanish).
+To create an immutable provenance passport for an indigenous agricultural or artisanal lot (coffee, honey, textiles, palm), we must compute a deterministic cryptographic digest combining:
+1. Producer identification and obfuscated parcel geocoordinates.
+2. The authentic oral audio testimonial in a native variant (*Tu'un Savi*, Triqui, or Spanish).
 3. The photograph of the harvested batch or textile sample.
-4. Unix timestamp and geographical coordinates (5-decimal precision).
+4. Unix timestamp, botanical variety, and altitude.
 
 ### 🛠️ Technical Tasks
-- [ ] Refactor `CryptoEngine.computeSha256()` to accept `string`, `Uint8Array`, and `ArrayBuffer`.
-- [ ] Implement `canonicalizeLotPayload(input: LotDigestInput): string` ensuring dictionary keys are sorted alphabetically before serialization to prevent cross-platform hash discrepancies.
-- [ ] Support hybrid execution: Native `window.crypto.subtle` in browsers with automatic fallback to Node's `node:crypto` when run server-side or in CI unit tests.
-- [ ] Write test suite in `src/core/crypto/__tests__/CryptoEngine.test.ts` with at least 6 deterministic test vectors.
+- [x] Refactor `CryptoEngine.computeSha256()` to accept `string`, `Uint8Array`, and `ArrayBuffer`.
+- [x] Implement `canonicalizeLotPayload(input: LotDigestInput): string` ensuring dictionary keys are sorted alphabetically before serialization to prevent cross-platform hash discrepancies.
+- [x] Support hybrid execution: Native `window.crypto.subtle` in browsers with automatic fallback to Node's `node:crypto` when run server-side or in CI unit tests.
+- [x] Maintain test suite in `src/tests/` with deterministic test vectors.
 
-### ✅ Definition of Done (Acceptance Criteria)
-- [ ] `npm run test` passes 100% without UI or React dependencies.
-- [ ] Calling the digest with identical values in differing key order yields the exact same SHA-256 hash.
-- [ ] Zero heavy external dependencies (leverages native Web Crypto API).
-
----
 ---
 
 ## 📌 ISSUE #102: [Core/Policy]: FairTrade Rule Engine & Anti-Coyote Price Guardrails
@@ -38,109 +36,71 @@ To create an immutable provenance passport for an indigenous micro-lot (coffee, 
 - **Estimated Bounty:** 200 USDC / Drips Tier 1 (2–3 days)
 
 ### 🎯 Problem Statement
-Predatory intermediaries ("coyotes") exploit remote communities by purchasing harvest below rural maintenance costs. The platform must programmatically enforce regional cost floors, flag predatory offers, and calculate automated perpetual secondary royalties (8% to farming families, 2% to community tequio infrastructure).
+Predatory intermediaries ("coyotes") exploit remote communities by purchasing harvests below rural maintenance costs. The platform must programmatically enforce regional cost floors, flag predatory offers, and calculate automated perpetual secondary royalties (8% to farming families, 2% to community tequio infrastructure).
 
 ### 🛠️ Technical Tasks
-- [ ] Implement `FairTradeEngine.validateLotPricing(params: PriceCheckParams): EvaluationResult`.
-- [ ] Model regional baseline cost matrices:
-  - High-altitude Washed Arabica coffee (>1,200m): Minimum $90 MXN/kg parchment.
-  - Wild Acahual honey: Minimum $120 MXN/liter.
+- [x] Implement `FairTradeEngine.validateLotPricing(params: PriceCheckParams): EvaluationResult`.
+- [x] Model regional baseline cost matrices:
+  - High-altitude Washed Arabica coffee (>1,600m): Minimum $90 MXN/kg parchment.
+  - Wild Campanilla honey: Minimum $120 MXN/liter.
   - Backstrap loom textiles: Minimum $250 MXN per base piece.
-- [ ] Implement `calculateSplitDistributions(totalSaleAmountMxn: number, options: SplitOptions)` returning exact integer stroops/cents to eliminate floating-point rounding errors.
-- [ ] Add comprehensive test coverage in `src/core/policy/__tests__/FairTradeEngine.test.ts`.
+  - Handwoven palm crafts: Minimum $120 MXN per hat (vs. $20 coyote price).
+- [x] Implement `calculateSplitDistributions(totalSaleAmountMxn: number, options: SplitOptions)` returning exact integer stroops/cents to eliminate floating-point rounding errors.
 
-### ✅ Definition of Done (Acceptance Criteria)
-- [ ] Pure deterministic functions with no side-effects.
-- [ ] Test coverage ≥ 95% covering edge cases (zero values, extreme bounds, unlisted crops).
-
----
 ---
 
 ## 📌 ISSUE #201: [Offline/Sync]: ACID Outbox Transactional Queue in IndexedDB
 - **GitHub Issue Tracker:** [#5](https://github.com/Open-Hub-Tec/raiz/issues/5)
-- **Target Modules:** `src/core/sync/SyncEngine.ts` & `src/utils/offlineStorage.ts`
+- **Target Module:** `src/utils/offlineStorage.ts` & `src/core/sync/SyncEngine.ts`
 - **Labels:** `drips-eligible`, `offline-first`, `indexeddb`, `pwa`, `phase-2`
 - **Estimated Bounty:** 350 USDC / Drips Tier 2 (3–5 days)
 
 ### 🎯 Problem Statement
-Indigenous producers operate in mountain micro-climates completely disconnected from 3G/4G cellular reception. The application must store multi-batch harvests locally without memory exhaustion and auto-sync immediately upon detecting connectivity in town.
+In the Mixteca Highlands (Santa María Yucuhiti, San Juan Mixtepec), coffee farms and artisan workshops operate in zero-connectivity terrain. The app must persist all voice audio recordings and harvest declarations locally in IndexedDB without data loss.
 
 ### 🛠️ Technical Tasks
-- [ ] Upgrade `offlineStorage.ts` to a typed IndexedDB schema with transaction stores:
-  - `outbox_lots`: Pending metadata and status (`PENDING`, `UPLOADING`, `SEALED`, `FAILED`).
-  - `media_blobs`: Separate store for binary image and audio blobs (avoiding raw base64 memory leaks).
-- [ ] Implement exponential backoff retry policy (1s, 2s, 4s, 8s...) with auto-recovery on `window.addEventListener('online')`.
-- [ ] Provide reactive status subscriptions (`SyncEngine.subscribe()`) updating UI badges with count of queued offline harvests.
-
-### ✅ Definition of Done (Acceptance Criteria)
-- [ ] Offline batch save completes in < 200ms on mobile storage.
-- [ ] Browser refresh / offline reload (`F5`) retains 100% of un-synced data.
-- [ ] Graceful fallback and user alerts on `QuotaExceededError`.
+- [x] Implement transactional ACID operations in `offlineStorage.ts` using IndexedDB.
+- [x] Design FIFO outbox pattern with automatic status flags: `PENDING_SYNC`, `SYNCING`, `ANCHORED_ON_CHAIN`.
+- [x] Implement `SyncEngine.ts` with network event listeners (`online` / `offline`) and exponential backoff retry.
+- [x] Guarantee 0% data loss across session restarts.
 
 ---
----
 
-## 📌 ISSUE #202: [Voice/Audio]: 24kbps Opus Audio Recording & Compression for Indigenous Variants
-- **GitHub Issue Tracker:** [#6](https://github.com/Open-Hub-Tec/raiz/issues/6)
-- **Target Modules:** `src/utils/audioRecorder.ts` & `src/components/RegisterCoffeeLotScreen.tsx`
-- **Labels:** `drips-eligible`, `voice-first`, `multimedia`, `accessibility`, `phase-2`
-- **Estimated Bounty:** 250 USDC / Drips Tier 2 (2–4 days)
+## 📌 ISSUE #301: [Blockchain/Escrow]: Trustless Work Soroban Escrow Integration
+- **GitHub Issue Tracker:** [#26](https://github.com/Open-Hub-Tec/raiz/issues/26)
+- **Target Module:** `src/core/blockchain/TrustlessWorkEscrowAdapter.ts`
+- **Labels:** `drips-eligible`, `soroban`, `smart-contracts`, `trustless-work`, `escrow`, `phase-4`
+- **Estimated Bounty:** 500 USDC / Drips Tier 4 (5–7 days)
 
 ### 🎯 Problem Statement
-Uncompressed WAV files generate 5 MB to 10 MB per minute, making sync impossible over 2G/EDGE networks in rural municipalities. Audio testimonials must be compressed while preserving voice authenticity and phoneme nuances across indigenous variants.
+Following mentor architecture guidelines (Alberto Chaves & Brandon / [ADR-001](../adr/ADR-001-TRUSTLESS-WORK-ESCROW.md)), rather than deploying custom fund custody contracts, Raíz integrates **Trustless Work**'s audited Soroban smart contracts for milestone-based disbursement.
 
 ### 🛠️ Technical Tasks
-- [ ] Configure `MediaRecorder` in `audioRecorder.ts` to prioritize `audio/webm;codecs=opus` or `audio/ogg;codecs=opus` targeted at 24 kbps.
-- [ ] Enforce 90-second hardware auto-stop timer with auditory/visual cues.
-- [ ] Extract real-time voice decibel meter to a reusable React hook `useAudioLevelMeter(stream)`.
-
-### ✅ Definition of Done (Acceptance Criteria)
-- [ ] 30-second audio recording file size is strictly ≤ 150 KB with clear vocal comprehension.
-- [ ] Dual-engine compatibility verified for Android Chrome and iOS Safari.
+- [x] Implement `TrustlessWorkEscrowAdapter.ts` with full milestone lifecycle methods:
+  - `initializeEscrow(buyer, producer, approver, amount, milestones)`
+  - `depositFunds(escrowId, amount)`
+  - `submitMilestoneProof(escrowId, milestoneId, attestationUid)`
+  - `releaseMilestonePayment(escrowId, milestoneId)`
+- [x] Implement 2-stage milestone schedule for Tlaxiaco lots:
+  - **Milestone 1:** 30% advance on origin attestation (`0x01_ORIGIN`).
+  - **Milestone 2:** 70% final payment on physical delivery at Tlaxiaco municipal warehouse (`0x04_DELIVERY`).
+- [x] Designate Tlaxiaco Municipal Cooperative as the pre-configured dispute arbitrator.
+- [x] 100% automated test coverage in `src/tests/trustless_work_escrow.test.ts`.
 
 ---
----
 
-## 📌 ISSUE #301: [Web3/Soroban]: Native XDR Serialization & RPC Binding for LotPassport Contract
-- **GitHub Issue Tracker:** [#7](https://github.com/Open-Hub-Tec/raiz/issues/7)
-- **Target Module:** `src/core/blockchain/SorobanAdapter.ts`
-- **Labels:** `drips-eligible`, `soroban`, `stellar`, `smart-contracts`, `phase-3`
-- **Estimated Bounty:** 400 USDC / Drips Tier 3 (4–6 days)
+## 📌 ISSUE #501: [Field Validation]: 50-Producer Validated MVP Pilot in Tlaxiaco
+- **GitHub Issue Tracker:** [#29](https://github.com/Open-Hub-Tec/raiz/issues/29)
+- **Target Territory:** Tlaxiaco, Yucuhiti, Amoltepec, Mixtepec, Ñumí
+- **Labels:** `drips-eligible`, `field-test`, `community-validation`, `production-release`, `phase-5`
+- **Estimated Bounty:** 600 USDC / Drips Tier 4 (7–10 days)
 
 ### 🎯 Problem Statement
-`SorobanAdapter` currently generates simulated ledger hashes. It must integrate the official `@stellar/stellar-sdk` to execute real contract invocations against Soroban Testnet and Futurenet.
+Field validation of the full protocol with **at least 50 active indigenous producers** across coffee, honey, textiles, and palm crafts during the 2026 harvest cycle.
 
 ### 🛠️ Technical Tasks
-- [ ] Configure `@stellar/stellar-sdk` isolated inside `src/core/blockchain/`.
-- [ ] Implement `buildRegisterLotTransaction()` mapping domain parameters to contract types:
-  - `lot_code`: `Symbol`
-  - `digest`: `BytesN<32>`
-  - `producer_id`: `Address`
-  - `altitude`: `u32`
-- [ ] Execute pre-flight simulation (`server.simulateTransaction`) to estimate CPU instructions and ledger read/write footprints.
-- [ ] Parse Soroban result envelopes to return validated ledger sequence, txHash, and explorer URLs (Stellar Expert).
-
-### ✅ Definition of Done (Acceptance Criteria)
-- [ ] Standalone test runner script (`scripts/test-soroban-register.ts`) successfully submits a live transaction to Soroban Testnet.
-- [ ] UI remains fully responsive even when Stellar RPC endpoints experience latency.
-
----
----
-
-## 📌 ISSUE #302: [Web3/Gasless]: Fee-Bump Transaction Sponsorship Relay for Rural Producers
-- **GitHub Issue Tracker:** [#8](https://github.com/Open-Hub-Tec/raiz/issues/8)
-- **Target Module:** `src/core/blockchain/FeeSponsorRelay.ts`
-- **Labels:** `drips-eligible`, `stellar-tx`, `security`, `gasless`, `phase-3`
-- **Estimated Bounty:** 350 USDC / Drips Tier 3 (3–5 days)
-
-### 🎯 Problem Statement
-Indigenous elders and rural farmers do not hold native XLM balances to pay network gas fees. The cooperative node or TecNM institutional gateway must sponsor all transaction fees transparently using native Stellar Fee-Bump mechanics (SEP-0015).
-
-### 🛠️ Technical Tasks
-- [ ] Implement `FeeSponsorRelay.sponsorTransaction(innerTx: Transaction): Promise<FeeBumpTransaction>`.
-- [ ] Configure secure institutional sponsorship keys (`SPONSOR_SOURCE_KEY`).
-- [ ] Implement `maxFee` protection ceilings to prevent gas-drain attacks.
-
-### ✅ Definition of Done (Acceptance Criteria)
-- [ ] End-user keys sign the payload with 0.0000000 XLM balance.
-- [ ] Final transaction broadcasts successfully on Testnet, debited from the designated institutional sponsor account.
+- [ ] Onboard 50 active smallholders and artisans across the 5 validated communities.
+- [ ] Record and anchor at least 50 verifiable lots with canonical SHA-256 digests on Soroban.
+- [ ] Attach ISO/IEC 18004 Hang-Tag QR labels to physical coffee bags and artisanal wares.
+- [ ] Execute test milestone releases via Trustless Work escrow to Banco del Bienestar debit cards.
+- [ ] Publish the final Field Validation Report in `docs/research/`.
