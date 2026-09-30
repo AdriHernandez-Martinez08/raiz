@@ -7,6 +7,7 @@ export * from './crypto/CryptoEngine';
 export * from './sync/SyncEngine';
 export * from './policy/FairTradeEngine';
 export * from './blockchain/SorobanAdapter';
+export * from './blockchain/TrustlessWorkEscrowAdapter';
 export * from './settlement/HybridSettlementOrchestrator';
 export * from './auth/RaizAuthEngine';
 export * from './ai/RaizAIOracles';

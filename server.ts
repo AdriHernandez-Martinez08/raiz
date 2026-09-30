@@ -49,6 +49,35 @@ app.get("/api/dossier", (_req: Request, res: Response) => {
   }
 });
 
+// Explicit download endpoints with proper binary MIME types and attachment disposition
+app.get(["/api/download/pptx", "/Raiz_Protocol_Stellar_PitchDeck.pptx"], (_req: Request, res: Response) => {
+  try {
+    const filePath = path.join(process.cwd(), "public", "Raiz_Protocol_Stellar_PitchDeck.pptx");
+    if (fs.existsSync(filePath)) {
+      res.setHeader("Content-Type", "application/vnd.openxmlformats-officedocument.presentationml.presentation");
+      res.setHeader("Content-Disposition", 'attachment; filename="Raiz_Protocol_Stellar_PitchDeck.pptx"');
+      return res.sendFile(filePath);
+    }
+    return res.status(404).send("PowerPoint file not found");
+  } catch (err: any) {
+    return res.status(500).send("Error downloading PowerPoint file");
+  }
+});
+
+app.get(["/api/download/docx", "/Raiz_Protocol_Stellar_PitchDeck.docx"], (_req: Request, res: Response) => {
+  try {
+    const filePath = path.join(process.cwd(), "public", "Raiz_Protocol_Stellar_PitchDeck.docx");
+    if (fs.existsSync(filePath)) {
+      res.setHeader("Content-Type", "application/vnd.openxmlformats-officedocument.wordprocessingml.document");
+      res.setHeader("Content-Disposition", 'attachment; filename="Raiz_Protocol_Stellar_PitchDeck.docx"');
+      return res.sendFile(filePath);
+    }
+    return res.status(404).send("Word document file not found");
+  } catch (err: any) {
+    return res.status(500).send("Error downloading Word document");
+  }
+});
+
 // SYSTEM INSTRUCTIONS: STRICT DOMAIN GUARDRAILS & ELDERLY-ACCESSIBLE DESIGN FOR RAÍZ
 const SYSTEM_INSTRUCTION = `
 Eres el Asistente Inteligente y Comunitario Oficial de "Raíz", una plataforma comunitaria desarrollada junto al Instituto Tecnológico de Tlaxiaco (Oaxaca, México) para familias campesinas, caficultoras, apicultoras y artesanas de la Mixteca Alta.

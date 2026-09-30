@@ -1,274 +1,124 @@
 <div align="center">
 
 # 🌿 Raíz Protocol
-### *The Decentralized Attestation & AI Oracle Infrastructure for Real-World Assets (RWA) and Agricultural Provenance on Stellar & Soroban*
+### *Trazabilidad, Visibilidad y Origen Verificable en Stellar & Soroban para Comunidades Indígenas de Oaxaca*
 
-[![License: MIT](https://img.shields.io/badge/License-MIT-emerald.svg)](https://opensource.org/licenses/MIT)
-[![Raíz CI Quality & Integrity Gate](https://github.com/Open-Hub-Tec/raiz/actions/workflows/ci.yml/badge.svg)](https://github.com/Open-Hub-Tec/raiz/actions/workflows/ci.yml)
-[![Stellar: Built on Horizon & Soroban](https://img.shields.io/badge/Stellar-Soroban%20%7C%20Horizon-black.svg?logo=stellar)](https://stellar.org)
-[![Attestations: RWA Verifiable Claims](https://img.shields.io/badge/Attestations-EAS--Equivalent%20on%20Soroban-blueviolet.svg)]()
-[![Drips: Verified Public Good](https://img.shields.io/badge/Drips-Funded%20Public%20Good-blueviolet.svg)](https://www.drips.network/)
+[![License: MIT](https://img.shields.io/badge/License-MIT-emerald.svg)](./LICENSE)
+[![Stellar: Built on Soroban](https://img.shields.io/badge/Stellar-Soroban%20%7C%20Horizon-black.svg?logo=stellar)](https://stellar.org)
+[![Trustless Work: Escrow Infrastructure](https://img.shields.io/badge/Escrow-Trustless%20Work%20Audited-blueviolet.svg)](https://trustlesswork.com)
 [![Institution: TecNM Campus Tlaxiaco](https://img.shields.io/badge/Development-TecNM%20Tlaxiaco-b45309.svg)](http://tlaxiaco.tecnm.mx/)
-[![Status: Production Ready v1.2.0](https://img.shields.io/badge/Status-Active%20Protocol%20v1.2.0-success.svg)]()
+[![Status: MVP v1.2.0](https://img.shields.io/badge/Status-Validated%20MVP%20v1.2.0-success.svg)]()
 
 <p align="center">
-  <b>Pioneering open public goods infrastructure on Stellar: Connecting unbanked smallholders, indigenous artisans, and cooperatives with global ethical markets through verifiable on-chain attestations.</b>
+  <b>Infraestructura descentralizada de bienes públicos en Stellar: conectando a pequeños cafeticultores y artesanas de Tlaxiaco con mercados éticos mediante atestaciones criptográficas inmutables.</b>
   <br>
-  <i>Conceived and engineered by indigenous Computer Systems Engineering student-researchers at <b>Instituto Tecnológico de Tlaxiaco (Oaxaca, Mexico)</b></i>
+  <i>Diseñado y programado por estudiantes investigadores de Ingeniería en Sistemas Computacionales del <b>Instituto Tecnológico de Tlaxiaco (Oaxaca, México)</b></i>
 </p>
 
-[Architecture](#-protocol-architecture) • [Attestation Engine](#-the-rwa-attestation-engine-eas-for-stellar) • [Autonomous AI Oracles](#-the-4-autonomous-ai-oracles) • [Soroban Smart Contracts](#-soroban-smart-contracts) • [Hybrid Settlement](#-multi-anchor-hybrid-settlement-rails) • [Universal SDK](#-developer-sdk-raiz-protocolsdk) • [Roadmap](#-delivery-roadmap--milestones) • [Academic Team](#-team--governance)
+[Visión General](#-visión-general) • [Los 3 Dolores que Resuelve](#-los-3-dolores-que-resuelve-en-tlaxiaco) • [Mapa de Usuario](#-mapa-de-experiencia-de-usuario-user-journey) • [Ecosistema](#-stack-del-ecosistema-stellar-dividir-y-conquistar) • [Inicio Rápido](#-inicio-rápido-quickstart) • [Documentación](#-centro-de-documentación)
 
 ---
 
 </div>
 
-## 📌 Executive Summary
+## 📌 Visión General
 
-**Raíz** is an open-source, decentralized **Real-World Asset (RWA) Attestation and Settlement Protocol** built natively for the **Stellar Network** and **Soroban Smart Contracts**.
+**Raíz** es una plataforma descentralizada de **Trazabilidad, Visibilidad y Origen Verificable (RWA)** construida sobre la red **Stellar** y contratos inteligentes de **Soroban**. 
 
-While previous agtech solutions rely on centralized databases or generic marketplaces, Raíz functions as a **sovereign base-layer protocol**. It provides an immutable **Attestation Engine** (comparable to Ethereum Attestation Service / EAS, purpose-built for Soroban) combined with **4 Autonomous AI Oracles** to solve the four existential challenges of smallholder agriculture and indigenous craftsmanship:
+El proyecto nace en la **Mixteca Alta de Oaxaca (Heroica Ciudad de Tlaxiaco, Santa María Yucuhiti y San Cristóbal Amoltepec)** para resolver la exclusión digital de productores de café de especialidad y artesanas de telar de cintura mediante una interfaz **PWA Offline-First** con reconocimiento de voz en lengua originaria (*Tu'un Savi* / Mixteco).
 
-1. **Information Asymmetry & Exploitation (*Coyotaje*):** Intermediaries buy specialty coffee and artisan textiles at up to 75% below market rate due to a lack of certified lab provenance.
-2. **Regulatory Barriers (EUDR):** Smallholders face complete exclusion from European and international markets without verifiable proof of zero-deforestation under the EU Deforestation Regulation.
-3. **Severe Digital & Linguistic Exclusion:** Over 80% of producers in the Mixteca Highlands are elderly speakers of indigenous languages (*Tu'un Savi* / Mixteco) unable to use seed-phrase crypto wallets or complex web apps.
-4. **Last-Mile Banking Absence:** Commercial banks do not exist in rural mountain settlements, requiring atomic off-ramps into local credit unions, Banco del Bienestar debit cards, and cash-at-scale terminals.
+> **Enfoque Territorial del MVP:**  
+> La Fase 1 del proyecto está **100% acotada y validada en Tlaxiaco, Oaxaca**. Los planes de expansión transfronteriza hacia otros países forman parte de la Fase 2 del roadmap.
 
 ---
 
-## 🏛️ Protocol Architecture
+## 🎯 Los 3 Dolores que Resuelve en Tlaxiaco
 
-Raíz decouples raw data collection from on-chain verification, ensuring high-throughput, gas-subsidized, and offline-resilient execution:
+Validado en campo por los estudiantes investigadores del TecNM con más de 50 productores y artesanas:
 
-```
-┌─────────────────────────────────────────────────────────────────────────────────────────────┐
-│                          1. EDGE CAPTURE & ZERO-SEED IDENTITY                               │
-│  - Oral Voice Input in Tu'un Savi (Mixteco) & Rural Spanish                                 │
-│  - Passwordless DID: WhatsApp/SMS OTP + Offline Physical Community QR Cards                 │
-│  - 100% Offline ACID Outbox (IndexedDB) with automatic cryptographic batch sync             │
-└──────────────────────────────────────────────┬──────────────────────────────────────────────┘
-                                               │ Encrypted Payload (Opus Audio + Metadata)
-┌──────────────────────────────────────────────▼──────────────────────────────────────────────┐
-│                              2. RAÍZ AUTONOMOUS AI ORACLES                                  │
-│  ┌───────────────────────┐ ┌───────────────────────┐ ┌────────────────────────────────────┐ │
-│  │     AIVoiceOracle     │ │   AIQualityOracle     │ │       AIEUDRSatelliteOracle        │ │
-│  │ Acoustic Normalization│ │ SCAA Grade & Heritage │ │  Copernicus Sentinel-2 Geofencing  │ │
-│  │ Tu'un Savi -> JSON    │ │  >85 pts Specialty    │ │  Zero Deforestation Post-2020      │ │
-│  └───────────────────────┘ └───────────────────────┘ └────────────────────────────────────┘ │
-│                                      │                                                      │
-│                        Signed Attestation Digest (Ed25519)                                  │
-└──────────────────────────────────────┬──────────────────────────────────────────────────────┘
-                                       │
-┌──────────────────────────────────────▼──────────────────────────────────────────────────────┐
-│                    3. RAÍZ ATTESTATION ENGINE (EAS FOR STELLAR SOROBAN)                     │
-│  - On-Chain Schema Registry (`AttestationRegistry.rs`)                                      │
-│  - Verifiable Claims: SCAA Quality, EUDR Compliance, Ancestral Origin, Physical Weight       │
-│  - Cryptographic Community Digest SHA-256 anchored on the Stellar Ledger                    │
-└──────────────────────────────────────┬──────────────────────────────────────────────────────┘
-                                       │ Verified Conditions Met
-┌──────────────────────────────────────▼──────────────────────────────────────────────────────┐
-│                         4. SOROBAN SMART CONTRACT EXECUTION                                 │
-│  - `FairEscrow.rs`: Trustless funds lockup conditioned on physical weighing attestation     │
-│  - `PerpetualRoyalties.rs`: 10% automated secondary resale royalty to female artisans       │
-│  - `CommunalTequio.rs`: 2% collective community infrastructure development fund             │
-└──────────────────────────────────────┬──────────────────────────────────────────────────────┘
-                                       │ Atomic Payout Trigger
-┌──────────────────────────────────────▼──────────────────────────────────────────────────────┐
-│                        5. MULTI-ANCHOR HYBRID SETTLEMENT RAILS                              │
-│  - Mexico: Etherfuse (MXNe / SPEI) -> Banco del Bienestar Debit Cards                       │
-│  - Mexico Rural Field: MicoPay Cash Terminal -> Physical Weighing Scale Cash-out            │
-│  - Bolivia: Polar Anchor -> ASFI QR Simple Instant Interbank Settlement                     │
-│  - Brazil: Banco Central do Brasil PIX Anchor -> 24/7 Real Payout                           │
-└─────────────────────────────────────────────────────────────────────────────────────────────┘
+1. **Falta de Visibilidad Comercial:** Los artesanos y cafeticultores no tienen canales directos para exhibir y comercializar sus productos fuera de su localidad o municipio.
+2. **Explotación por Intermediarios ("Coyotes"):** Los revendedores compran a precios muy bajos (hasta 70% por debajo del valor real) y no existen regalías para los productores originales cuando sus obras se revenden con alta plusvalía.
+3. **Piratería y Falta de Certificación:** No existe un registro verificable del proceso artesanal o de la calidad del café, propiciando que personas externas plagien los diseños textiles ancestrales o vendan café genérico como café de especialidad.
+
+---
+
+## 🗺️ Mapa de Experiencia de Usuario (User Journey)
+
+¿Cómo interactúa Don Juan (campesino de 65 años) y una tostaduría internacional en Raíz?
+
+```text
+┌───────────────────────────┐       ┌───────────────────────────┐       ┌───────────────────────────┐
+│   1. PARCELA (SIN SEÑAL)  │       │  2. ACOPIO EN TLAXIACO    │       │   3. MERCADO Y CUSTODIA   │
+│  - Don Juan presiona voz  │ ────> │  - SyncEngine ancla hash  │ ────> │  - Tostador escanea QR    │
+│  - Habla en Mixteco/Esp.  │       │    SHA-256 en Soroban     │       │  - Deposita en Escrow de  │
+│  - Guarda en IndexedDB    │       │  - Imprime etiqueta Hang- │       │    Trustless Work (USDC)  │
+│  - Cero contraseñas       │       │    Tag con QR físico      │       │  - Retiro SPEI a Bienestar│
+└───────────────────────────┘       └───────────────────────────┘       └───────────────────────────┘
 ```
 
+> **Ver el Diagrama de Secuencia Técnico Completo (Mermaid):**  
+> 👉 [Diagrama de Secuencia End-to-End en docs/ARCHITECTURE.md](./docs/ARCHITECTURE.md#-2-diagrama-de-secuencia-de-interacci%C3%B3n-de-usuario-y-del-sistema-end-to-end)
+
 ---
 
-## 📜 The RWA Attestation Engine (EAS for Stellar)
+## 🤝 Stack del Ecosistema Stellar ("Dividir y Conquistar")
 
-On Ethereum, the **Ethereum Attestation Service (EAS)** established a universal standard for issuing, verifying, and revoking on-chain and off-chain claims. 
+Siguiendo el principio de arquitectura de integrar componentes auditados del ecosistema en vez de reinventar la rueda:
 
-**Raíz introduces the first dedicated RWA Attestation Engine designed specifically for Soroban**, defining four canonical schemas that transform agricultural harvests and ancestral textiles into audit-ready Real World Assets:
+* **🤝 [Trustless Work](https://trustlesswork.com):** Custodia descentralizada de fondos (Escrow) basada en hitos (*milestones*) sobre Soroban. Libera 30% con atestación de origen y 70% con entrega física comprobada en la cooperativa ([ADR-001](./docs/adr/ADR-001-TRUSTLESS-WORK-ESCROW.md)).
+* **⛓️ [Stellar Network & Soroban](https://stellar.org):** Registro inmutable del lote (`LotPassport.rs`), atestaciones de origen (`AttestationRegistry.rs`) y liquidación con tarifas insignificantes ($0.00001 USD).
+* **🎙️ [PWA Web Audio & Gemini AI](https://ai.google.dev):** Interfaz sin teclado con reconocimiento de voz en *Tu'un Savi* y español rural sin dependencia de APIs de mensajería de pago como WhatsApp ([ADR-002](./docs/adr/ADR-002-COMMUNICATION-CHANNELS-AND-WHATSAPP-ALTERNATIVES.md)).
+* **💳 [Etherfuse](https://etherfuse.com):** Rampa fiduciaria SPEI directa a cuentas de inclusión social (Banco del Bienestar / Finabien / Cajas Populares).
 
-### Canonical Attestation Schemas
+---
 
-| Schema UID | Name | Description | Issuing Oracle / Entity | Verification Gate |
-| :--- | :--- | :--- | :--- | :--- |
-| `0x01_SCAA` | **`SCAAQualityAttestation`** | Specialty coffee cup score (>85 pts), moisture percentage (10-12%), defect count. | `AIQualityOracle` + Certified Q-Grader | Required for export premium pricing |
-| `0x02_EUDR` | **`EUDRDeforestationAttestation`** | Geofence polygon verification against Sentinel-2 multispectral baseline (post-2020). | `AIEUDRSatelliteOracle` | Mandatory for European port customs clearance |
-| `0x03_ORIG` | **`IndigenousProvenanceAttestation`** | Ancestral iconography validation, natural dye signature, municipal communal land title. | `AIVoiceOracle` + Local Agrarian Assembly | Unlocks Cultural Heritage NFT & origin stamp |
-| `0x04_WGHT` | **`PhysicalDeliveryAttestation`** | Physical sack count, gross/tare weight, and acoustic acceptance confirmation. | Certified Weighmaster + MicoPay Terminal | Releases Escrow liquidity to the farmer |
+## 🚀 Inicio Rápido (Quickstart)
 
-### Attestation Lifecycle on Soroban
+Para clonar, instalar y levantar la aplicación localmente en 3 comandos:
 
-```rust
-pub struct Attestation {
-    pub schema_uid: BytesN<32>,
-    pub recipient: Address,
-    pub issuer: Address,
-    pub payload_hash: BytesN<32>,
-    pub expiration_time: u64,
-    pub revoked: bool,
-    pub signature: BytesN<64>,
-}
+```bash
+# 1. Clonar el repositorio
+git clone https://github.com/Open-Hub-Tec/raiz.git
+cd raiz
+
+# 2. Instalar dependencias
+npm install
+
+# 3. Iniciar el entorno de desarrollo
+npm run dev
 ```
 
-Every attestation is registered on-chain with state TTL management, allowing external dApps, trade finance protocols, and roasters to run `verify_attestation()` in a single transaction.
+Abre tu navegador en `http://localhost:3000`.
 
----
+### Verificación de Calidad y Pruebas:
+```bash
+# Ejecutar la suite completa de 34+ pruebas automatizadas
+npm run test
 
-## 🧠 The 4 Autonomous AI Oracles
-
-### 1. `AIVoiceOracle` (Acoustic Indigenous Speech-to-Attestation)
-Eliminates keyboard literacy barriers for speakers of indigenous languages:
-- **Speech Ingestion:** Captures 24kbps Opus compressed audio in **Tu'un Savi (Mixteco)**, **Zapoteco**, and rural Spanish.
-- **Phonetic & Semantic Normalization:** Translates rural terminology (*"Kuni yu kiti 120 kilos café"* -> `Product: Specialty Coffee, Quantity: 120kg, Variety: Typica, Community: Tijaltepec`).
-- **Cryptographic Digest:** Generates a deterministic SHA-256 voice fingerprint anchored directly to the batch manifest.
-
-### 2. `AIQualityOracle` (Computer Vision & SCAA Sensory Attestation)
-- **Computer Vision Model:** Analyzes micro-photos of parchment grains, moisture meters, and foliar health.
-- **Scoring Engine:** Calculates Specialty Coffee Association of America (SCAA) score. Lots above 85 points receive an automatic **Export Quality Attestation**.
-- **Artisan Textiles:** Verifies backstrap loom warp/weft density and authenticates natural dye signatures (*grana cochinilla*, wild indigo / *añil*), protecting indigenous intellectual property from mass-market industrial counterfeits.
-
-### 3. `AIEUDRSatelliteOracle` (EU Deforestation Regulation Compliance)
-- **Geofence Matching:** Takes parcel GPS boundary coordinates and timestamps.
-- **Multispectral Comparison:** Queries European Space Agency (ESA) Copernicus Sentinel-2 satellite imagery to cross-reference canopy cover against the December 31, 2020 cutoff date.
-- **Automated Certification:** Issues a legally compliant EUDR digital attestation with QR auditability for customs authorities in Rotterdam, Hamburg, and Antwerp.
-
-### 4. `AISettlementSolver` (Multi-Anchor Payment Routing Engine)
-- Solves liquidity bottlenecks by analyzing real-time gas fees, FX spreads, and physical cash availability.
-- Dynamically routes liquidity between **Etherfuse SPEI (Mexico)**, **MicoPay Cash-at-Scale (Mixteca)**, **Polar QR Simple (Bolivia)**, and **PIX (Brazil)** with zero transaction fees charged to the farmer.
-
----
-
-## ⚙️ Soroban Smart Contracts
-
-The protocol features a suite of high-performance, audited Soroban smart contracts written in Rust:
-
-### 1. `LotPassport.rs`
-Stores the canonical registry of agricultural and artisanal lots, linking physical QR tags to on-chain attestations, acoustic fingerprints, and custody changes.
-
-### 2. `FairEscrow.rs`
-- Locks buyer liquidity (USDC/EURC/MXNe) upon purchase order issuance.
-- Enforces strict anti-coyote price guardrails (e.g., minimum $90 MXN/kg for certified specialty coffee vs. $35 MXN offered by predatory intermediaries).
-- Releases funds atomically only when a valid `PhysicalDeliveryAttestation` is signed by the cooperative weighmaster.
-
-### 3. `PerpetualRoyalties.rs`
-Solves the historic exploitation of indigenous women artisans by encoding an immutable **10% perpetual royalty** on every secondary market resale of backstrap loom textiles, with an additional **2% allocated directly to the municipal community assembly (*Tequio Comunal*)** for public works (water wells, rural roads).
-
----
-
-## 💳 Multi-Anchor Hybrid Settlement Rails
-
-Producers choose how they receive their earnings with zero platform cuts:
-
-| Country | Anchor Provider | Local Settlement Rail | Delivery Mechanism |
-| :--- | :--- | :--- | :--- |
-| **Mexico** | **Etherfuse** | **SPEI (Banxico)** | Direct wire transfer to Banco del Bienestar debit cards |
-| **Mexico (Rural)** | **MicoPay** | **Physical Cash Voucher** | Immediate cash handout at the cooperative weighing scale |
-| **Bolivia** | **Polar** | **QR Simple ASFI** | Instant QR bank transfer in Bolivianos (BOB) |
-| **Brazil** | **PIX Anchor** | **Banco Central PIX** | Instant 24/7 settlement in Brazilian Reais (BRL) |
-
----
-
-## 💻 Developer SDK (`@raiz-protocol/sdk`)
-
-Third-party cooperatives, agtech platforms, and exporter dashboards can consume the protocol directly:
-
-```typescript
-import { RaizProtocolSDK } from '@raiz-protocol/sdk';
-
-// 1. Initialize client with gas sponsorship
-const raiz = new RaizProtocolSDK({
-  network: 'stellar-mainnet',
-  sponsorGas: true
-});
-
-// 2. Parse indigenous audio testimonial into canonical structure
-const voiceManifest = raiz.ai.processVoiceLot(
-  "Kuni yu kiti 120 kilos café de altura",
-  "tuun_savi"
-);
-
-// 3. Request Computer Vision SCAA Attestation
-const qualityAttestation = raiz.ai.assessQuality({
-  productType: 'coffee',
-  humidityPercent: 11.2,
-  samplePhotos: ['https://storage.raiz.org/samples/lot-984.jpg']
-});
-
-// 4. Verify EUDR Zero-Deforestation Compliance
-const eudrCertificate = raiz.ai.verifyEUDRCompliance([
-  [-97.6834, 17.0345],
-  [-97.6820, 17.0350],
-  [-97.6815, 17.0335]
-]);
-
-// 5. Verify Attestation on Soroban
-const isValid = await raiz.attestations.verify({
-  schemaUid: '0x01_SCAA',
-  attestationHash: qualityAttestation.attestationHash
-});
-
-console.log('Attestation Verified on Stellar:', isValid);
+# Compilación y empaquetado para producción
+npm run build
 ```
 
 ---
 
-## 🗺️ Delivery Roadmap & Milestones
+## 📚 Centro de Documentación
 
-The project is executed by TecNM engineering teams targeting **Production Release on December 1, 2026**:
+Toda la documentación técnica profunda está organizada de forma modular en [`docs/`](./docs/README.md):
 
-- **GitHub Project Board:** [https://github.com/orgs/Open-Hub-Tec/projects/1](https://github.com/orgs/Open-Hub-Tec/projects/1)
-- **Gantt Roadmap View:** [https://github.com/orgs/Open-Hub-Tec/projects/1/views/2](https://github.com/orgs/Open-Hub-Tec/projects/1/views/2)
-- **Sprint Kanban:** [https://github.com/orgs/Open-Hub-Tec/projects/1/views/3](https://github.com/orgs/Open-Hub-Tec/projects/1/views/3)
-
-### ✅ Completed & Field-Verified Research Milestones (Drips Wave Eligible)
-- **[Hito 1.1: Field Pain & Economic Exploitation Validation](docs/research/HITO_1.1_VALIDACION_CAMPO.md)** (Resolved via PR #31, Issue #1)
-  - *Evidence:* San José Xochixtlán (Triqui loom huipil), Tlaxiaco/Yautepec (MezcalTrace), San Antonio Nduaxico (greenhouse tomato), San Pablo Tijaltepec (ceremonial embroidery). Signed PDF: [`docs/research/HITO_1.1_INVESTIGACION_CAMPO.pdf`](docs/research/HITO_1.1_INVESTIGACION_CAMPO.pdf).
-- **[Hito 1.2: Elder-Accessible Interactive Prototype Usability Testing](docs/ux-testing/HITO_1.2_AUDITORIA_FRICCION_UX.md)** (Resolved via PR #30, Issue #2)
-  - *Evidence:* Usability audit with Doña Reyna (56, Triqui weaver). 100% completion rate without external assistance, 9s physical QR adoption. Signed PDF: [`docs/ux-testing/HITO_1.2_PRUEBAS_USABILIDAD.pdf`](docs/ux-testing/HITO_1.2_PRUEBAS_USABILIDAD.pdf).
-
-```
-[Sprint 1: Rural Identity & Invisible Web3]  Oct 5 - Oct 18, 2026
-  ├── #18: DID Passwordless OTP Authentication (WhatsApp/SMS)
-  ├── #19: Physical NFC/QR Community Identity Cards
-  └── #20: Account Abstraction & Gasless Stellar Paymaster Relay
-
-[Sprint 2: Offline Attestations & Voice AI]  Oct 19 - Nov 01, 2026
-  ├── #21: ACID Offline Outbox Buffer in IndexedDB
-  ├── #22: AIVoiceOracle: Acoustic Speech-to-Attestation in Tu'un Savi
-  └── #23: Physical-to-Digital Twin: ISO/IEC 18004 Vector Hang-Tag QR
-
-[Sprint 3: Dual Payment Orchestration]       Nov 02 - Nov 15, 2026
-  ├── #24: Etherfuse SPEI Direct Banking Rail (Banco del Bienestar)
-  └── #25: MicoPay Cash Terminal at Physical Weighing Scales
-
-[Sprint 4: Soroban Smart Contracts]          Nov 16 - Nov 22, 2026
-  ├── #26: FairEscrow with On-Chain Attestation Verification Gate
-  ├── #27: Perpetual Royalties & Tequio Fund Smart Contract
-  └── #28: Verifiable Showcase & Direct Restaurant Settlement Portal
-
-[Final Phase: Production Field Pilot]       Nov 23 - Dec 01, 2026
-  └── #29: Mixteca Pilot with 15 Producers & Production v1.0.0 Release
-```
+* **[Especificación Oficial del MVP (Tlaxiaco)](./docs/MVP_SPECIFICATION.md):** Definición detallada de los 3 pilares, métricas de éxito y protocolo de campo.
+* **[Especificación de Arquitectura de Software](./docs/ARCHITECTURE.md):** Diagrama de capas 1 a 5, patrones de diseño y flujo de datos.
+* **[Registros de Decisiones de Arquitectura (ADRs)](./docs/adr/):**
+  * [ADR-001: Adopción de Trustless Work Escrow](./docs/adr/ADR-001-TRUSTLESS-WORK-ESCROW.md)
+  * [ADR-002: Desacoplamiento de WhatsApp y PWA Offline-First](./docs/adr/ADR-002-COMMUNICATION-CHANNELS-AND-WHATSAPP-ALTERNATIVES.md)
+* **[Guía para Estudiantes y Contribuidores](./CONTRIBUTING.md):** Cómo tomar issues, abrir Pull Requests y colaborar en el proyecto.
+* **[Índice Completo de Documentación](./docs/README.md):** Reportes de investigación de campo, estándares SEP y carpetas de Drips.
 
 ---
 
-## 👥 Team & Governance
+## 👥 Equipo y Gobernanza Académica
 
-### Core Engineering & Research Team
-- **José Alfredo (Lead Architect & Maintainer):** Systems Engineer & Researcher at Open Hub TecNM.
-- **Undergraduate Engineering Residents (TecNM Tlaxiaco):** Native indigenous students from Mixteca municipalities (*Ñuu Savi*) responsible for acoustic language models, field validations, and Soroban contract deployment.
-
-### Institutional Backing
-- **Instituto Tecnológico de Tlaxiaco (TecNM):** Academic and institutional research cradle.
-- **Stellar Community Fund (SCF) & Drips Protocol:** Continuous public goods funding alignment.
-
----
-
-<div align="center">
-  <sub>Built with radical empathy and technological sovereignty in the Mixteca Highlands of Oaxaca.</sub>
-  <br>
-  <sub>Licensed under the <b>MIT License</b>. 2026 Raíz Protocol Contributors.</sub>
-</div>
+* **Institución:** Instituto Tecnológico de Tlaxiaco (TecNM - Oaxaca, México).
+* **Carrera:** Ingeniería en Sistemas Computacionales.
+* **Liderazgo del Proyecto:** Profe Jose Alfredo Roman Cruz y Nayeli (Líder Estudiantil).
+* **Comunidad:** Estudiantes investigadores de Open Hub TecNM Campus Tlaxiaco.
+* **Licencia:** [MIT Open Source](./LICENSE).

@@ -138,6 +138,27 @@ export const ProtocolInfrastructureModal: React.FC<ProtocolInfrastructureModalPr
           >
             <span>📊</span> Métricas & Soroban
           </button>
+
+          <div className="ml-auto my-auto flex items-center gap-1.5 shrink-0">
+            <a
+              href="/api/download/docx"
+              download="Raiz_Protocol_Stellar_PitchDeck.docx"
+              className="py-1 px-2.5 rounded-xl bg-blue-700 hover:bg-blue-600 text-white font-black text-xs flex items-center gap-1 shadow-xs transition-all active:scale-95 cursor-pointer border border-blue-500/40"
+              title="Descargar Dossier Oficial en formato Microsoft Word (.docx)"
+            >
+              <span>📄</span>
+              <span>Descargar Word (.docx)</span>
+            </a>
+            <a
+              href="/api/download/pptx"
+              download="Raiz_Protocol_Stellar_PitchDeck.pptx"
+              className="py-1 px-2.5 rounded-xl bg-linear-to-r from-amber-400 to-amber-300 hover:from-amber-300 hover:to-amber-200 text-neutral-950 font-black text-xs flex items-center gap-1 shadow-xs transition-all active:scale-95 cursor-pointer border border-amber-500/30"
+              title="Descargar Presentación Oficial en Microsoft PowerPoint (.pptx)"
+            >
+              <span>📊</span>
+              <span>PowerPoint (.pptx)</span>
+            </a>
+          </div>
         </div>
 
         {/* Modal Body */}

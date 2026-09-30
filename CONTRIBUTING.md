@@ -53,8 +53,8 @@ El repositorio es un **Monorepo** dividido por áreas de interés:
 | **🎨 Frontend & UI Móvil** | `src/components/` | Pantallas de la app, botones gigantes, Modo Abuelo, vitrina de productos, modales. |
 | **🗣️ Lengua Mixteca y Audio** | `src/utils/audioRecorder.ts`<br>`src/core/ai/RaizAIOracles.ts` | Grabación de voz en 24kbps Opus, reconocimiento de frases en Tu'un Savi, modales de voz. |
 | **🧠 Inteligencia Artificial y Oráculos** | `src/core/ai/RaizAIOracles.ts` | Clasificación de calidad SCAA, validación satelital EUDR contra deforestación, prompts de Gemini. |
-| **🔐 Criptografía e Identidad** | `src/core/crypto/`<br>`src/core/auth/` | Hashes SHA-256 canónicos, login por WhatsApp OTP, tarjetas físicas con código QR. |
-| **💳 Pagos y Finanzas Rurales** | `src/core/payments/` | Integración de pagos con MicoPay (efectivo en báscula) y Etherfuse (SPEI / Banco Bienestar). |
+| **🔐 Criptografía e Identidad** | `src/core/crypto/`<br>`src/core/auth/` | Hashes SHA-256 canónicos, llaves Ed25519, carnet físico QR y autenticación rural sin contraseñas. |
+| **💳 Pagos y Escrow Descentralizado** | `src/core/blockchain/TrustlessWorkEscrowAdapter.ts`<br>`src/core/settlement/` | Integración con contratos de Trustless Work, liquidación con Etherfuse (SPEI a Banco del Bienestar) y efectivo rural. |
 | **🦀 Smart Contracts en Rust (Soroban)** | `contracts/` | Contratos inteligentes en Rust: `attestation_registry/`, `fair_escrow/`, `perpetual_royalties/`. |
 
 ---
@@ -125,7 +125,17 @@ Si ves el mensaje:
 
 ---
 
-## 💬 7. ¿Tienes dudas o te trabaste?
+## 📚 7. Documentación y Guías de Apoyo
+
+- [Guía Pedagógica de Stellar y Soroban para Estudiantes TecNM](./docs/guides/GUIA_ESTUDIANTES_TECNM.md)
+- [Ejemplos de Creación de Issues y PRs para Drips](./docs/guides/EJEMPLO_ISSUES_GITHUB.md)
+- [Especificación Oficial del MVP para Tlaxiaco](./docs/MVP_SPECIFICATION.md)
+- [Especificación de Arquitectura y Diagrama de Secuencia](./docs/ARCHITECTURE.md)
+- [Índice Completo de Documentación Técnica](./docs/README.md)
+
+---
+
+## 💬 8. ¿Tienes dudas o te trabaste?
 
 - **En persona:** En el Laboratorio de Sistemas del TecNM Campus Tlaxiaco.
 - **En GitHub:** Abre una duda en los comentarios de tu issue o en la pestaña *Discussions*.
