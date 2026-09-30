@@ -8,6 +8,7 @@ interface MyPaymentsModalProps {
   onRequestWithdrawal?: (amount: number) => void;
   onNavigateToLots?: () => void;
   onOpenArchitecture?: () => void;
+  onOpenMicoPayTerminal?: () => void;
   initialCountry?: SupportedCountry;
 }
 
@@ -17,6 +18,7 @@ export const MyPaymentsModal: React.FC<MyPaymentsModalProps> = ({
   onRequestWithdrawal,
   onNavigateToLots,
   onOpenArchitecture,
+  onOpenMicoPayTerminal,
   initialCountry = 'MX'
 }) => {
   const [selectedCountry, setSelectedCountry] = useState<SupportedCountry>(initialCountry);
@@ -497,6 +499,21 @@ export const MyPaymentsModal: React.FC<MyPaymentsModalProps> = ({
                     <span>{cashCollected ? 'Reiniciar' : 'Simular Cobro'}</span>
                   </button>
                 </div>
+
+                {/* Botón para abrir la Terminal Báscula MicoPay interactiva */}
+                {onOpenMicoPayTerminal && (
+                  <button
+                    type="button"
+                    onClick={() => {
+                      onClose();
+                      onOpenMicoPayTerminal();
+                    }}
+                    className="w-full py-2.5 px-3 rounded-xl bg-linear-to-r from-emerald-950 via-[#0a2318] to-neutral-900 hover:brightness-110 active:scale-98 text-amber-300 font-extrabold text-[12px] flex items-center justify-center gap-2 border border-emerald-500/50 shadow-sm cursor-pointer"
+                  >
+                    <span>⚖️</span>
+                    <span>Abrir Terminal de Báscula y Retiro en Mano MicoPay™</span>
+                  </button>
+                )}
               </div>
             )}
 
