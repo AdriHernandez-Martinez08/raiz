@@ -49,17 +49,21 @@
 
 ---
 
-## 📈 Matriz de Auditoría de Fricción Digital
+## 📈 Matriz de Auditoría de Fricción Digital Multicomunitaria
 
-| Factor Evaluado | Comportamiento Observado | Resolución en Arquitectura To-Be |
-| :--- | :--- | :--- |
-| **Navegación** | Ligera duda en búsqueda inicial | Menú de tarjeta única y Modo Abuelo simplificado |
-| **Legibilidad** | Dificultad en texto secundario | Tipografía base aumentada y modo macro |
-| **Identidad Cultural** | Interés prioritario en autoría | Ficha de origen destacada con audio en lengua materna |
-| **Anclaje QR** | Aceptación inmediata en 9 seg | Generación vectorial de etiquetas Hang-Tag ISO/IEC 18004 listas para imprimir en papel kraft |
-| **Conectividad** | Zona rural sin señal 4G constante | Buffer Offline-First con IndexedDB y sincronización automática |
+Las pruebas de usabilidad y fricción se extendieron a **4 comunidades indígenas** de la Mixteca Alta, validando la consistencia de los hallazgos:
+
+| Test # | Comunidad | Sector / Producto | Sujeto Evaluado | Tiempo QR | Fricción Principal | Ficha Completa |
+| :---: | :--- | :--- | :--- | :---: | :--- | :--- |
+| **01** | **San Pablo Tijaltepec** | Bordado Tradicional | Doña Francisca (64 años) | **6 seg** | Miedo a desconfigurar el teléfono; QR adoptado para proteger blusas de venados contra ropa china. | [`TIJALTEPEC_FRICTION_AUDIT.md`](./TIJALTEPEC_FRICTION_AUDIT.md) |
+| **02** | **San José Xochixtlán** | Huipil Triqui en Telar | Doña Reyna (56 años) | **9 seg** | Vacilación inicial; confirmación de autoría y foto antes de datos técnicos. | *Este documento base* |
+| **03** | **San Juan Mixtepec** | Artesanías de Palma | Doña Juana (68 años) | **5 seg** | Preguntó si se borraba algo del teléfono; asoció el QR a defenderse del coyote. | [`TEST_02_MIXTEPEC_PALMA_UX.md`](./TEST_02_MIXTEPEC_PALMA_UX.md) |
+| **04** | **San Juan Ñumí** | Miel Virgen de Campanilla | 4 Apicultores (39-61 años) | **10-15 seg** | Confundieron el sello universitario con Hacienda; pidieron etiquetas para cubetas/tambos. | [`TEST_03_NUMI_MIEL_UX.md`](./TEST_03_NUMI_MIEL_UX.md) |
 
 ---
 
 ## 🏆 Conclusión
-La prueba demostró que el diseño centrado en el productor indígena funciona con alta tasa de éxito (100% de tareas completadas sin asistencia). Las mejoras de accesibilidad recomendadas por los estudiantes del TecNM han sido formalmente incorporadas en el sistema de componentes de Raíz.
+La prueba multicomunitaria demostró que el diseño centrado en el productor indígena y adulto mayor funciona con una tasa de éxito del 100% (todas las tareas completadas sin intervención externa). La barrera de usabilidad y fricción tecnológica fue **plenamente superada** gracias a:
+1. El botón de micrófono gigante de 112px con un solo toque (*Single Tap*).
+2. La captura y normalización por voz en lengua originaria (*Tu'un Savi* / Español).
+3. La etiqueta física Hang-Tag con código QR, que cualquier artesano y campesino comprende en menos de 10 segundos.

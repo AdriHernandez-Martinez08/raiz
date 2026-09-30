@@ -42,8 +42,10 @@ Welcome to the technical documentation hub for **Raíz Protocol**. To maintain a
 * [**`research/entrevista_union_miel_san_juan_numi.md`**](./research/entrevista_union_miel_san_juan_numi.md): Field interview with the "Flor de la Mixteca" Honey Producers Union in San Juan Ñumí, Oaxaca (UMIZOOMI / eduScrum).
 * [**`research/research_tijaltepec.md`**](./research/research_tijaltepec.md): Field notes from San Pablo Tijaltepec and Santa María Yucuhiti.
 * [**`research/CHAT_RURAL_KNOWLEDGE_BASE.md`**](./research/CHAT_RURAL_KNOWLEDGE_BASE.md): Rural agronomy knowledge base and indigenous dialect mappings.
-* [**`ux-testing/HITO_1.2_AUDITORIA_FRICCION_UX.md`**](./ux-testing/HITO_1.2_AUDITORIA_FRICCION_UX.md): Cognitive friction audit and design of the 112px elder-friendly tactile interface.
-* [**`ux-testing/TIJALTEPEC_FRICTION_AUDIT.md`**](./ux-testing/TIJALTEPEC_FRICTION_AUDIT.md): Usability and friction field test sheet from San Pablo Tijaltepec.
+* [**`ux-testing/HITO_1.2_AUDITORIA_FRICCION_UX.md`**](./ux-testing/HITO_1.2_AUDITORIA_FRICCION_UX.md): Multi-community cognitive friction audit and 112px elder-friendly tactile interface design.
+* [**`ux-testing/TIJALTEPEC_FRICTION_AUDIT.md`**](./ux-testing/TIJALTEPEC_FRICTION_AUDIT.md): Test #01 – Usability and friction field test sheet from San Pablo Tijaltepec (Doña Francisca, 64).
+* [**`ux-testing/TEST_02_MIXTEPEC_PALMA_UX.md`**](./ux-testing/TEST_02_MIXTEPEC_PALMA_UX.md): Test #02 – Field usability and friction test sheet from San Juan Mixtepec (Doña Juana, 68).
+* [**`ux-testing/TEST_03_NUMI_MIEL_UX.md`**](./ux-testing/TEST_03_NUMI_MIEL_UX.md): Test #03 – Field usability and friction test sheet from San Juan Ñumí (Honey Union beekeepers).
 
 ---
 
