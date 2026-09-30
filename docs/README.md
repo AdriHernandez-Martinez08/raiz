@@ -43,6 +43,7 @@ Welcome to the technical documentation hub for **Raíz Protocol**. To maintain a
 * [**`research/research_tijaltepec.md`**](./research/research_tijaltepec.md): Field notes from San Pablo Tijaltepec and Santa María Yucuhiti.
 * [**`research/CHAT_RURAL_KNOWLEDGE_BASE.md`**](./research/CHAT_RURAL_KNOWLEDGE_BASE.md): Rural agronomy knowledge base and indigenous dialect mappings.
 * [**`ux-testing/HITO_1.2_AUDITORIA_FRICCION_UX.md`**](./ux-testing/HITO_1.2_AUDITORIA_FRICCION_UX.md): Cognitive friction audit and design of the 112px elder-friendly tactile interface.
+* [**`ux-testing/TIJALTEPEC_FRICTION_AUDIT.md`**](./ux-testing/TIJALTEPEC_FRICTION_AUDIT.md): Usability and friction field test sheet from San Pablo Tijaltepec.
 
 ---
 
