@@ -24,6 +24,12 @@ export const ProtocolInfrastructureModal: React.FC<ProtocolInfrastructureModalPr
   const [qualityDomain, setQualityDomain] = useState<'coffee' | 'textile'>('coffee');
   const [qualityResult, setQualityResult] = useState<QualityAttestation | null>(null);
 
+  // Centaur Co-Validation State (AI Oracle + Human Validator)
+  const [humanValidatorRole, setHumanValidatorRole] = useState<'dona_reyna' | 'don_david' | 'comite_comunal'>('dona_reyna');
+  const [humanSigned, setHumanSigned] = useState<boolean>(false);
+  const [aiOracleSigned, setAiOracleSigned] = useState<boolean>(false);
+  const [dualAttestationLedger, setDualAttestationLedger] = useState<any>(null);
+
   // Interactive EUDR Oracle State
   const [eudrCommunity, setEudrCommunity] = useState('Heroica Ciudad de Tlaxiaco');
   const [eudrResult, setEudrResult] = useState<EUDRComplianceReport | null>(null);
@@ -238,6 +244,204 @@ export const ProtocolInfrastructureModal: React.FC<ProtocolInfrastructureModalPr
                   <p className="text-xs text-gray-400 italic">
                     Selecciona un esquema arriba o haz clic en "Simular Verificación" para consultar el estado del contrato en Soroban.
                   </p>
+                )}
+              </div>
+
+              {/* CO-VALIDACIÓN DUAL: ORÁCULO DE IA + VALIDADOR HUMANO (MODELO CENTAURO) */}
+              <div className="bg-linear-to-br from-[#1b3b2b]/10 to-[#032517]/5 border-2 border-[#1b3b2b]/30 rounded-2xl p-4.5 space-y-4 shadow-xs">
+                <div className="flex items-center justify-between border-b border-[#1b3b2b]/20 pb-2.5">
+                  <div className="flex items-center gap-2">
+                    <span className="text-xl">🤝🏽</span>
+                    <div>
+                      <h4 className="text-xs font-black text-[#032517] uppercase tracking-wide">
+                        Modelo Centauro: Oráculo de IA + Validador Humano
+                      </h4>
+                      <p className="text-[11px] text-[#424843]">
+                        Gobernanza comunitaria: la IA asiste con peritaje técnico y el líder indígena sella la atestación.
+                      </p>
+                    </div>
+                  </div>
+                  <span className="text-[9px] font-black uppercase px-2 py-0.5 rounded-full bg-emerald-700 text-white">
+                    Usos y Costumbres
+                  </span>
+                </div>
+
+                {/* Selección del Validador Humano */}
+                <div className="space-y-1.5">
+                  <label className="text-[11px] font-extrabold text-[#032517] flex items-center gap-1">
+                    <span>1. Seleccionar Validador Humano (Autoridad Comunal):</span>
+                  </label>
+                  <div className="grid grid-cols-1 sm:grid-cols-3 gap-2">
+                    {[
+                      {
+                        id: 'dona_reyna',
+                        name: 'Doña Reyna (56a)',
+                        role: 'Maestra Tejedora Mayor',
+                        community: 'San José Xochixtlán (Triqui)',
+                        badge: 'Telar de Cintura'
+                      },
+                      {
+                        id: 'don_david',
+                        name: 'David Mendoza / Celso',
+                        role: 'Maestro Palenquero',
+                        community: 'Yautepec / Tlaxiaco',
+                        badge: 'Cata y Perlita 100%'
+                      },
+                      {
+                        id: 'comite_comunal',
+                        name: 'Comité de Vigilancia',
+                        role: 'Bienes Comunales',
+                        community: 'Mixteca Alta',
+                        badge: 'Tequio y Parcela'
+                      }
+                    ].map((val) => (
+                      <button
+                        key={val.id}
+                        type="button"
+                        onClick={() => {
+                          setHumanValidatorRole(val.id as any);
+                          setHumanSigned(false);
+                          setDualAttestationLedger(null);
+                        }}
+                        className={`p-2.5 rounded-xl border text-left transition-all cursor-pointer ${
+                          humanValidatorRole === val.id
+                            ? 'bg-[#1b3b2b] text-white border-[#032517] shadow-sm'
+                            : 'bg-white text-[#032517] border-gray-200 hover:border-emerald-600'
+                        }`}
+                      >
+                        <div className="text-[11px] font-black leading-tight flex items-center justify-between">
+                          <span>{val.name}</span>
+                          <span className={`text-[8px] px-1 py-0.2 rounded font-bold ${
+                            humanValidatorRole === val.id ? 'bg-amber-300 text-[#032517]' : 'bg-gray-100 text-gray-700'
+                          }`}>
+                            {val.badge}
+                          </span>
+                        </div>
+                        <div className={`text-[10px] ${humanValidatorRole === val.id ? 'text-emerald-200' : 'text-gray-500'}`}>
+                          {val.role}
+                        </div>
+                        <div className={`text-[9px] mt-0.5 truncate ${humanValidatorRole === val.id ? 'text-white/80' : 'text-gray-400'}`}>
+                          📍 {val.community}
+                        </div>
+                      </button>
+                    ))}
+                  </div>
+                </div>
+
+                {/* Panel de las Dos Firmas (IA y Humano) */}
+                <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
+                  {/* Cerradura 1: Oráculo de IA */}
+                  <div className={`p-3 rounded-xl border transition-all ${
+                    aiOracleSigned ? 'bg-emerald-50 border-emerald-400' : 'bg-white border-gray-200'
+                  }`}>
+                    <div className="flex items-center justify-between mb-1.5">
+                      <span className="text-[11px] font-bold text-gray-700 flex items-center gap-1">
+                        <span>🤖</span>
+                        <span>Firma Oráculo de IA</span>
+                      </span>
+                      <span className={`text-[9px] font-black px-1.5 py-0.5 rounded ${
+                        aiOracleSigned ? 'bg-emerald-600 text-white' : 'bg-gray-100 text-gray-500'
+                      }`}>
+                        {aiOracleSigned ? '✓ FIRMADO' : 'PENDIENTE'}
+                      </span>
+                    </div>
+                    <p className="text-[10px] text-gray-500 mb-2 leading-tight">
+                      Visión por computadora, puntaje SCAA/Telar y satélite EUDR.
+                    </p>
+                    <button
+                      type="button"
+                      onClick={() => {
+                        setAiOracleSigned(true);
+                        if (humanSigned) {
+                          setDualAttestationLedger({
+                            txHash: '0x' + Math.random().toString(16).slice(2) + Math.random().toString(16).slice(2),
+                            ledgerSeq: Math.floor(58900000 + Math.random() * 50000),
+                            timestamp: new Date().toLocaleTimeString(),
+                            clearedBy: 'IA (Sentinel-2) + ' + (humanValidatorRole === 'dona_reyna' ? 'Doña Reyna' : humanValidatorRole === 'don_david' ? 'David Mendoza' : 'Comité Comunal')
+                          });
+                        }
+                      }}
+                      className={`w-full py-1.5 px-2.5 rounded-lg text-xs font-bold transition-all cursor-pointer ${
+                        aiOracleSigned
+                          ? 'bg-emerald-100 text-emerald-800 border border-emerald-300'
+                          : 'bg-emerald-700 hover:bg-emerald-800 text-white shadow-2xs'
+                      }`}
+                    >
+                      {aiOracleSigned ? '✓ Oráculo IA Verificado' : '⚡ Ejecutar y Firmar IA'}
+                    </button>
+                  </div>
+
+                  {/* Cerradura 2: Validador Humano (Líder) */}
+                  <div className={`p-3 rounded-xl border transition-all ${
+                    humanSigned ? 'bg-amber-50 border-amber-400' : 'bg-white border-gray-200'
+                  }`}>
+                    <div className="flex items-center justify-between mb-1.5">
+                      <span className="text-[11px] font-bold text-gray-700 flex items-center gap-1">
+                        <span>👤</span>
+                        <span>Firma del Validador Humano</span>
+                      </span>
+                      <span className={`text-[9px] font-black px-1.5 py-0.5 rounded ${
+                        humanSigned ? 'bg-amber-600 text-white' : 'bg-gray-100 text-gray-500'
+                      }`}>
+                        {humanSigned ? '✓ FIRMADO' : 'PENDIENTE'}
+                      </span>
+                    </div>
+                    <p className="text-[10px] text-gray-500 mb-2 leading-tight">
+                      Cata física, tacto en telar y fe comunitaria con llave ed25519.
+                    </p>
+                    <button
+                      type="button"
+                      onClick={() => {
+                        setHumanSigned(true);
+                        if (aiOracleSigned) {
+                          setDualAttestationLedger({
+                            txHash: '0x' + Math.random().toString(16).slice(2) + Math.random().toString(16).slice(2),
+                            ledgerSeq: Math.floor(58900000 + Math.random() * 50000),
+                            timestamp: new Date().toLocaleTimeString(),
+                            clearedBy: 'IA (Sentinel-2) + ' + (humanValidatorRole === 'dona_reyna' ? 'Doña Reyna' : humanValidatorRole === 'don_david' ? 'David Mendoza' : 'Comité Comunal')
+                          });
+                        }
+                      }}
+                      className={`w-full py-1.5 px-2.5 rounded-lg text-xs font-bold transition-all cursor-pointer ${
+                        humanSigned
+                          ? 'bg-amber-100 text-amber-900 border border-amber-300'
+                          : 'bg-[#1b3b2b] hover:bg-[#032517] text-white shadow-2xs'
+                      }`}
+                    >
+                      {humanSigned ? '✓ Sello Humano Estampado' : '🔏 Estampar Sello de Autoridad'}
+                    </button>
+                  </div>
+                </div>
+
+                {/* Resultado Dual en Soroban */}
+                {aiOracleSigned && humanSigned && (
+                  <div className="bg-emerald-950 text-white p-3.5 rounded-xl border border-emerald-500/40 space-y-2 animate-fade-in">
+                    <div className="flex items-center justify-between">
+                      <span className="text-xs font-mono font-bold text-emerald-300 flex items-center gap-1.5">
+                        <span className="w-2 h-2 rounded-full bg-emerald-400 animate-ping"></span>
+                        Atestación Dual Centauro Registrada en Soroban
+                      </span>
+                      <span className="bg-emerald-400 text-emerald-950 font-black text-[9px] px-2 py-0.5 rounded">
+                        DOBLE CANDADO VÁLIDO
+                      </span>
+                    </div>
+                    <div className="grid grid-cols-1 sm:grid-cols-2 gap-2 text-[10px] font-mono text-emerald-100">
+                      <div>
+                        <span className="text-gray-400 block">Autoridades Co-Firmantes:</span>
+                        <span className="text-amber-300 font-bold">{dualAttestationLedger?.clearedBy || 'IA + Líder Humano'}</span>
+                      </div>
+                      <div>
+                        <span className="text-gray-400 block">Hash de Atestación Soroban:</span>
+                        <span className="text-emerald-300 truncate block">{dualAttestationLedger?.txHash || '0x7f48b1...'}</span>
+                      </div>
+                    </div>
+                    <div className="pt-1.5 border-t border-emerald-800 text-[11px] text-emerald-200 flex items-center justify-between">
+                      <span>Acción en Smart Contract FairEscrow:</span>
+                      <span className="font-bold text-white bg-emerald-700 px-2 py-0.5 rounded">
+                        ✓ Pago Liberado 100% al Productor
+                      </span>
+                    </div>
+                  </div>
                 )}
               </div>
             </div>
