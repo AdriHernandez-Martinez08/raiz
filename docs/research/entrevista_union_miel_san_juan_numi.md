@@ -1,156 +1,157 @@
-# Requirements Gathering Interviews
+# 📋 Entrevistas de Levantamiento de Requisitos de Software
 
-**Honey Producers Union "Flor de la Mixteca" of San Juan Ñumí, Oaxaca**  
-*System for the control and commercialization of honey production*
+**Organización:** Unión de Productores de Miel "Flor de la Mixteca" de San Juan Ñumí, Oaxaca  
+**Proyecto:** Sistema de Control de Producción, Inventario y Comercialización Apícola (Módulo Miel - Raíz Protocol)  
+**Institución:** Instituto Tecnológico de Tlaxiaco (TecNM) – Residencia Profesional / eduScrum  
 
 ---
 
-## Interview 1
+## Entrevista 1: Producción y Gestión de Apiarios
 
-| Field | Details |
+| Campo | Detalle |
 | :--- | :--- |
-| **Interviewee** | C. Rogelio Martínez Cruz |
-| **Position** | President of the organization of the Honey Producers Union of San Juan Ñumí |
-| **Interviewer** | eduScrum Development Team |
-| **Date** | August 24, 2026 |
-| **Location / Mode** | San Juan Ñumí, Oaxaca (In-person) |
+| **Entrevistado** | C. Rogelio Martínez Cruz |
+| **Cargo** | Presidente de la Unión de Productores de Miel de San Juan Ñumí |
+| **Equipo Entrevistador** | Equipo de Desarrollo eduScrum (TecNM) |
+| **Fecha** | 24 de agosto de 2026 |
+| **Modalidad** | Presencial en San Juan Ñumí, Oaxaca |
 
 ---
 
-### Questions and Answers
+### Preguntas y Respuestas
 
-#### 1. To start, could you tell me what your role is within the Union and what activities you carry out on a day-to-day basis?
-**Answer:** I am the president of the Honey Producers Union of San Juan Ñumí[cite: 1]. My job is to coordinate all the producers, chair the monthly assemblies, and make decisions on how the honey is marketed[cite: 1]. Every month I review the production, inventory, and sales figures with the Registration colleague and the Sales colleague to see how the Union is doing and decide, for example, whether we accept a large order or if we need to adjust prices[cite: 1].
+#### 1. Para comenzar, ¿podría explicarnos cuál es su rol dentro de la Unión y qué actividades realiza en el día a día?
+**Respuesta:** Soy el presidente de la Unión de Productores de Miel de San Juan Ñumí. Mi trabajo es coordinar a todos los productores, presidir las asambleas mensuales y tomar decisiones sobre cómo se comercializa la miel. Cada mes reviso las cifras de producción, inventario y ventas con el compañero de Registro y la compañera de Ventas para ver cómo va la Unión y decidir, por ejemplo, si aceptamos un pedido grande o si necesitamos ajustar los precios.
 
-#### 2. How is the registration of producers and their beehives currently carried out?
-**Answer:** Everything is written down by hand in a minute book: the producer's name, their community, and how many active beehives they have[cite: 1]. There is no separate list; everything remains mixed in with the meeting minutes[cite: 1].
+#### 2. ¿Cómo se realiza actualmente el registro de los productores y sus colmenas?
+**Respuesta:** Todo se anota a mano en un libro de actas: el nombre del productor, su comunidad y cuántas colmenas activas tiene. No hay un padrón separado; todo queda revuelto con las actas de las asambleas.
 
-#### 3. What problems have you identified with the way this information is recorded?
-**Answer:** The biggest problem is that if a producer moves to another community or increases their beehives, we have to search through several old notebooks to update the record, and sometimes we don't even find it[cite: 1].
+#### 3. ¿Qué problemas han detectado con esta forma de registrar la información?
+**Respuesta:** El problema principal es que si un productor se cambia de comunidad o aumenta sus colmenas, tenemos que buscar en varios cuadernos viejos para actualizar el dato, y a veces ni lo encontramos.
 
-#### 4. Is there a unique identifier for each producer, or is it handled differently?
-**Answer:** No, we do not handle any registration number or member ID[cite: 1]. We identify everyone by their full name, and when two producers have similar surnames, it leads to confusion[cite: 1].
+#### 4. ¿Existe algún identificador único para cada productor, o cómo se maneja?
+**Respuesta:** No, no manejamos ningún número de registro ni credencial. Identificamos a todos por su nombre completo, y cuando dos productores tienen apellidos parecidos, se presta a confusiones.
 
-#### 5. When someone needs to consult the complete list of producers, how easy or difficult is it to obtain it?
-**Answer:** It's complicated[cite: 1]. If the president asks me for the complete list for an assembly, I have to manually transcribe the data from several notebooks onto a clean page, and that can take me two or three days[cite: 1].
+#### 5. Cuando alguien necesita consultar la lista completa de productores, ¿qué tan fácil o difícil es obtenerla?
+**Respuesta:** Es complicado. Si en una asamblea me piden la lista completa, tengo que transcribir a mano los datos de varios cuadernos a una hoja limpia, y eso me puede llevar dos o tres días.
 
-#### 6. How is the amount of honey harvested by each producer and hive recorded?
-**Answer:** Each producer tells me verbally or via WhatsApp how much they harvested and from which hive, and I write it down on a loose sheet of paper with the date[cite: 1]. I don't always get to write it down on the same day[cite: 1].
+#### 6. ¿Cómo se anota la cantidad de miel que cosecha cada productor y colmena?
+**Respuesta:** Cada productor me dice de palabra o por mensaje de WhatsApp cuánto cosechó y de qué apiario, y yo lo anoto en una hoja suelta con la fecha. No siempre alcanzo a anotarlo el mismo día.
 
-#### 7. Is a history of harvests kept by date? How is that history consulted?
-**Answer:** Yes, we keep track of dates, but it is spread out on loose sheets by month, not in a single place[cite: 1]. To pull up the history for a specific producer, I have to check page by page[cite: 1].
+#### 7. ¿Se lleva un historial de cosechas por fechas? ¿Cómo se consulta?
+**Respuesta:** Sí se anota la fecha, pero queda disperso en hojas sueltas por mes, no en un solo concentrado. Para sacar el historial de un productor en específico, tengo que revisar hoja por hoja.
 
-#### 8. Have there been errors or lost information in the harvest records?
-**Answer:** Yes, more than once[cite: 1]. A harvest sheet has been misplaced and that record simply gets lost; the producer claims that they harvested more than what was recorded[cite: 1].
+#### 8. ¿Han ocurrido errores o pérdida de información en los registros de cosecha?
+**Respuesta:** Sí, más de una vez. Se llega a traspapelar una hoja de cosecha y ese registro simplemente se pierde; luego el productor reclama que él entregó más de lo que tenemos registrado.
 
-#### 9. How is the cumulative total production for each producer calculated currently?
-**Answer:** We add it up by hand at the end of the year, pulling out the calculator and reviewing all the sheets for that producer[cite: 1]. It is a very time-consuming job with a high margin of error[cite: 1].
+#### 9. ¿Cómo se calcula actualmente el total acumulado de producción de cada productor?
+**Respuesta:** Lo sumamos a mano a final de año, sacando la calculadora y revisando todas las hojas de ese productor. Es un trabajo muy tardado y con bastante riesgo de equivocarnos.
 
-#### 10. At any given moment, how do you know how much honey is available for sale?
-**Answer:** That isn't directly my responsibility, but I know that the sales colleague has to ask me how much was harvested in order to calculate what is left available[cite: 1].
+#### 10. En un momento dado, ¿cómo saben cuánta miel hay disponible para la venta?
+**Respuesta:** Eso no me toca directamente a mí, pero sé que la compañera de ventas tiene que preguntarme cuánto se cosechó para poder calcular qué queda disponible.
 
-#### 11. Has it happened that sales are committed and then there isn't enough honey to fulfill them?
-**Answer:** Yes, it has happened[cite: 1]. Since there is no exact inventory number, sometimes honey is offered to a client and later it turns out that same amount had already been sold to another person[cite: 1].
+#### 11. ¿Ha pasado que se comprometen ventas y luego no alcanza la miel para cumplir?
+**Respuesta:** Sí, ha pasado. Como no hay una cifra exacta de inventario, a veces se ofrece miel a un cliente y luego resulta que esa misma miel ya se le había apartado a otra persona.
 
-#### 12. Is there any alert or notification when a batch of honey is about to run out?
-**Answer:** No, no alert at all[cite: 1]. We only find out a batch is running low when someone physically goes to look for it in the warehouse and can't find enough[cite: 1].
+#### 12. ¿Existe alguna alerta o aviso cuando un lote de miel está por terminarse?
+**Respuesta:** No, ninguna alerta. Nos enteramos de que ya queda poca miel hasta que alguien va físicamente a buscarla al almacén y ve que ya no hay suficientes cubetas o tambos.
 
-#### 13. How are sales and customer data recorded?
-**Answer:** That is kept by the sales colleague in a separate notebook, but to know how much has been sold in total from a producer, we have to bring her notebook and mine together[cite: 1].
+#### 13. ¿Cómo se registran las ventas y los datos de los clientes?
+**Respuesta:** Eso lo lleva la compañera de ventas en una libreta aparte, pero para saber cuánto se ha vendido en total de un productor tenemos que juntar su libreta con la mía.
 
-#### 14. After a sale, how is the available inventory updated?
-**Answer:** As I understand it, it is subtracted by hand from the total that I have recorded as harvested, but since my information is also scattered, sometimes the deduction doesn't match up[cite: 1].
+#### 14. Después de una venta, ¿cómo se descuenta del inventario disponible?
+**Respuesta:** Según entiendo, se descuenta a mano del total que yo tengo registrado como cosechado, pero como mi información también está dispersa, a veces no coincide la resta.
 
-#### 15. Is it possible to quickly know which customers buy most frequently or during which period?
-**Answer:** Not quickly[cite: 1]. We would have to go through the entire sales notebook customer by customer, and that is almost never done because it takes too much time[cite: 1].
+#### 15. ¿Es posible saber rápido qué clientes compran más seguido o en qué temporada?
+**Respuesta:** Rápido no. Habría que revisar toda la libreta de ventas cliente por cliente, y casi nunca se hace porque quita mucho tiempo.
 
-#### 16. How is the monthly report for production, inventory, and sales currently prepared?
-**Answer:** The President asks the sales colleague and me to bring our notebooks, and between the two of us, we assemble a summary on a sheet of paper for the monthly assembly[cite: 1].
+#### 16. ¿Cómo se elabora actualmente el reporte mensual de producción, inventario y ventas?
+**Respuesta:** El Presidente nos pide a la compañera de ventas y a mí que llevemos nuestros cuadernos, y entre los dos armamos un resumen en una hoja para la asamblea mensual.
 
-#### 17. How long does it take you to assemble that monthly report?
-**Answer:** Easily two full days, especially when we have to review several months back because some piece of data was left pending to be added[cite: 1].
+#### 17. ¿Cuánto tiempo les toma armar ese reporte mensual?
+**Respuesta:** Fácilmente dos días completos, sobre todo cuando hay que revisar meses atrás porque algún dato quedó pendiente de sumar.
 
-#### 18. Have there been discrepancies between what the report says and the individual production or sales records?
-**Answer:** Yes, more than once the total we report does not exactly match what is recorded in the individual notebooks, and that creates doubts among the producers[cite: 1].
+#### 18. ¿Han existido discrepancias entre lo que dice el reporte y lo que tienen anotado individualmente?
+**Respuesta:** Sí, en varias ocasiones el total que reportamos no coincide exactamente con lo anotado en los cuadernos individuales, y eso genera desconfianza entre los socios.
 
-#### 19. What tools do you use today to keep all these records (paper, notebooks, Excel, etc.)?
-**Answer:** Pure paper: logbooks, loose sheets for harvests, and some notes on the cell phone[cite: 1]. We do not use any computer or Excel yet[cite: 1].
+#### 19. ¿Qué herramientas utilizan hoy en día para llevar todos estos registros?
+**Respuesta:** Puro papel: libros de actas, hojas sueltas para cosechas y algunos apuntes en el celular. No usamos computadoras ni Excel todavía.
 
-#### 20. To close, what would you expect from a system that helps solve these issues?
-**Answer:** That there be a single place where I can register a producer once with their hives, log their harvests by date, and have the system output the cumulative total without me having to add it up by hand[cite: 1].
+#### 20. Para cerrar, ¿qué esperaría de un sistema digital que ayude a resolver esto?
+**Respuesta:** Que haya un solo lugar donde yo pueda registrar al productor una sola vez con sus colmenas, anotar sus cosechas por fecha, y que el sistema solito me dé los acumulados sin tener que andar sumando a mano.
 
 ---
 
-## Interview 2
+## Entrevista 2: Comercialización e Inventarios
 
-| Field | Details |
+| Campo | Detalle |
 | :--- | :--- |
-| **Interviewee** | C. Guadalupe Ramírez Ortiz |
-| **Position** | Head of Commercialization and Inventory of the Honey Producers Union of San Juan Ñumí |
-| **Interviewer** | eduScrum Development Team |
-| **Date** | August 24, 2026 |
-| **Location / Mode** | San Juan Ñumí, Oaxaca (In-person) |
+| **Entrevistada** | C. Guadalupe Ramírez Ortiz |
+| **Cargo** | Encargada de Comercialización e Inventarios de la Unión de Productores de Miel de San Juan Ñumí |
+| **Equipo Entrevistador** | Equipo de Desarrollo eduScrum (TecNM) |
+| **Fecha** | 24 de agosto de 2026 |
+| **Modalidad** | Presencial en San Juan Ñumí, Oaxaca |
 
 ---
 
-### Questions and Answers
+### Preguntas y Respuestas
 
-#### 1. To start, could you tell me what your role is within the Union and what activities you carry out on a day-to-day basis?
-**Answer:** I am the Head of Commercialization and Inventory of the Union[cite: 1]. My job is to assist customers, close sales, and keep track of how much honey we have available to sell[cite: 1].
+#### 1. Para comenzar, ¿podría explicarnos cuál es su rol dentro de la Unión y qué actividades realiza en el día a día?
+**Respuesta:** Soy la encargada de Comercialización e Inventarios de la Unión. Mi trabajo es atender a los clientes, cerrar las ventas y llevar el control de cuánta miel tenemos lista para vender en frascos y cubetas.
 
-#### 2. How is the registration of producers and their beehives currently carried out?
-**Answer:** That record is kept by the Production colleague in his notebooks[cite: 1]. He only tells me verbally how many kilos of harvest came in; I don't have direct access to that data[cite: 1].
+#### 2. ¿Cómo se realiza actualmente el registro de los productores y sus colmenas?
+**Respuesta:** Ese registro lo lleva el compañero de Producción en sus cuadernos. A mí solo me pasa de palabra el dato de cuántos kilos entraron de cosecha; yo no tengo acceso directo a ese padrón.
 
-#### 3. What problems have you identified with the way this information is recorded?
-**Answer:** The problem is that I depend entirely on him passing me the correct data on time; if he forgets to inform me about a harvest, I keep selling thinking there is less honey than there actually is, or vice versa[cite: 1].
+#### 3. ¿Qué problemas ha detectado con esta forma de registrar la información?
+**Respuesta:** El problema es que dependo totalmente de que él me pase los datos a tiempo; si se le olvida avisarme de una cosecha, yo sigo vendiendo pensando que hay menos miel de la que realmente hay, o al revés.
 
-#### 4. Is there a unique identifier for each producer, or is it handled differently?
-**Answer:** I don't know of any producer identifier[cite: 1]. When a customer asks which producer the honey I sold them came from, sometimes I have to ask the Production colleague to be able to tell them[cite: 1].
+#### 4. ¿Existe algún identificador único para cada productor, o cómo se maneja?
+**Respuesta:** No conozco ningún número o clave de productor. Cuando un cliente me pregunta de qué apiario o de qué productor viene la miel que le estoy vendiendo, a veces tengo que preguntarle al compañero de Producción para poder decirle.
 
-#### 5. When someone needs to consult the complete list of producers, how easy or difficult is it to obtain it?
-**Answer:** I don't manage that list, so if a customer asks how many producers make up the Union, I have to refer them directly to the President or the Registration colleague[cite: 1].
+#### 5. Cuando alguien necesita consultar la lista completa de productores, ¿qué tan fácil o difícil es obtenerla?
+**Respuesta:** Yo no manejo esa lista; si un cliente me pregunta cuántos productores integran la Unión, lo tengo que canalizar con el Presidente o con el compañero de Registro.
 
-#### 6. How is the amount of honey harvested by each producer and hive recorded?
-**Answer:** I don't record it; I only receive the notice of how much was harvested in total so I know what I have available to sell that week[cite: 1].
+#### 6. ¿Cómo se anota la cantidad de miel que cosecha cada productor y colmena?
+**Respuesta:** Yo no lo anoto; solo recibo el aviso de cuánto entró en total para saber qué tengo disponible para vender esa semana.
 
-#### 7. Is a history of harvests kept by date? How is that history consulted?
-**Answer:** I don't have access to that full history, only to the notices I am given[cite: 1]. If I need to know the production from three months ago, I have to ask the Production colleague for his notebooks[cite: 1].
+#### 7. ¿Se lleva un historial de cosechas por fechas? ¿Cómo se consulta?
+**Respuesta:** No tengo acceso a ese historial completo, solo a los avisos que me van dando. Si necesito saber la producción de hace tres meses, tengo que pedirle sus cuadernos al compañero de Producción.
 
-#### 8. Have there been errors or lost information in the harvest records?
-**Answer:** Not directly in harvest, but those errors do affect me because they end up reflected in my inventory: I am told one amount and then it turns out to be another[cite: 1].
+#### 8. ¿Han ocurrido errores o pérdida de información en los registros de cosecha?
+**Respuesta:** No directamente en la cosecha, pero a mí me afectan esos errores porque se reflejan en mi inventario: me dicen una cantidad y luego resulta que era otra en bodega.
 
-#### 9. How is the cumulative total production for each producer calculated currently?
-**Answer:** I don't do that calculation; the Production colleague does it at the end of the year, and sometimes the total he reports doesn't match what I have recorded as sold plus what remains in the warehouse[cite: 1].
+#### 9. ¿Cómo se calcula actualmente el total acumulado de producción de cada productor?
+**Respuesta:** Yo no hago ese cálculo; lo hace el compañero de Producción a fin de año, y a veces el total que él reporta no cuadra con lo que yo tengo registrado como vendido más lo que queda en bodega.
 
-#### 10. At any given moment, how do you know how much honey is available for sale?
-**Answer:** I keep a sales notebook and manually subtract what is sold from the last report given to me regarding harvest, but since it is not updated daily, the real number is almost never exact[cite: 1].
+#### 10. En un momento dado, ¿cómo saben cuánta miel hay disponible para la venta?
+**Respuesta:** Llevo una libreta de ventas y voy restando a mano lo que se vende respecto al último reporte que me dieron de cosecha, pero como no se actualiza a diario, casi nunca es exacta la cifra real.
 
-#### 11. Has it happened that sales are committed and then there isn't enough honey to fulfill them?
-**Answer:** Yes, this is what has caused us the most problems[cite: 1]. I have promised honey to a customer trusting the figure I had, and when I go to the warehouse there is no longer enough because another buyer took a portion[cite: 1].
+#### 11. ¿Ha pasado que se comprometen ventas y luego no alcanza la miel para cumplir?
+**Respuesta:** Sí, es lo que más problemas nos ha causado. He comprometido miel con un cliente confiando en la cifra que tenía anotada, y cuando voy a la bodega ya no alcanza porque otro comprador se llevó una parte antes.
 
-#### 12. Is there any alert or notification when a batch of honey is about to run out?
-**Answer:** No, none[cite: 1]. I realize a batch is running out only when I go to serve a customer and see there's barely any left, and by then it's too late to notify the President in advance[cite: 1].
+#### 12. ¿Existe alguna alerta o aviso cuando un lote de miel está por terminarse?
+**Respuesta:** No, ninguna. Me doy cuenta de que un lote se está terminando hasta que voy a despachar y veo que ya casi no hay tambos, y para entonces ya es tarde para avisarle al Presidente con anticipación.
 
-#### 13. How are sales and customer data recorded?
-**Answer:** In a separate notebook I write down the customer's name, how much I sold them, the price, and the date[cite: 1]. If a customer buys frequently, their data gets repeated across several different pages[cite: 1].
+#### 13. ¿Cómo se registran las ventas y los datos de los clientes?
+**Respuesta:** En una libreta anoto el nombre del cliente, cuánta miel se llevó, a qué precio y la fecha. Si un cliente compra seguido, sus datos quedan repetidos en distintas páginas.
 
-#### 14. After a sale, how is the available inventory updated?
-**Answer:** I manually subtract what was sold from my own inventory control, but since that control is not connected to what the Production colleague records, over time the numbers become misaligned[cite: 1].
+#### 14. Después de una venta, ¿cómo se descuenta del inventario disponible?
+**Respuesta:** Lo resto a mano en mi propio control, pero como ese control no está conectado con lo que anota el compañero de Producción, con el tiempo los números se van desfasando.
 
-#### 15. Is it possible to quickly know which customers buy most frequently or during which period?
-**Answer:** Not quickly[cite: 1]. I would have to flip through my entire sales notebook looking for the customer's name on every page, and I almost never have time to do that[cite: 1].
+#### 15. ¿Es posible saber rápido qué clientes compran más seguido o en qué temporada?
+**Respuesta:** Rápido no. Tendría que revisar toda mi libreta buscando el nombre del cliente página por página, y casi nunca hay tiempo para hacer eso.
 
-#### 16. How is the monthly report for production, inventory, and sales currently prepared?
-**Answer:** I combine my sales notebook with the harvest notebook of the Production colleague, and between the two of us, we calculate the totals by hand to present them to the President at the assembly[cite: 1].
+#### 16. ¿Cómo se elabora actualmente el reporte mensual de producción, inventario y ventas?
+**Respuesta:** Junto mi libreta de ventas con la de cosechas del compañero de Producción, y entre los dos sacamos las cuentas a mano para presentarlas al Presidente en la asamblea.
 
-#### 17. How long does it take you to assemble that monthly report?
-**Answer:** It also takes me about two days, mainly because I have to review page by page so as not to leave any sale out of the count[cite: 1].
+#### 17. ¿Cuánto tiempo les toma armar ese reporte mensual?
+**Respuesta:** También nos toma como dos días, sobre todo porque hay que revisar con calma para no dejar ninguna venta fuera del conteo.
 
-#### 18. Have there been discrepancies between what the report says and the individual production or sales records?
-**Answer:** Yes, on several occasions the total sales I report do not match exactly what remains as inventory according to production records, and that creates distrust in the assembly[cite: 1].
+#### 18. ¿Han existido discrepancias entre lo que dice el reporte y los registros individuales?
+**Respuesta:** Sí, en varias ocasiones las ventas totales que yo reporto no coinciden exactamente con lo que queda de inventario según producción, y eso provoca desconfianza en la asamblea de socios.
 
-#### 19. What tools do you use today to keep all these records (paper, notebooks, Excel, etc.)?
-**Answer:** Just like the Production colleague, everything on paper: my sales notebook, some notes on the phone, and occasionally a voice note on WhatsApp so I don't forget an order[cite: 1].
+#### 19. ¿Qué herramientas utilizan hoy en día para llevar todos estos registros?
+**Respuesta:** Igual que el compañero de Producción, todo en papel: mi libreta de ventas, algunas notas en el teléfono y a veces notas de voz en WhatsApp para no olvidar un encargo.
 
-#### 20. To close, what would you expect from a system that helps solve these issues?
-**Answer:** That the system shows me in real time how much honey is truly available, that it updates automatically when a harvest or a sale is recorded, and that it alerts me when a batch is about to run out so we don't overcommit sales[cite: 1].
+#### 20. Para cerrar, ¿qué esperaría de un sistema digital que ayude a resolver esto?
+**Respuesta:** Que el sistema me muestre en tiempo real cuánta miel hay realmente disponible, que se descuente sola cuando registro una venta o cuando entra una cosecha, y que me avise cuando un lote esté por terminarse para no sobrevender.
