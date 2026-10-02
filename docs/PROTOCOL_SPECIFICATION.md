@@ -31,7 +31,7 @@ By establishing an open **Attestation Engine**—the Stellar counterpart to the 
 │                                RAÍZ PROTOCOL CORE STACK                                │
 ├────────────────────────────────────────────────────────────────────────────────────────┤
 │ 1. IDENTITY & CREDENTIAL LAYER (Zero-Seed-Phrase IAM / DID)                            │
-│    - Passwordless rural authentication: WhatsApp/SMS OTP + Community QR Cards          │
+│    - Passwordless rural authentication: SMS OTP + Community QR Cards (ADR-002)         │
 │    - Deterministic Stellar account abstraction with gas fee-sponsorship relay          │
 ├────────────────────────────────────────────────────────────────────────────────────────┤
 │ 2. AUTONOMOUS AI ORACLES                                                               │

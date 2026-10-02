@@ -21,6 +21,7 @@ import { ExplainerVideoModal } from './components/ExplainerVideoModal';
 import { RaizAuthModal } from './components/RaizAuthModal';
 import { HybridArchitectureModal } from './components/HybridArchitectureModal';
 import { ProtocolInfrastructureModal } from './components/ProtocolInfrastructureModal';
+import { RaizLandingPage } from './components/RaizLandingPage';
 import { RaizAuthEngine, UserProfile } from './core/auth/RaizAuthEngine';
 import { RaizCore } from './core';
 
@@ -96,6 +97,11 @@ export default function App() {
           setCurrentScreen('pasaporte_digital');
         }
       }
+
+      const viewParam = urlParams.get('view') || urlParams.get('screen');
+      if (viewParam === 'landing' || viewParam === 'landing_page') {
+        setCurrentScreen('landing_page');
+      }
     } catch (err) {
       console.error('Error procesando enlace de certificado:', err);
     }
@@ -104,7 +110,9 @@ export default function App() {
   // Tab change handler
   const handleTabChange = (tab: NavigationTab) => {
     setCurrentTab(tab);
-    if (tab === 'menu') {
+    if (tab === 'landing') {
+      setCurrentScreen('landing_page');
+    } else if (tab === 'menu') {
       setCurrentScreen('menu_principal');
     } else if (tab === 'chat') {
       setCurrentScreen('registro_productor');
@@ -123,6 +131,8 @@ export default function App() {
       setCurrentTab('productos');
     } else if (screen === 'registro_productor') {
       setCurrentTab('chat');
+    } else if (screen === 'landing_page') {
+      setCurrentTab('landing');
     } else {
       setCurrentTab('menu');
     }
@@ -589,6 +599,16 @@ export default function App() {
           onNavigateScreen={handleNavigateScreen}
           onAddToCart={handleAddToCart}
           onDirectContact={handleDirectContact}
+        />
+      )}
+
+      {currentScreen === 'landing_page' && (
+        <RaizLandingPage
+          onNavigateScreen={handleNavigateScreen}
+          onOpenExplainerVideo={() => setIsExplainerVideoOpen(true)}
+          onOpenProtocolModal={() => setIsProtocolModalOpen(true)}
+          onSelectLot={(lot) => setSelectedLot(lot)}
+          lots={lots}
         />
       )}
 

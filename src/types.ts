@@ -1,4 +1,4 @@
-export type NavigationTab = 'chat' | 'menu' | 'productos';
+export type NavigationTab = 'landing' | 'chat' | 'menu' | 'productos';
 
 export type AppLanguage = 'es' | 'mix';
 
@@ -8,7 +8,8 @@ export type ScreenView =
   | 'catalogo_producto'
   | 'registrar_lote_cafe'
   | 'pasaporte_digital'
-  | 'vitrina_productos';
+  | 'vitrina_productos'
+  | 'landing_page';
 
 export interface ProductItem {
   id: string;

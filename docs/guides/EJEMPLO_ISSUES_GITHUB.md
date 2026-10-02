@@ -175,7 +175,7 @@ El estudiante abrirá un PR incluyendo:
 ---
 
 ### 🎯 1. Objetivo del Estudiante
-Separar completamente la lógica de negocio y criptografía de los componentes visuales de React. Toda la lógica fundamental debe residir en `src/core/` para que sea reutilizable tanto en la PWA actual como en futuras apps nativas de Android (Kotlin) o bots comunitarios de WhatsApp.
+Separar completamente la lógica de negocio y criptografía de los componentes visuales de React. Toda la lógica fundamental debe residir en `src/core/` para que sea reutilizable tanto en la PWA actual como en futuras apps nativas de Android (Kotlin) o canales comunitarios abiertos.
 
 ### 🛠️ 2. Módulos Implementados en `/src/core/`:
 - **`CryptoEngine` (`src/core/crypto/`):** Cálculo de identificadores únicos y hashes SHA-256 inmutables para fotos y testimonios de voz en Tu'un Savi.
